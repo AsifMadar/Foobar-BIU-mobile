@@ -9,10 +9,10 @@ public class UserDetails {
 
     private static UserDetails instance;
 
-    private boolean signIn;
+    private boolean signIn = false;
     private String username;
     private String password;
-    private Bitmap img;
+    private String img;
     private String displayName;
 
     /**
@@ -60,21 +60,21 @@ public class UserDetails {
     }
 
     /**
+     * Set the image URL.
+     *
+     * @param img1 The image URL to set.
+     */
+    public void setImg(String img1) {
+        img = img1;
+    }
+
+    /**
      * Set the display name.
      *
      * @param displayname1 The display name to set.
      */
     public void setDisplayName(String displayname1) {
         displayName = displayname1;
-    }
-
-    /**
-     * Set the profile photo (img).
-     *
-     * @param profilePhoto The profile photo to set.
-     */
-    public void setImg(Bitmap img1) {
-        img = img1;
     }
 
     /**
@@ -105,6 +105,15 @@ public class UserDetails {
     }
 
     /**
+     * Get the image URL.
+     *
+     * @return The image URL.
+     */
+    public String getImg() {
+        return img;
+    }
+
+    /**
      * Get the display name.
      *
      * @return The display name.
@@ -113,12 +122,6 @@ public class UserDetails {
         return displayName;
     }
 
-    /**
-     * Get the profile photo (img).
-     *
-     * @return The profile photo (img).
-     */
-    public Bitmap getImg() {
-        return img;
+    public void setProfilePhoto(Bitmap profilePhoto) {
     }
 }

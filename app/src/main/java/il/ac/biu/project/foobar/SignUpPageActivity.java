@@ -1,17 +1,12 @@
 package il.ac.biu.project.foobar;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import il.ac.biu.project.foobar.AdvancedTextField.InputCallback;
 import il.ac.biu.project.foobar.AdvancedTextField.ValidationFunction;
 
@@ -68,7 +63,12 @@ public class SignUpPageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_up_page);
-
+        UserDetails userDetails = UserDetails.getInstance();
+        if (!userDetails.getSignIn()) {
+            Intent intent = new Intent(SignUpPageActivity.this, FeedActivity.class);
+            startActivity(intent);
+            finish();
+        }
         // Find EditText views in the layout
         EditText usernameEditText = findViewById(R.id.usernameEditText);
         EditText passwordEditText = findViewById(R.id.passwordEditText);
@@ -130,7 +130,7 @@ public class SignUpPageActivity extends AppCompatActivity {
                         && isStringLengthInRange(input, 2, 16);
             }
         });
-        displayNameField.setErrorMessage("not 2-20 english chars or numbers");
+        displayNameField.setErrorMessage("not 2-16 english chars or numbers");
 
         // Find the "Feed Activity" button in the layout
         Button feedActivityButton = findViewById(R.id.feedActivity);
@@ -142,7 +142,6 @@ public class SignUpPageActivity extends AppCompatActivity {
                 // Check if all input fields are valid
                 if (isAllValid()) {
                     // If valid, update UserDetails and start FeedActivity
-                    UserDetails userDetails = UserDetails.getInstance();
                     userDetails.setSignIn(true);
                     userDetails.setUsername(username);
                     userDetails.setPassword(password);
@@ -165,6 +164,7 @@ public class SignUpPageActivity extends AppCompatActivity {
                 // Check if all input fields are valid
                 Intent intent = new Intent(SignUpPageActivity.this, MainActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }

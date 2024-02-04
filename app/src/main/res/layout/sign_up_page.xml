@@ -19,7 +19,7 @@
         android:id="@+id/usernameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter your username"
+        android:hint="5-16 english chars or numbers"
         android:padding="16dp"
         />
 
@@ -34,7 +34,7 @@
         android:id="@+id/passwordEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter your password"
+        android:hint="8-20 english chars or numbers"
         android:inputType="textPassword"
         android:padding="16dp"
         />
@@ -50,7 +50,7 @@
         android:id="@+id/rePasswordEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Re-enter your password"
+        android:hint="Re-type your password"
         android:inputType="textPassword"
         android:padding="16dp"
         />
@@ -66,7 +66,7 @@
         android:id="@+id/displayNameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter your display name"
+        android:hint="2-16 english chars or numbers"
         android:padding="16dp"
         />
 

@@ -64,7 +64,7 @@ public class SignUpPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_up_page);
         UserDetails userDetails = UserDetails.getInstance();
-        if (!userDetails.getSignIn()) {
+        if (userDetails.getSignIn()) {
             Intent intent = new Intent(SignUpPageActivity.this, FeedActivity.class);
             startActivity(intent);
             finish();

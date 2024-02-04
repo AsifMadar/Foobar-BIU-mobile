@@ -15,6 +15,7 @@ public class AdvancedTextField {
     private final EditText editText;
     private ValidationFunction validationFunc;
     private final InputCallback inputCallback;
+    private String errorMessage;
 
     /**
      * Constructs an AdvancedTextField with the specified EditText and input callback.
@@ -59,14 +60,25 @@ public class AdvancedTextField {
                 if (validationFunc != null) {
                     if (validationFunc.isValid(input)) {
                         setEditTextColor(Color.GREEN);
+                        editText.setError(null);
+
                     } else {
                         setEditTextColor(Color.RED);
+                        editText.setError(errorMessage);
                     }
                 }
                 // updates the calling function the input that the user typed
                 inputCallback.onInputChanged(input);
             }
         });
+    }
+
+    /**
+     * The error message that will display if the input is invalid
+     * @param errMessage The error message.
+     */
+    public void setErrorMessage(String errMessage) {
+        this.errorMessage = errMessage;
     }
 
     private void setEditTextColor(int color) {

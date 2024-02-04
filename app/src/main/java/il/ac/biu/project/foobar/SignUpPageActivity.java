@@ -76,6 +76,7 @@ public class SignUpPageActivity extends AppCompatActivity {
         EditText displayNameEditText = findViewById(R.id.displayNameEditText);
 
         // Initialize AdvancedTextField instances for each input field
+        //Username
         AdvancedTextField usernameField = new AdvancedTextField(usernameEditText, new InputCallback() {
             @Override
             public void onInputChanged(String input) {
@@ -87,7 +88,9 @@ public class SignUpPageActivity extends AppCompatActivity {
                 return containsOnlyEnglishCharsAndNumbers(input) && isStringLengthInRange(input, 5, 16);
             }
         });
+        usernameField.setErrorMessage("not 5-16 english chars or numbers");
 
+        //Password
         AdvancedTextField passwordField = new AdvancedTextField(passwordEditText, new InputCallback() {
             @Override
             public void onInputChanged(String input) {
@@ -100,6 +103,8 @@ public class SignUpPageActivity extends AppCompatActivity {
             }
         });
 
+        passwordField.setErrorMessage("not 8-20 english chars or numbers");
+        //RePassword
         AdvancedTextField rePasswordField = new AdvancedTextField(rePasswordEditText, new InputCallback() {
             @Override
             public void onInputChanged(String input) {
@@ -111,7 +116,8 @@ public class SignUpPageActivity extends AppCompatActivity {
                 return input.equals(password);
             }
         });
-
+        rePasswordField.setErrorMessage("Passwords does not match");
+        //DisplayName
         AdvancedTextField displayNameField = new AdvancedTextField(displayNameEditText, new InputCallback() {
             @Override
             public void onInputChanged(String input) {
@@ -124,6 +130,7 @@ public class SignUpPageActivity extends AppCompatActivity {
                         && isStringLengthInRange(input, 2, 16);
             }
         });
+        displayNameField.setErrorMessage("not 2-20 english chars or numbers");
 
         // Find the "Feed Activity" button in the layout
         Button feedActivityButton = findViewById(R.id.feedActivity);

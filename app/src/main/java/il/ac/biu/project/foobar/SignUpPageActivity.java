@@ -88,7 +88,7 @@ public class SignUpPageActivity extends AppCompatActivity {
                 return containsOnlyEnglishCharsAndNumbers(input) && isStringLengthInRange(input, 5, 16);
             }
         });
-        usernameField.setErrorMessage("not 5-16 english chars or numbers");
+        usernameField.setErrorMessage("not 5-16 alphanumeric characters");
 
         //Password
         AdvancedTextField passwordField = new AdvancedTextField(passwordEditText, new InputCallback() {
@@ -103,7 +103,7 @@ public class SignUpPageActivity extends AppCompatActivity {
             }
         });
 
-        passwordField.setErrorMessage("not 8-20 english chars or numbers");
+        passwordField.setErrorMessage("not 8-20 alphanumeric characters");
         //RePassword
         AdvancedTextField rePasswordField = new AdvancedTextField(rePasswordEditText, new InputCallback() {
             @Override
@@ -130,7 +130,7 @@ public class SignUpPageActivity extends AppCompatActivity {
                         && isStringLengthInRange(input, 2, 16);
             }
         });
-        displayNameField.setErrorMessage("not 2-16 english chars or numbers");
+        displayNameField.setErrorMessage("not 2-16 alphanumeric characters");
 
         // Find the "Feed Activity" button in the layout
         Button feedActivityButton = findViewById(R.id.feedActivity);

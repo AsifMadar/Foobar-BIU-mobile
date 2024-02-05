@@ -12,7 +12,7 @@ public class UserDetails {
     private boolean signIn = false;
     private String username;
     private String password;
-    private String img;
+    private Bitmap img;
     private String displayName;
 
     /**
@@ -64,7 +64,7 @@ public class UserDetails {
      *
      * @param img1 The image URL to set.
      */
-    public void setImg(String img1) {
+    public void setImg(Bitmap img1) {
         img = img1;
     }
 
@@ -109,7 +109,7 @@ public class UserDetails {
      *
      * @return The image URL.
      */
-    public String getImg() {
+    public Bitmap getImg() {
         return img;
     }
 

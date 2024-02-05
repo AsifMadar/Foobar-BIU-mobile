@@ -74,12 +74,12 @@
         android:id="@+id/signUpPageActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign up"
+        android:text="Sign up page"
         android:padding="15dp"
         android:textSize="20sp"
         android:textColor="#FFFFFF"
         android:layout_marginTop="16dp"
-        android:backgroundTint="#0F2DD6"
+        android:backgroundTint="#19551B"
         android:layout_centerInParent="true"/>
 
 </LinearLayout>

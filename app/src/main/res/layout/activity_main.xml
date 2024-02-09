@@ -74,7 +74,7 @@
         android:id="@+id/signUpPageActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/sign_in_page"
+        android:text="@string/sign_up_page"
         android:padding="15dp"
         android:textSize="20sp"
         android:textColor="#FFFFFF"

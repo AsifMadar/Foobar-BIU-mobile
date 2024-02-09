@@ -44,6 +44,17 @@ public class SignUpPageActivity extends AppCompatActivity {
     }
 
     /**
+     * Check if the input contains only English characters, numbers and space between two words.
+     *
+     * @param input The input string to check.
+     * @return True if the input contains only English characters,numbers, and space between two words, false otherwise.
+     */
+    private static boolean containsOnlyEnglishCharsAndNumbersAndSpace(String input) {
+        return input.matches("[a-zA-Z0-9]+( [a-zA-Z0-9]+)*");
+
+    }
+
+    /**
      * Check if the string length is within a specified range.
      *
      * @param input     The input string to check.
@@ -66,7 +77,7 @@ public class SignUpPageActivity extends AppCompatActivity {
                 && isStringLengthInRange(username, 5, 16))
                 && (containsOnlyEnglishCharsAndNumbers(password)
                 && isStringLengthInRange(password, 8, 20))
-                && (containsOnlyEnglishCharsAndNumbers(displayName)
+                && (containsOnlyEnglishCharsAndNumbersAndSpace(displayName)
                 && isStringLengthInRange(displayName, 2, 20))
                 && rePassword.equals(password)
                 && img != null;
@@ -142,7 +153,7 @@ public class SignUpPageActivity extends AppCompatActivity {
         }, new ValidationFunction() {
             @Override
             public boolean isValid(String input) {
-                return containsOnlyEnglishCharsAndNumbers(input)
+                return containsOnlyEnglishCharsAndNumbersAndSpace(input)
                         && isStringLengthInRange(input, 2, 16);
             }
         });

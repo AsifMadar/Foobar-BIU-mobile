@@ -17,8 +17,6 @@ public class FeedActivity extends AppCompatActivity {
             finish();
         }
         setContentView(R.layout.activity_feed);
-        TextView helloTextView = findViewById(R.id.helloTextView);
-        helloTextView.setText("FEED");
         Button logoutButton = findViewById(R.id.logout);
 
         logoutButton.setOnClickListener(new View.OnClickListener() {

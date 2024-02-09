@@ -11,17 +11,15 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
-import java.io.IOException;
-
 import il.ac.biu.project.foobar.AdvancedTextField.InputCallback;
 import il.ac.biu.project.foobar.AdvancedTextField.ValidationFunction;
+import java.io.IOException;
 
 /**
  * Activity responsible for handling user sign-up.
@@ -79,18 +77,16 @@ public class SignUpPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_up_page);
         UserDetails userDetails = UserDetails.getInstance();
+        // if the user has signed in go to feed
         if (userDetails.getSignIn()) {
             Intent intent = new Intent(SignUpPageActivity.this, FeedActivity.class);
             startActivity(intent);
             finish();
         }
-        // Find EditText views in the layout
-        EditText usernameEditText = findViewById(R.id.usernameEditText);
-        EditText passwordEditText = findViewById(R.id.passwordEditText);
-        EditText rePasswordEditText = findViewById(R.id.rePasswordEditText);
-        EditText displayNameEditText = findViewById(R.id.displayNameEditText);
-
         // Initialize AdvancedTextField instances for each input field
+
+
+        EditText usernameEditText = findViewById(R.id.usernameEditText);
         //Username
         AdvancedTextField usernameField = new AdvancedTextField(usernameEditText, new InputCallback() {
             @Override
@@ -100,12 +96,14 @@ public class SignUpPageActivity extends AppCompatActivity {
         }, new ValidationFunction() {
             @Override
             public boolean isValid(String input) {
-                return containsOnlyEnglishCharsAndNumbers(input) && isStringLengthInRange(input, 5, 16);
+                return containsOnlyEnglishCharsAndNumbers(input)
+                        && isStringLengthInRange(input, 5, 16);
             }
         });
         usernameField.setErrorMessage("not 5-16 alphanumeric characters");
 
         //Password
+        EditText passwordEditText = findViewById(R.id.passwordEditText);
         AdvancedTextField passwordField = new AdvancedTextField(passwordEditText, new InputCallback() {
             @Override
             public void onInputChanged(String input) {
@@ -120,6 +118,7 @@ public class SignUpPageActivity extends AppCompatActivity {
 
         passwordField.setErrorMessage("not 8-20 alphanumeric characters");
         //RePassword
+        EditText rePasswordEditText = findViewById(R.id.rePasswordEditText);
         AdvancedTextField rePasswordField = new AdvancedTextField(rePasswordEditText, new InputCallback() {
             @Override
             public void onInputChanged(String input) {
@@ -132,7 +131,9 @@ public class SignUpPageActivity extends AppCompatActivity {
             }
         });
         rePasswordField.setErrorMessage("Passwords does not match");
+
         //DisplayName
+        EditText displayNameEditText = findViewById(R.id.displayNameEditText);
         AdvancedTextField displayNameField = new AdvancedTextField(displayNameEditText, new InputCallback() {
             @Override
             public void onInputChanged(String input) {
@@ -146,14 +147,18 @@ public class SignUpPageActivity extends AppCompatActivity {
             }
         });
         displayNameField.setErrorMessage("not 2-16 alphanumeric characters");
+
+        // adding a photo
+
         Button addImgButton = findViewById(R.id.imgButton);
         addImgButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!checkPermissions()) {
+                // if there is not permission ask for it
+                if (!checkPermissions()) {
                     requestPermissions();
                 }
-                if(checkPermissions()) {
+                if (checkPermissions()) {
                     pickImage();
                 }
             }
@@ -180,7 +185,7 @@ public class SignUpPageActivity extends AppCompatActivity {
                 } else {
                     // If not valid, display a toast with an error message
                     Toast.makeText(SignUpPageActivity.this,
-                            "Invalid Fields", Toast.LENGTH_SHORT).show();
+                            "Invalid Fields or missing a photo", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -197,6 +202,9 @@ public class SignUpPageActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Launches an intent to pick an image from the gallery or capture from the camera.
+     */
     private void pickImage() {
         Intent pickImageIntent = new Intent(Intent.ACTION_PICK);
         pickImageIntent.setType("image/*");
@@ -217,7 +225,8 @@ public class SignUpPageActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 1 && resultCode == RESULT_OK) {
-            // Check if the image is from the camera
+            ImageView showProfilePic = findViewById(R.id.profilePic);
+            // Check if the image is from the gallery
             if (data != null && data.getData() != null) {
                 // The user has successfully picked an image from the gallery
                 Uri selectedImageUri = data.getData();
@@ -236,9 +245,14 @@ public class SignUpPageActivity extends AppCompatActivity {
                     img = (Bitmap) extras.get("data");
                 }
             }
+            showProfilePic.setImageBitmap(img);
+
         }
     }
 
+    /**
+     * Requests the necessary permissions from the user.
+     */
     private void requestPermissions() {
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE},
@@ -246,14 +260,30 @@ public class SignUpPageActivity extends AppCompatActivity {
     }
 
 
-
+    /**
+     * Checks if the necessary permissions have been granted by the user.
+     *
+     * @return True if permissions are granted, false otherwise.
+     */
     private boolean checkPermissions() {
-        boolean cameraPer = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
-        boolean writePer = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+        boolean cameraPer = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
+        boolean writePer = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
         return cameraPer;
     }
+
+    /**
+     * Called when the permission request response is received. If permissions are granted,
+     * an image pick is initiated.
+     *
+     * @param requestCode  The request code passed in requestPermissions().
+     * @param permissions  The requested permissions.
+     * @param grantResults The grant results for the corresponding permissions.
+     */
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (requestCode == 100) {
@@ -268,9 +298,9 @@ public class SignUpPageActivity extends AppCompatActivity {
             if (allPermissionsGranted) {
                 pickImage();
             } else {
-                Toast.makeText(this, "Permission denied. Cannot choose an image.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Permission denied. Cannot choose an image.",
+                        Toast.LENGTH_SHORT).show();
             }
         }
     }
-
 }

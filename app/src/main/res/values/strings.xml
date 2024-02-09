@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Foobar-BIU-mobile</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="retype_password">Retype Password</string>
+    <string name="display_name">Display Name</string>
+    <string name="profile_picture_must">Add a profile picture (must)</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="username_hint">5–16 alphanumeric characters</string>
+    <string name="password_hint">8–20 alphanumeric characters</string>
+    <string name="retypePassword_hint">Retype your password</string>
+    <string name="display_name_hint">2–16 alphanumeric characters</string>
+    <string name="sign_in_page">Sign In page</string>
+    <string name="sign_in">Sign In</string>
+    <string name="enter_username">Enter your Username</string>
+    <string name="enter_password">Enter your Password</string>
+    <string name="sign_up_page">Sign Up Page</string>
+
 </resources>

@@ -16,5 +16,7 @@
     <string name="enter_username">Enter your Username</string>
     <string name="enter_password">Enter your Password</string>
     <string name="sign_up_page">Sign Up Page</string>
-
+    <string name="like">Like</string>
+    <string name="comment">Comment</string>
+    <string name="share">Share</string>
 </resources>

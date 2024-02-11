@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lighter_gray"
-    tools:context=".FeedActivity">
+    tools:context=".FeedActivityMain">
 
     <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar

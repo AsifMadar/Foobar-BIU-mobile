@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:id="@+id/myhome"
+    android:icon="@drawable/home_selector"
+    android:title="@string/home"
+    android:layout_width="wrap_content"
+    />
+    <item
+        android:id="@+id/FriendsId"
+        android:icon="@drawable/friends_selector"
+        android:title="@string/friends"
+        android:layout_width="wrap_content"
+        />
+    <item
+        android:id="@+id/VideoId"
+        android:icon="@drawable/videos_selector"
+        android:title="@string/video"
+        android:layout_width="wrap_content"
+        />
+    <item
+        android:id="@+id/NotificationsId"
+        android:icon="@drawable/notifications_selector"
+        android:title="@string/notifications"
+        android:layout_width="wrap_content"
+        />
+    <item
+        android:id="@+id/MenuID"
+        android:icon="@drawable/menu_selector"
+        android:title="@string/menu"
+        android:layout_width="wrap_content"
+        />
+
+</menu>

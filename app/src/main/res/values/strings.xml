@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Foobar-BIU-mobile</string>
+    <string name="loginbtn">login</string>
+    <string name="home">Home</string>
+    <string name="friends">Friends</string>
+    <string name="video">Video</string>
+    <string name="profile">Profile</string>
+    <string name="notifications">Notifications</string>
+    <string name="facebook">Facebook</string>
+    <string name="search">Search</string>
+    <string name="write_your_post_here">Write your post here...</string>
+    <string name="hi">hi</string>
+    <string name="laalala">kln</string>
+    <string name="what_s_on_your_mind">What\'s on your mind?</string>
+    <string name="menu">Menu</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="open">Open Navigation</string>
+    <string name="close">Close Navigation</string>
 </resources>

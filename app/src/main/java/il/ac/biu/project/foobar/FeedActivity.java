@@ -16,6 +16,7 @@ public class FeedActivity extends AppCompatActivity {
     Button addPostButton;
     AlertDialog dialog;
     LinearLayout layout;
+    static final int CREATE_POST_REQUEST = 1;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,15 +27,6 @@ public class FeedActivity extends AppCompatActivity {
             finish();
         }
         setContentView(R.layout.activity_feed);
-        addPostButton = findViewById(R.id.addPost);
-        layout = findViewById(R.id.container);
-        buildAddPost();
-        addPostButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.show();
-            }
-        });
         Button logoutButton = findViewById(R.id.logout);
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
@@ -46,41 +38,32 @@ public class FeedActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        addPostButton = findViewById(R.id.addPost);
+        layout = findViewById(R.id.container);
+        addPostButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PostDetails postDetails = new PostDetails("Author", null, "User input", null); // Assuming a constructor like this exists
+                // Use YourActivityName.this instead of this
+                Intent intent = new Intent(FeedActivity.this, CreatePostActivity.class);
+                intent.putExtra("postDetails", postDetails);
+                startActivityForResult(intent, CREATE_POST_REQUEST);
+            }
+        });
+;
+
     }
 
-    private void buildAddPost() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View view = getLayoutInflater().inflate(R.layout.dialog, null);
 
-        EditText name = view.findViewById(R.id.nameEdit);
-
-        builder.setView(view);
-        builder.setTitle("What are you thinking about?")
-                .setPositiveButton("Post", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        addPost(name.getText().toString());
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-        dialog = builder.create();
-    }
-
-    private void addPost(String string) {
+    private void addPost(PostDetails postDetails) {
         View view = getLayoutInflater().inflate(R.layout.post, null);
-        UserDetails user = UserDetails.getInstance();
         TextView nameView = view.findViewById(R.id.user_name);
         TextView postContent = view.findViewById(R.id.post_text);
-        postContent.setText(string);
+        postContent.setText(postDetails.getUserInput());
         Button delete = view.findViewById(R.id.delete);
-        nameView.setText(user.getDisplayName());
+        nameView.setText(postDetails.getAuthorDisplayName());
         ImageView profileImage = view.findViewById(R.id.profile_picture);
-        profileImage.setImageBitmap(user.getImg());
+        profileImage.setImageBitmap(postDetails.getAuthorProfilePicture());
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,4 +73,17 @@ public class FeedActivity extends AppCompatActivity {
 
         layout.addView(view);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CREATE_POST_REQUEST && resultCode == RESULT_OK && data != null) {
+            PostDetails modifiedPostDetails = data.getParcelableExtra("modifiedPostDetails");
+            if (modifiedPostDetails != null) {
+                addPost(modifiedPostDetails);
+            }
+        }
+    }
+
 }

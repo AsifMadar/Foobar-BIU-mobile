@@ -17,6 +17,7 @@ public class PostDetails implements Parcelable {
         userInput = in.readString();
         picture = in.readParcelable(Bitmap.class.getClassLoader());
     }
+    public PostDetails() {}
 
     // Standard constructor
     public PostDetails(String authorDisplayName, Bitmap authorProfilePicture, String userInput, Bitmap picture) {

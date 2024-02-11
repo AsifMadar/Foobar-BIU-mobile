@@ -1,5 +1,6 @@
 package il.ac.biu.project.foobar;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -73,12 +75,22 @@ public class MenuFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView= inflater.inflate(R.layout.fragment_menu, container, false);
-        recyclerView = rootView.findViewById(R.id.button_grid);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2)); // 2 buttons per row
-        List<String> buttonNames = Arrays.asList("Button 1", "Button 2", "Button 3", "Button 4", "Button 5", "Button 6", "Button 7", "Button 8");
-        adapter = new GridButtonAdapter(buttonNames);
-        recyclerView.setAdapter(adapter);
+        View rootView = inflater.inflate(R.layout.fragment_menu, container, false);
+
+        // Find the logout button
+        Button logoutButton = rootView.findViewById(R.id.logout);
+
+        // Set click listener for the logout button
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle logout button click
+                // Navigate back to the login screen
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+                getActivity().finish(); // Close the current activity (menu activity)
+            }
+        });
 
         return rootView;
     }

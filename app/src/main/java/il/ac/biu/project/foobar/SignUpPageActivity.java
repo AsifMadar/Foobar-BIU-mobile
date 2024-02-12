@@ -1,13 +1,8 @@
 package il.ac.biu.project.foobar;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,11 +10,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import il.ac.biu.project.foobar.AdvancedTextField.InputCallback;
 import il.ac.biu.project.foobar.AdvancedTextField.ValidationFunction;
-import java.io.IOException;
+
 
 /**
  * Activity responsible for handling user sign-up.
@@ -32,6 +25,8 @@ public class SignUpPageActivity extends AppCompatActivity {
     private String rePassword = "";
     private String displayName = "";
     private Bitmap img;
+    private ImageTaker imageTaker;
+
 
     /**
      * Check if the input contains only English characters and numbers.
@@ -161,19 +156,11 @@ public class SignUpPageActivity extends AppCompatActivity {
 
         // adding a photo
 
+        imageTaker = new ImageTaker(this);
+
         Button addImgButton = findViewById(R.id.imgButton);
-        addImgButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // if there is not permission ask for it
-                if (!checkPermissions()) {
-                    requestPermissions();
-                }
-                if (checkPermissions()) {
-                    pickImage();
-                }
-            }
-        });
+        addImgButton.setOnClickListener(view -> imageTaker.pickImage());
+
 
 
         // Find the "Feed Activity" button in the layout
@@ -213,76 +200,18 @@ public class SignUpPageActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Launches an intent to pick an image from the gallery or capture from the camera.
-     */
-    private void pickImage() {
-        Intent pickImageIntent = new Intent(Intent.ACTION_PICK);
-        pickImageIntent.setType("image/*");
-
-        // Create an Intent to capture an image using the camera
-        Intent captureImageIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-        // Create a chooser Intent that includes both gallery and camera options
-        Intent chooserIntent = Intent.createChooser(pickImageIntent, "Select Image");
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Parcelable[]{captureImageIntent});
-
-        startActivityForResult(chooserIntent, 1);
-    }
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        imageTaker.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 1 && resultCode == RESULT_OK) {
+        if (imageTaker.getImageBitmap() != null) {
             ImageView showProfilePic = findViewById(R.id.profilePic);
-            // Check if the image is from the gallery
-            if (data != null && data.getData() != null) {
-                // The user has successfully picked an image from the gallery
-                Uri selectedImageUri = data.getData();
-                try {
-                    // Convert the Uri to a Bitmap
-                    img = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                // The image is from the camera
-                // Use the thumbnail directly
-                Bundle extras = data.getExtras();
-                if (extras != null) {
-                    // Use the thumbnail as a Bitmap
-                    img = (Bitmap) extras.get("data");
-                }
-            }
-            showProfilePic.setImageBitmap(img);
-
+            showProfilePic.setImageBitmap(imageTaker.getImageBitmap());
+            img = imageTaker.getImageBitmap();
         }
     }
 
-    /**
-     * Requests the necessary permissions from the user.
-     */
-    private void requestPermissions() {
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE},
-                100);
-    }
-
-
-    /**
-     * Checks if the necessary permissions have been granted by the user.
-     *
-     * @return True if permissions are granted, false otherwise.
-     */
-    private boolean checkPermissions() {
-        boolean cameraPer = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
-        boolean writePer = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
-        return cameraPer;
-    }
 
     /**
      * Called when the permission request response is received. If permissions are granted,
@@ -296,22 +225,6 @@ public class SignUpPageActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == 100) {
-            boolean allPermissionsGranted = true;
-            for (int result : grantResults) {
-                if (!checkPermissions()) {
-                    allPermissionsGranted = false;
-                    break;
-                }
-            }
-
-            if (allPermissionsGranted) {
-                pickImage();
-            } else {
-                Toast.makeText(this, "Permission denied. Cannot choose an image.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        }
+        imageTaker.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

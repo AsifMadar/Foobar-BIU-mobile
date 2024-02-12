@@ -1,5 +1,52 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Shades of Blue -->
+    <color name="blue">#1877f2</color>
+    <color name="light_blue">#3b5998</color>
+    <color name="dark_blue">#4267B2</color>
+    <color name="lighter_blue">#E2E9FA</color>
+    <color name="darker_blue">#2a4374</color>
+    <color name="white">#FFFFFF</color>
+
+    <!-- Shades of Gray -->
+    <color name="light_gray">#e9ebee</color>
+    <color name="medium_gray">#ced0d4</color>
+    <color name="dark_gray">#7f8c8d</color>
+    <color name="darker_gray">#3b5998</color>
+    <color name="lighter_gray">#f6f7f9</color>
+
+    <!-- Shades of Green -->
+    <color name="green">#42b72a</color>
+    <color name="light_green">#6ab639</color>
+    <color name="dark_green">#3b5998</color>
+    <color name="lighter_green">#cce6c2</color>
+    <color name="darker_green">#2a4531</color>
+
+    <!-- Other Colors -->
+    <color name="red">#ff3347</color>
+    <color name="yellow">#ffcc29</color>
+    <color name="purple">#663399</color>
+    <color name="orange">#ff7f00</color>
+    <color name="brown">#3b5998</color>
+    <color name="teal">#20aeb5</color>
+    <color name="cyan">#00bcd4</color>
+    <color name="indigo">#3f51b5</color>
+    <color name="pink">#ff4081</color>
+    <color name="lime">#cddc39</color>
+    <color name="amber">#ffc107</color>
+    <color name="deep_purple">#673ab7</color>
+    <color name="light_purple">#9c27b0</color>
+    <color name="deep_orange">#ff5722</color>
+    <color name="blue_gray">#607d8b</color>
+    <color name="deep_teal">#009688</color>
+    <color name="light_teal">#4db6ac</color>
+    <color name="light_blue_gray">#90a4ae</color>
+    <color name="deep_pink">#e91e63</color>
+    <color name="light_indigo">#5c6bc0</color>
+    <color name="very_light_purple">#b39ddb</color>
+    <color name="very_light_pink">#f48fb1</color>
+    <color name="dark_cyan">#0097a7</color>
+    <color name="very_dark_teal">#00796b</color>
+    <color name="very_dark_blue">#0d47a1</color>
+    <color name="lavander">#8692f7</color>
+
 </resources>

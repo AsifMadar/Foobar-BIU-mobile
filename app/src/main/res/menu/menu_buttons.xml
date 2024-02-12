@@ -1,0 +1,50 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_profile"
+        android:title=""
+        app:showAsAction="always"
+        app:actionLayout="@layout/menu_profile_layout" />
+
+    <item
+        android:id="@+id/menu_button1"
+        android:title="Button 1"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_button2"
+        android:title="Button 2"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_button3"
+        android:title="Button 3"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_button4"
+        android:title="Button 4"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_button5"
+        android:title="Button 5"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_button6"
+        android:title="Button 6"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_button7"
+        android:title="Button 7"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_button8"
+        android:title="Button 8"
+        app:showAsAction="never" />
+
+</menu>

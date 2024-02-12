@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <RelativeLayout
+
+        android:id="@+id/profile_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bootomnavigationid"
+        android:padding="16dp"
+        >
+
+        <!-- User Profile Image -->
+        <ImageView
+            android:id="@+id/profile_image"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_profile"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"/>
+
+        <!-- "What's on your mind?" TextView -->
+        <TextView
+            android:id="@+id/whats_on_your_mind_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_rounded_background"
+            android:text="@string/what_s_on_your_mind"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            android:layout_toEndOf="@id/profile_image"
+            android:layout_alignBottom="@id/profile_image"
+            android:layout_marginStart="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_marginEnd="8dp"/>
+    </RelativeLayout>
+   <ScrollView
+       android:layout_width="wrap_content"
+       android:layout_height="match_parent"
+       android:layout_marginTop="70dp"
+       android:layout_marginBottom="70dp"
+       android:scrollbars="none">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/container"
+    android:orientation="vertical">
+
+</LinearLayout>
+   </ScrollView>
+
+
+
+</FrameLayout>

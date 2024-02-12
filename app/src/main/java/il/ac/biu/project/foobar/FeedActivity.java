@@ -60,10 +60,15 @@ public class FeedActivity extends AppCompatActivity {
         TextView nameView = view.findViewById(R.id.user_name);
         TextView postContent = view.findViewById(R.id.post_text);
         postContent.setText(postDetails.getUserInput());
-        Button delete = view.findViewById(R.id.delete);
         nameView.setText(postDetails.getAuthorDisplayName());
         ImageView profileImage = view.findViewById(R.id.profile_picture);
         profileImage.setImageBitmap(postDetails.getAuthorProfilePicture());
+        if (postDetails.getPicture() != null) {
+            ImageView postImage = view.findViewById(R.id.post_image);
+            postImage.setImageBitmap(postDetails.getPicture());
+            postImage.setVisibility(View.VISIBLE);
+        }
+        Button delete = view.findViewById(R.id.delete);
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

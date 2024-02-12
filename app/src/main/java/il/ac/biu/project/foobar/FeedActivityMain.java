@@ -9,12 +9,12 @@ import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class FeedActivity extends AppCompatActivity {
+public class FeedActivityMain extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feed);
+        setContentView(R.layout.activity_feed_main);
         Fragment selectedFragment = new HomeFragment();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.framelayout, selectedFragment)

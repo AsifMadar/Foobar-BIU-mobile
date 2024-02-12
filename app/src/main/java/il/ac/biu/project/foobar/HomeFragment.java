@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment {
 
     private void addPostToLayout(String content) {
         // Create a new Post object
-        Post post = new Post(content);
+        //Post post = new Post(content);
 
         // Create a TextView to display the post content
         TextView textView = new TextView(getActivity());
@@ -83,7 +83,7 @@ public class HomeFragment extends Fragment {
         );
         layoutParams.setMargins(0, 16, 0, 16);
         textView.setLayoutParams(layoutParams);
-        textView.setText(post.getContent());
+        //textView.setText(post.getContent());
 
         // Add the TextView to the layout
         layout.addView(textView);

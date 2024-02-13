@@ -5,14 +5,16 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class PostDetails implements Parcelable {
+    private int id;
     private String authorDisplayName;
     private Bitmap authorProfilePicture;
     private String userInput;
     private Bitmap picture;
-    private String time; // New field
+    private String time;
 
     // Constructor used for parcel
     protected PostDetails(Parcel in) {
+        id = in.readInt();
         authorDisplayName = in.readString();
         authorProfilePicture = in.readParcelable(Bitmap.class.getClassLoader());
         userInput = in.readString();
@@ -23,21 +25,23 @@ public class PostDetails implements Parcelable {
     public PostDetails() {}
 
     // Standard constructor
-    public PostDetails(String authorDisplayName, Bitmap authorProfilePicture, String userInput, Bitmap picture, String time) { // Updated constructor
+    public PostDetails(int id, String authorDisplayName, Bitmap authorProfilePicture, String userInput, Bitmap picture, String time) {
+        this.id = id;
         this.authorDisplayName = authorDisplayName;
         this.authorProfilePicture = authorProfilePicture;
         this.userInput = userInput;
         this.picture = picture;
-        this.time = time; // Initialize the time field
+        this.time = time;
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id); // Write the id integer to the parcel
         dest.writeString(authorDisplayName);
         dest.writeParcelable(authorProfilePicture, flags);
         dest.writeString(userInput);
         dest.writeParcelable(picture, flags);
-        dest.writeString(time); // Write the time string to the parcel
+        dest.writeString(time);
     }
 
     @Override
@@ -58,6 +62,14 @@ public class PostDetails implements Parcelable {
     };
 
     // Getters and Setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getAuthorDisplayName() {
         return authorDisplayName;
     }

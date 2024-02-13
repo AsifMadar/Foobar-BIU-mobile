@@ -33,32 +33,37 @@ public class CreatePostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post); // Correctly sets the layout
-        postDetails = getIntent().getParcelableExtra("postDetails");
+        int postId = getIntent().getIntExtra("postID", 0);
+        PostManager postManager = PostManager.getInstance();
+        postDetails = postManager.getPost(postId);
         UserDetails user = UserDetails.getInstance();
-
-        // Directly set the template using the current layout
-        setTemplate(user);
-
-        TextView postPublish = findViewById(R.id.post_publish);
-        postPublish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                publishPost(user);
-            }
-        });
-        ImageView addPhotoIcon = findViewById(R.id.add_photo_icon);
-        addPhotoIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!checkPermissions()) {
-                    requestPermissions();
+        //Edit post
+        if (!postDetails.getAuthorDisplayName().equals("Author")) {
+            setTemplateEditPost(postDetails);
+        } else {         //New post
+            // Directly set the template using the current layout
+            setTemplateNewPost(user);
+        }
+            TextView postPublish = findViewById(R.id.post_publish);
+            postPublish.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    publishPost(user);
                 }
-                if (checkPermissions()) {
-                    pickImage();
+            });
+            ImageView addPhotoIcon = findViewById(R.id.add_photo_icon);
+            addPhotoIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!checkPermissions()) {
+                        requestPermissions();
+                    }
+                    if (checkPermissions()) {
+                        pickImage();
+                    }
                 }
-            }
-        });
-    }
+            });
+        }
 
     private void publishPost(UserDetails user) {
         EditText postContent = findViewById(R.id.user_input_create_post);
@@ -71,9 +76,10 @@ public class CreatePostActivity extends AppCompatActivity {
         }
 
         Intent returnIntent = new Intent();
-        returnIntent.putExtra("modifiedPostDetails", postDetails);
+        returnIntent.putExtra("modifiedPostId", postDetails.getId());
         setResult(RESULT_OK, returnIntent);
         finish();
+
     }
 
     private String getTimeAndDate() {
@@ -82,15 +88,33 @@ public class CreatePostActivity extends AppCompatActivity {
         return now.format(formatter);
     }
 
-    private void setTemplate(UserDetails user) {
+    private void setTemplateNewPost(UserDetails user) {
         // Using findViewById to get the current views from the layout
         ImageView profileImage = findViewById(R.id.profile_picture_create_post);
-        profileImage.setImageBitmap(user.getImg()); // Assuming user.getImg() returns the correct bitmap
+        profileImage.setImageBitmap(user.getImg());
 
         TextView nameView = findViewById(R.id.user_name_create_post);
         nameView.setText(user.getDisplayName());
     }
-    private void pickImage() {
+
+    private void setTemplateEditPost(PostDetails postDetails) {
+        //profile pic
+        ImageView profileImage = findViewById(R.id.profile_picture_create_post);
+        profileImage.setImageBitmap(postDetails.getAuthorProfilePicture());
+        //author name
+        TextView nameView = findViewById(R.id.user_name_create_post);
+        nameView.setText(postDetails.getAuthorDisplayName());
+        //Post text
+        TextView postText = findViewById(R.id.user_input_create_post);
+        postText.setText(postDetails.getUserInput());
+        //post picture
+        if (postDetails.getPicture() != null) {
+            ImageView postImage = findViewById(R.id.post_picture);
+            postImage.setImageBitmap(postDetails.getPicture());
+            postImage.setVisibility(View.VISIBLE);
+        }
+    }
+        private void pickImage() {
         Intent pickImageIntent = new Intent(Intent.ACTION_PICK);
         pickImageIntent.setType("image/*");
 

@@ -9,6 +9,7 @@ public class PostDetails implements Parcelable {
     private Bitmap authorProfilePicture;
     private String userInput;
     private Bitmap picture;
+    private String time; // New field
 
     // Constructor used for parcel
     protected PostDetails(Parcel in) {
@@ -16,15 +17,18 @@ public class PostDetails implements Parcelable {
         authorProfilePicture = in.readParcelable(Bitmap.class.getClassLoader());
         userInput = in.readString();
         picture = in.readParcelable(Bitmap.class.getClassLoader());
+        time = in.readString(); // Read the time string from the parcel
     }
+
     public PostDetails() {}
 
     // Standard constructor
-    public PostDetails(String authorDisplayName, Bitmap authorProfilePicture, String userInput, Bitmap picture) {
+    public PostDetails(String authorDisplayName, Bitmap authorProfilePicture, String userInput, Bitmap picture, String time) { // Updated constructor
         this.authorDisplayName = authorDisplayName;
         this.authorProfilePicture = authorProfilePicture;
         this.userInput = userInput;
         this.picture = picture;
+        this.time = time; // Initialize the time field
     }
 
     @Override
@@ -33,6 +37,7 @@ public class PostDetails implements Parcelable {
         dest.writeParcelable(authorProfilePicture, flags);
         dest.writeString(userInput);
         dest.writeParcelable(picture, flags);
+        dest.writeString(time); // Write the time string to the parcel
     }
 
     @Override
@@ -83,5 +88,14 @@ public class PostDetails implements Parcelable {
 
     public void setPicture(Bitmap picture) {
         this.picture = picture;
+    }
+
+    // New getter and setter for the time field
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

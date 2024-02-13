@@ -20,6 +20,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 public class CreatePostActivity extends AppCompatActivity {
@@ -63,6 +65,7 @@ public class CreatePostActivity extends AppCompatActivity {
         postDetails.setUserInput(postContent.getText().toString());
         postDetails.setAuthorDisplayName(user.getDisplayName());
         postDetails.setAuthorProfilePicture(user.getImg());
+        postDetails.setTime(getTimeAndDate());
         if (img != null) {
             postDetails.setPicture(img);
         }
@@ -71,6 +74,12 @@ public class CreatePostActivity extends AppCompatActivity {
         returnIntent.putExtra("modifiedPostDetails", postDetails);
         setResult(RESULT_OK, returnIntent);
         finish();
+    }
+
+    private String getTimeAndDate() {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE HH:mm");
+        return now.format(formatter);
     }
 
     private void setTemplate(UserDetails user) {

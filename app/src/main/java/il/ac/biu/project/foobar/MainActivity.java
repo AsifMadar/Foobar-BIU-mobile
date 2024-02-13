@@ -34,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         // Retrieve singleton instance of UserDetails to check sign-in status.
         UserDetails userDetails = UserDetails.getInstance();
+
+        userDetails.setSignIn(true);
+        userDetails.setDisplayName("Asif");
         // Automatically navigate to FeedActivity if user is already signed in.
         if (userDetails.getSignIn()) {
             Intent intent = new Intent(MainActivity.this, FeedActivity.class);

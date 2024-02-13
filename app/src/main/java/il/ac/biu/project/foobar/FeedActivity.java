@@ -2,41 +2,39 @@ package il.ac.biu.project.foobar;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.ArrayList;
+import androidx.core.content.ContextCompat;
 import java.util.HashMap;
 
 public class FeedActivity extends AppCompatActivity {
     int postCounter = 0;
-    Button addPostButton;
     LinearLayout layout;
     boolean editingPost = false;
     PostManager postManager = PostManager.getInstance();
     HashMap<Integer, View> postViewMap = new HashMap<>();
+    UserDetails userDetails = UserDetails.getInstance();
+
 
     static final int CREATE_POST_REQUEST = 1;
+    static final int SHARE_PAGE_REQUEST = 2;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UserDetails userDetails = UserDetails.getInstance();
         if (!userDetails.getSignIn()) {
             Intent intent = new Intent(FeedActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         }
         setContentView(R.layout.activity_feed);
-        addPostButton = findViewById(R.id.addPost);
+        Button addPostButton = findViewById(R.id.addPost);
         layout = findViewById(R.id.container);
         addPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,11 +78,54 @@ public class FeedActivity extends AppCompatActivity {
         } else {
             postImage.setVisibility(View.GONE);
         }
+        //Edit or delete section
         ImageView postOptionsButton = view.findViewById(R.id.ellipsis_icon);
         postOptionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 editOrDeleteButton(postViewMap.get(postCounter), postDetails);
+            }
+        });
+        // Like section
+        LinearLayout likeCount = view.findViewById(R.id.like_layout);
+        likeCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                View postView = postViewMap.get(postDetails.getId());
+                String userDisplayName = userDetails.getDisplayName();
+                int numOfLikes = postDetails.getNumberOfLikes();
+                ImageView likeIcon = postView.findViewById(R.id.like_icon);
+                TextView numOfLikeView = postView.findViewById(R.id.like_count);
+                TextView likeText = postView.findViewById(R.id.like_text);
+                if (postDetails.isLiked(userDisplayName)) {
+                    postDetails.removeLike(userDisplayName);
+                    numOfLikes--;
+                    likeIcon.setImageResource(R.drawable.like_icon_not_pressed);
+                    likeText.setTextColor(Color.BLACK);
+                    if (numOfLikes == 0) {
+                        numOfLikeView.setVisibility(View.INVISIBLE);
+                    }
+                } else {
+                    postDetails.addLike(userDisplayName);
+                    numOfLikes++;
+                    if (numOfLikes == 1) {
+                        numOfLikeView.setVisibility(View.VISIBLE);
+                    }
+                    likeIcon.setImageResource(R.drawable.like_icon_pressed);
+                    likeText.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.blue_like));
+                }
+                numOfLikeView.setText(numOfLikes + " likes");
+
+            }
+        });
+
+        // Share section
+        LinearLayout shareLayout = view.findViewById(R.id.share_layout);
+        shareLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentShareActivity = new Intent(FeedActivity.this, ShareActivity.class);
+                startActivityForResult(intentShareActivity, SHARE_PAGE_REQUEST);
             }
         });
     }
@@ -102,6 +143,13 @@ public class FeedActivity extends AppCompatActivity {
                 } else {
                     addPost(postManager.getPost(modifiedPostId));
                 }
+            }
+        }
+        if (requestCode == SHARE_PAGE_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                // What to do when share screen is over (for next assignment maybe)
+            } else {
+                // What to do when share screen is over (for next assignment maybe)
             }
         }
     }
@@ -134,5 +182,4 @@ public class FeedActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
 }

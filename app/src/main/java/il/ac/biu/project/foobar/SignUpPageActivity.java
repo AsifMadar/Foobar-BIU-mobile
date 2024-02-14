@@ -1,13 +1,8 @@
 package il.ac.biu.project.foobar;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,11 +10,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import il.ac.biu.project.foobar.AdvancedTextField.InputCallback;
 import il.ac.biu.project.foobar.AdvancedTextField.ValidationFunction;
-import java.io.IOException;
+
 
 /**
  * Activity responsible for handling user sign-up.
@@ -32,6 +25,11 @@ public class SignUpPageActivity extends AppCompatActivity {
     private String rePassword = "";
     private String displayName = "";
     private Bitmap img;
+    private ImageTaker imageTaker;
+    private final UserDetails userDetails = UserDetails.getInstance();
+
+
+
 
     /**
      * Check if the input contains only English characters and numbers.
@@ -87,18 +85,33 @@ public class SignUpPageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_up_page);
-        UserDetails userDetails = UserDetails.getInstance();
-        // if the user has signed in go to feed
-        if (userDetails.getSignIn()) {
-            Intent intent = new Intent(SignUpPageActivity.this, FeedActivity.class);
-            startActivity(intent);
-            finish();
-        }
+
+        protectSignUpPage();
+
+        setSignUpPage();
+    }
+
+    private void setSignUpPage() {
         // Initialize AdvancedTextField instances for each input field
 
+        setUserNameEditField();
 
+        setPasswordEditText();
+
+        setRePasswordEditText();
+
+        setDisplayNameEditText();
+
+        setAddPhotoButton();
+
+        setSignUpButton();
+
+        setSignInPageButton();
+    }
+
+    //sets username EditField
+    private void setUserNameEditField() {
         EditText usernameEditText = findViewById(R.id.usernameEditText);
-        //Username
         AdvancedTextField usernameField = new AdvancedTextField(usernameEditText, new InputCallback() {
             @Override
             public void onInputChanged(String input) {
@@ -112,8 +125,10 @@ public class SignUpPageActivity extends AppCompatActivity {
             }
         });
         usernameField.setErrorMessage("not 5-16 alphanumeric characters");
+    }
 
-        //Password
+    //sets password EditField
+    private void setPasswordEditText() {
         EditText passwordEditText = findViewById(R.id.passwordEditText);
         AdvancedTextField passwordField = new AdvancedTextField(passwordEditText, new InputCallback() {
             @Override
@@ -128,6 +143,10 @@ public class SignUpPageActivity extends AppCompatActivity {
         });
 
         passwordField.setErrorMessage("not 8-20 alphanumeric characters");
+    }
+
+    //sets retype password EditField
+    private void setRePasswordEditText() {
         //RePassword
         EditText rePasswordEditText = findViewById(R.id.rePasswordEditText);
         AdvancedTextField rePasswordField = new AdvancedTextField(rePasswordEditText, new InputCallback() {
@@ -142,7 +161,10 @@ public class SignUpPageActivity extends AppCompatActivity {
             }
         });
         rePasswordField.setErrorMessage("Passwords does not match");
+    }
 
+    //sets display name EditField
+    private void setDisplayNameEditText() {
         //DisplayName
         EditText displayNameEditText = findViewById(R.id.displayNameEditText);
         AdvancedTextField displayNameField = new AdvancedTextField(displayNameEditText, new InputCallback() {
@@ -158,24 +180,17 @@ public class SignUpPageActivity extends AppCompatActivity {
             }
         });
         displayNameField.setErrorMessage("not 2-16 alphanumeric characters");
+    }
 
-        // adding a photo
-
+    // sets add photo button
+    private void setAddPhotoButton() {
+        imageTaker = new ImageTaker(this);
         Button addImgButton = findViewById(R.id.imgButton);
-        addImgButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // if there is not permission ask for it
-                if (!checkPermissions()) {
-                    requestPermissions();
-                }
-                if (checkPermissions()) {
-                    pickImage();
-                }
-            }
-        });
+        addImgButton.setOnClickListener(view -> imageTaker.pickImage());
+    }
 
-
+    // sets sign up button which goes to feed if given valid user details
+    private void setSignUpButton() {
         // Find the "Feed Activity" button in the layout
         Button feedActivityButton = findViewById(R.id.feedActivity);
 
@@ -200,8 +215,11 @@ public class SignUpPageActivity extends AppCompatActivity {
                 }
             }
         });
-        Button signInActivityButton = findViewById(R.id.signInActivity);
+    }
 
+    //sets a button to navigate to sign in page
+    private void setSignInPageButton() {
+        Button signInActivityButton = findViewById(R.id.signInActivity);
         signInActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -213,76 +231,28 @@ public class SignUpPageActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Launches an intent to pick an image from the gallery or capture from the camera.
-     */
-    private void pickImage() {
-        Intent pickImageIntent = new Intent(Intent.ACTION_PICK);
-        pickImageIntent.setType("image/*");
-
-        // Create an Intent to capture an image using the camera
-        Intent captureImageIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-        // Create a chooser Intent that includes both gallery and camera options
-        Intent chooserIntent = Intent.createChooser(pickImageIntent, "Select Image");
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Parcelable[]{captureImageIntent});
-
-        startActivityForResult(chooserIntent, 1);
+    // if the user has signed in go to feed
+    private void protectSignUpPage() {
+        if (userDetails.getSignIn()) {
+            Intent intent = new Intent(SignUpPageActivity.this, FeedActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        imageTaker.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 1 && resultCode == RESULT_OK) {
+        if (imageTaker.getImageBitmap() != null) {
             ImageView showProfilePic = findViewById(R.id.profilePic);
-            // Check if the image is from the gallery
-            if (data != null && data.getData() != null) {
-                // The user has successfully picked an image from the gallery
-                Uri selectedImageUri = data.getData();
-                try {
-                    // Convert the Uri to a Bitmap
-                    img = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                // The image is from the camera
-                // Use the thumbnail directly
-                Bundle extras = data.getExtras();
-                if (extras != null) {
-                    // Use the thumbnail as a Bitmap
-                    img = (Bitmap) extras.get("data");
-                }
-            }
-            showProfilePic.setImageBitmap(img);
-
+            showProfilePic.setImageBitmap(imageTaker.getImageBitmap());
+            img = imageTaker.getImageBitmap();
         }
     }
 
-    /**
-     * Requests the necessary permissions from the user.
-     */
-    private void requestPermissions() {
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE},
-                100);
-    }
-
-
-    /**
-     * Checks if the necessary permissions have been granted by the user.
-     *
-     * @return True if permissions are granted, false otherwise.
-     */
-    private boolean checkPermissions() {
-        boolean cameraPer = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
-        boolean writePer = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
-        return cameraPer;
-    }
 
     /**
      * Called when the permission request response is received. If permissions are granted,
@@ -296,22 +266,6 @@ public class SignUpPageActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == 100) {
-            boolean allPermissionsGranted = true;
-            for (int result : grantResults) {
-                if (!checkPermissions()) {
-                    allPermissionsGranted = false;
-                    break;
-                }
-            }
-
-            if (allPermissionsGranted) {
-                pickImage();
-            } else {
-                Toast.makeText(this, "Permission denied. Cannot choose an image.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        }
+        imageTaker.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

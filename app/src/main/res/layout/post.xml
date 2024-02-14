@@ -1,0 +1,238 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+
+    <!-- User Information -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/profile_picture"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/winton"
+            android:contentDescription="@string/author_profile_picture_content_description"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="8dp">
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="@string/user_name_hint" />
+
+            <TextView
+                android:id="@+id/upload_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="@string/time" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/ellipsis_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ellipsis"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/ellipsis_info"
+            android:layout_gravity="center_vertical" />
+
+    </LinearLayout>
+
+    <!-- Post Text -->
+    <TextView
+        android:id="@+id/post_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:padding="4dp"
+        android:textSize="15sp"
+        android:text="@string/post_text"
+    />
+
+    <!-- Post Image -->
+    <ImageView
+        android:id="@+id/post_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/add_picture"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        android:layout_marginTop="8dp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <LinearLayout
+            android:id="@+id/like_count_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/like_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/like"
+                android:visibility="invisible"
+                />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <LinearLayout
+            android:id="@+id/comment_count_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/comment_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="250 Comments" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+
+
+        <!-- Actions Row for Like and Comment -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <!-- Like Action -->
+            <LinearLayout
+                android:id="@+id/like_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                >
+
+                <ImageView
+                    android:id="@+id/like_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/like_icon_not_pressed"
+                android:contentDescription="@string/like" />
+
+                <TextView
+                    android:id="@+id/like_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/like"
+                    android:layout_marginStart="4dp" />
+
+            </LinearLayout>
+
+            <!-- Comment Action -->
+            <LinearLayout
+                android:id="@+id/comment_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/comment_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/comment_icon"
+                android:contentDescription="@string/comment" />
+
+                <TextView
+                    android:id="@+id/comment_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/comment"
+                    android:layout_marginStart="4dp" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/share_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/share_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/share_icon"
+                    android:contentDescription="@string/like"
+                    android:layout_marginStart="4dp" />
+                />
+
+                <TextView
+                    android:id="@+id/share_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/share"
+                    android:layout_marginStart="4dp" />
+
+        </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

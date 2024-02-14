@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/add_photo_icon"
+        android:layout_marginBottom="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/profile_picture_create_post"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:contentDescription="@string/author_profile_picture_content_description"
+                    android:src="@drawable/winton" />
+
+                <TextView
+                    android:id="@+id/user_name_create_post"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="8dp"
+                    android:layout_toEndOf="@id/profile_picture_create_post"
+                    android:text="@string/user_name_hint"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/post_publish"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="@string/post_button_text"
+                    android:textColor="#3F51B5"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/user_input_create_post"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:gravity="top|start"
+                android:hint="@string/whats_on_your_mind_hint"
+                android:inputType="textMultiLine"
+                android:maxLines="10000"
+                android:minHeight="100dp"
+                android:padding="16dp"
+                android:scrollbars="vertical"
+                android:textSize="30sp" />
+
+            <ImageView
+                android:id="@+id/post_picture"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="fitCenter"
+                android:baselineAlignBottom="true"
+                android:src="@android:color/darker_gray"
+                android:visibility="gone"
+                android:contentDescription="@string/post_picture_content_description" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/add_photo_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/add_picture"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/add_photo_content_description" />
+
+</RelativeLayout>

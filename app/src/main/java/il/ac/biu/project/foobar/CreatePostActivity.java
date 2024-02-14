@@ -31,7 +31,7 @@ public class CreatePostActivity extends AppCompatActivity {
         UserDetails user = UserDetails.getInstance();
 
         // Determine whether editing an existing post or creating a new one
-        if (!postDetails.getAuthorDisplayName().equals("Author")) {
+        if (postDetails.getAuthorDisplayName() != null) {
             // Edit existing post
             setTemplateEditPost(postDetails);
         } else {

@@ -57,7 +57,7 @@ public class FeedActivity extends AppCompatActivity {
                 // Increment post counter
                 postCounter++;
                 // Create post details
-                PostDetails postDetails = new PostDetails(postCounter, "Author", null, "User input", null, "time");
+                PostDetails postDetails = new PostDetails(postCounter, null, null, "User input", null, "time");
                 // Add post to PostManager
                 postManager.putPost(postCounter, postDetails);
 
@@ -212,13 +212,13 @@ public class FeedActivity extends AppCompatActivity {
     // Method to handle like button click
     private void handleLikeButtonClick(PostDetails postDetails) {
         View postView = postViewMap.get(postDetails.getId());
-        String userDisplayName = userDetails.getDisplayName();
+        String userName = userDetails.getUsername();
         int numOfLikes = postDetails.getNumberOfLikes();
         ImageView likeIcon = postView.findViewById(R.id.like_icon);
         TextView numOfLikeView = postView.findViewById(R.id.like_count);
         TextView likeText = postView.findViewById(R.id.like_text);
-        if (postDetails.isLiked(userDisplayName)) {
-            postDetails.removeLike(userDisplayName);
+        if (postDetails.isLiked(userName)) {
+            postDetails.removeLike(userName);
             numOfLikes--;
             likeIcon.setImageResource(R.drawable.like_icon_not_pressed);
             likeText.setTextColor(Color.BLACK);
@@ -226,7 +226,7 @@ public class FeedActivity extends AppCompatActivity {
                 numOfLikeView.setVisibility(View.INVISIBLE);
             }
         } else {
-            postDetails.addLike(userDisplayName);
+            postDetails.addLike(userName);
             numOfLikes++;
             if (numOfLikes == 1) {
                 numOfLikeView.setVisibility(View.VISIBLE);

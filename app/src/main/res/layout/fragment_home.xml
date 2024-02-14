@@ -52,7 +52,7 @@
             android:paddingTop="4dp"
             android:paddingEnd="8dp"
             android:paddingBottom="4dp"
-            android:text="@string/what_s_on_your_mind"
+            android:text="What's on your mind"
             android:textSize="20sp" />
     </RelativeLayout>
 

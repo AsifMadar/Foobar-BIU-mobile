@@ -85,7 +85,7 @@ public class SignUpPageActivity extends AppCompatActivity {
         UserDetails userDetails = UserDetails.getInstance();
         // if the user has signed in go to feed
         if (userDetails.getSignIn()) {
-            Intent intent = new Intent(SignUpPageActivity.this, FeedActivity.class);
+            Intent intent = new Intent(SignUpPageActivity.this, FeedActivityMain.class);
             startActivity(intent);
             finish();
         }
@@ -166,19 +166,19 @@ public class SignUpPageActivity extends AppCompatActivity {
         // Find the "Feed Activity" button in the layout
         Button feedActivityButton = findViewById(R.id.feedActivity);
 
-        // Set a click listener for the button
+
         feedActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Check if all input fields are valid
                 if (isAllValid()) {
-                    // If valid, update UserDetails and start FeedActivity
+                    // If valid, update UserDetails and start FeedActivityMain
                     userDetails.setSignIn(true);
                     userDetails.setUsername(username);
                     userDetails.setPassword(password);
                     userDetails.setDisplayName(displayName);
                     userDetails.setImg(img);
-                    Intent intent = new Intent(SignUpPageActivity.this, FeedActivity.class);
+                    Intent intent = new Intent(SignUpPageActivity.this, FeedActivityMain.class);
                     startActivity(intent);
                 } else {
                     // If not valid, display a toast with an error message
@@ -209,6 +209,7 @@ public class SignUpPageActivity extends AppCompatActivity {
             ImageView showProfilePic = findViewById(R.id.profilePic);
             showProfilePic.setImageBitmap(imageTaker.getImageBitmap());
             img = imageTaker.getImageBitmap();
+            showProfilePic.setVisibility(View.VISIBLE);
         }
     }
 

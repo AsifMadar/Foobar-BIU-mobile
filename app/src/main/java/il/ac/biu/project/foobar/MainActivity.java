@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         UserDetails userDetails = UserDetails.getInstance();
         // Automatically navigate to FeedActivity if user is already signed in.
         if (userDetails.getSignIn()) {
-            Intent intent = new Intent(MainActivity.this, FeedActivity.class);
+            Intent intent = new Intent(MainActivity.this, FeedActivityMain.class);
             startActivity(intent);
             finish();
         }
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                         && givenPassword.equals(userDetails.getPassword())) {
                     userDetails.setSignIn(true); // Update sign-in status.
                     // Navigate to FeedActivity upon successful authentication.
-                    Intent intent = new Intent(MainActivity.this, FeedActivity.class);
+                    Intent intent = new Intent(MainActivity.this, FeedActivityMain.class);
                     startActivity(intent);
                 } else {
                     // Show error message for invalid credentials.

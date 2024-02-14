@@ -29,6 +29,7 @@
         </activity>
         <activity android:name=".SignUpPageActivity" />
         <activity android:name=".FeedActivity" />
+        <activity android:name=".FeedActivityMain" />
         <activity android:name=".CreatePostActivity"/>
     </application>
 

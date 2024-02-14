@@ -4,15 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lighter_gray"
-    tools:context=".FeedActivity">
+    tools:context=".FeedActivityMain"
+    style="@style/SCREEN"
+    >
 
     <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
+        style="@style/Toolbar"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/lighter_gray"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:title="Facebook"

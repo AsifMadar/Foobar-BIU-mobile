@@ -1,8 +1,13 @@
 package il.ac.biu.project.foobar;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.Arrays;
@@ -38,6 +44,10 @@ public class MenuFragment extends Fragment {
     private GridView buttonsGrid;
     private RecyclerView recyclerView;
     private GridButtonAdapter adapter;
+    SwitchCompat switchMode;
+    boolean nightmode;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
 
     public MenuFragment() {
@@ -76,6 +86,7 @@ public class MenuFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_menu, container, false);
+        UserDetails userDetails = UserDetails.getInstance();
 
         // Find the logout button
         Button logoutButton = rootView.findViewById(R.id.logout);
@@ -83,12 +94,54 @@ public class MenuFragment extends Fragment {
         // Set click listener for the logout button
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                // Handle logout button click
-                // Navigate back to the login screen
+            public void onClick(View view) {
+                // Clear user session
+                userDetails.setSignIn(false);
+
+                // Go back to MainActivity
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
-                getActivity().finish(); // Close the current activity (menu activity)
+                getActivity().finish(); // Finish the current activity (MenuFragment)
+            }
+        });
+        profileImage = rootView.findViewById(R.id.menu_profile_picture);
+        profileName = rootView.findViewById(R.id.menu_profile_name);
+
+        // Set user profile picture
+        Bitmap userProfilePicture = userDetails.getImg();
+        if (userProfilePicture != null) {
+            profileImage.setImageBitmap(userProfilePicture);
+        }
+
+        String userName = userDetails.getDisplayName();
+        if (userName != null) {
+            profileName.setText(userName);
+        }
+
+        // Set up dark mode switch
+        switchMode=rootView.findViewById(R.id.switch_dark_mode);
+        sharedPreferences= getActivity().getSharedPreferences("MODE", Context.MODE_PRIVATE);
+        nightmode = sharedPreferences.getBoolean("nightmode",false);
+
+        switchMode.setChecked(nightmode); // Set the switch state based on the night mode setting
+
+        switchMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Toggle night mode
+                nightmode = !nightmode;
+                switchMode.setChecked(nightmode); // Update the switch state
+
+                if(nightmode){
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+
+                // Save the night mode setting
+                editor = sharedPreferences.edit();
+                editor.putBoolean("nightmode", nightmode);
+                editor.apply();
             }
         });
 

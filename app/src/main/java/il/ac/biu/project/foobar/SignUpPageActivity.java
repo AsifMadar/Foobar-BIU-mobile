@@ -71,7 +71,7 @@ public class SignUpPageActivity extends AppCompatActivity {
      * @return True if all input fields are valid, false otherwise.
      */
     private boolean isAllValid() {
-        return true || (containsOnlyEnglishCharsAndNumbers(username)
+        return (containsOnlyEnglishCharsAndNumbers(username)
                 && isStringLengthInRange(username, 5, 16))
                 && (containsOnlyEnglishCharsAndNumbers(password)
                 && isStringLengthInRange(password, 8, 20))

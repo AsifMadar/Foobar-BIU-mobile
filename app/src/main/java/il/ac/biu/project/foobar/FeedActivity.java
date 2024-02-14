@@ -73,7 +73,7 @@ public class FeedActivity extends AppCompatActivity {
                 // Increment post counter
                 postCounter++;
                 // Create post details
-                PostDetails postDetails = new PostDetails(postCounter, null, null, "User input", null, "time");
+                PostDetails postDetails = new PostDetails(postCounter, null, null, "User input", null, 0);
                 // Add post to PostManager
                 postManager.putPost(postCounter, postDetails);
 
@@ -123,7 +123,7 @@ public class FeedActivity extends AppCompatActivity {
 
         // Set time
         TextView time = view.findViewById(R.id.upload_time);
-        time.setText(postDetails.getTime());
+        time.setText(postDetails.getTimeStr());
 
         // Set post image if available
         ImageView postImage = view.findViewById(R.id.post_image);
@@ -300,7 +300,7 @@ public class FeedActivity extends AppCompatActivity {
             // Create the `PostDetails` instance
             PostDetails parsedPost = new PostDetails(this.postCounter++,
                 post.author.displayName, authorProfilePicture, post.contents, postImage,
-                Long.toString(post.timestamp));
+                post.timestamp);
 
             // Create likes list
             for (PostJsonDetails.UserJsonDetails user : post.likes) {

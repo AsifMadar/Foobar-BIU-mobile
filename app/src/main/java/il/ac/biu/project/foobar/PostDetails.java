@@ -3,6 +3,9 @@ package il.ac.biu.project.foobar;
 import android.graphics.Bitmap;
 import java.util.LinkedList;
 import java.util.List;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.TimeZone;
 
 /**
  * Represents the details of a post.
@@ -19,7 +22,7 @@ public class PostDetails {
     // Picture attached to the post
     private Bitmap picture;
     // Time when the post was created
-    private String time;
+    private long time;
     // List of users who liked the post
     private List<String> likeList = new LinkedList<>();
 
@@ -32,7 +35,7 @@ public class PostDetails {
      * @param picture Picture attached to the post.
      * @param time Time when the post was created.
      */
-    public PostDetails(int id, String authorDisplayName, Bitmap authorProfilePicture, String userInput, Bitmap picture, String time) {
+    public PostDetails(int id, String authorDisplayName, Bitmap authorProfilePicture, String userInput, Bitmap picture, long time) {
         this.id = id;
         this.authorDisplayName = authorDisplayName;
         this.authorProfilePicture = authorProfilePicture;
@@ -83,11 +86,20 @@ public class PostDetails {
         this.picture = picture;
     }
 
-    public String getTime() {
+    public long getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public String getTimeStr() {
+        LocalDateTime dateTime = LocalDateTime.ofInstant(Instant
+                .ofEpochMilli(time), TimeZone.getDefault().toZoneId());
+
+        return "" + dateTime.getDayOfMonth() + '/' + dateTime.getMonthValue() + '/' +
+            dateTime.getYear() + ' ' + dateTime.getHour() + ':' +
+            String.format("%02d", dateTime.getMinute());
+    }
+
+    public void setTime(long time) {
         this.time = time;
     }
 

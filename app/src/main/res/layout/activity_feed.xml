@@ -6,20 +6,12 @@
     tools:context=".FeedActivity">
 
     <Button
-        android:id="@+id/logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Logout"
-        android:layout_centerInParent="true"/>
-    <Button
         android:id="@+id/addPost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Post"
-        android:layout_centerInParent="true"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        />
+        android:layout_centerInParent="true"
+        android:text="Add Post" />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

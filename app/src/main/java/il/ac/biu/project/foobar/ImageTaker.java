@@ -64,7 +64,7 @@ public class ImageTaker {
                 Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
         boolean readStoragePer = ContextCompat.checkSelfPermission(activity,
                 Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
-        return cameraPer && readStoragePer;
+        return cameraPer;
     }
 
     /**

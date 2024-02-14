@@ -26,6 +26,9 @@ public class SignUpPageActivity extends AppCompatActivity {
     private String displayName = "";
     private Bitmap img;
     private ImageTaker imageTaker;
+    private final UserDetails userDetails = UserDetails.getInstance();
+
+
 
 
     /**
@@ -82,18 +85,33 @@ public class SignUpPageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_up_page);
-        UserDetails userDetails = UserDetails.getInstance();
-        // if the user has signed in go to feed
-        if (userDetails.getSignIn()) {
-            Intent intent = new Intent(SignUpPageActivity.this, FeedActivityMain.class);
-            startActivity(intent);
-            finish();
-        }
+
+        protectSignUpPage();
+
+        setSignUpPage();
+    }
+
+    private void setSignUpPage() {
         // Initialize AdvancedTextField instances for each input field
 
+        setUserNameEditField();
 
+        setPasswordEditText();
+
+        setRePasswordEditText();
+
+        setDisplayNameEditText();
+
+        setAddPhotoButton();
+
+        setSignUpButton();
+
+        setSignInPageButton();
+    }
+
+    //sets username EditField
+    private void setUserNameEditField() {
         EditText usernameEditText = findViewById(R.id.usernameEditText);
-        //Username
         AdvancedTextField usernameField = new AdvancedTextField(usernameEditText, new InputCallback() {
             @Override
             public void onInputChanged(String input) {
@@ -107,8 +125,10 @@ public class SignUpPageActivity extends AppCompatActivity {
             }
         });
         usernameField.setErrorMessage("not 5-16 alphanumeric characters");
+    }
 
-        //Password
+    //sets password EditField
+    private void setPasswordEditText() {
         EditText passwordEditText = findViewById(R.id.passwordEditText);
         AdvancedTextField passwordField = new AdvancedTextField(passwordEditText, new InputCallback() {
             @Override
@@ -123,6 +143,10 @@ public class SignUpPageActivity extends AppCompatActivity {
         });
 
         passwordField.setErrorMessage("not 8-20 alphanumeric characters");
+    }
+
+    //sets retype password EditField
+    private void setRePasswordEditText() {
         //RePassword
         EditText rePasswordEditText = findViewById(R.id.rePasswordEditText);
         AdvancedTextField rePasswordField = new AdvancedTextField(rePasswordEditText, new InputCallback() {
@@ -137,7 +161,10 @@ public class SignUpPageActivity extends AppCompatActivity {
             }
         });
         rePasswordField.setErrorMessage("Passwords does not match");
+    }
 
+    //sets display name EditField
+    private void setDisplayNameEditText() {
         //DisplayName
         EditText displayNameEditText = findViewById(R.id.displayNameEditText);
         AdvancedTextField displayNameField = new AdvancedTextField(displayNameEditText, new InputCallback() {
@@ -153,32 +180,33 @@ public class SignUpPageActivity extends AppCompatActivity {
             }
         });
         displayNameField.setErrorMessage("not 2-16 alphanumeric characters");
+    }
 
-        // adding a photo
-
+    // sets add photo button
+    private void setAddPhotoButton() {
         imageTaker = new ImageTaker(this);
-
         Button addImgButton = findViewById(R.id.imgButton);
         addImgButton.setOnClickListener(view -> imageTaker.pickImage());
+    }
 
-
-
+    // sets sign up button which goes to feed if given valid user details
+    private void setSignUpButton() {
         // Find the "Feed Activity" button in the layout
         Button feedActivityButton = findViewById(R.id.feedActivity);
 
-
+        // Set a click listener for the button
         feedActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Check if all input fields are valid
                 if (isAllValid()) {
-                    // If valid, update UserDetails and start FeedActivityMain
+                    // If valid, update UserDetails and start FeedActivity
                     userDetails.setSignIn(true);
                     userDetails.setUsername(username);
                     userDetails.setPassword(password);
                     userDetails.setDisplayName(displayName);
                     userDetails.setImg(img);
-                    Intent intent = new Intent(SignUpPageActivity.this, FeedActivityMain.class);
+                    Intent intent = new Intent(SignUpPageActivity.this, FeedActivity.class);
                     startActivity(intent);
                 } else {
                     // If not valid, display a toast with an error message
@@ -187,8 +215,11 @@ public class SignUpPageActivity extends AppCompatActivity {
                 }
             }
         });
-        Button signInActivityButton = findViewById(R.id.signInActivity);
+    }
 
+    //sets a button to navigate to sign in page
+    private void setSignInPageButton() {
+        Button signInActivityButton = findViewById(R.id.signInActivity);
         signInActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -200,6 +231,16 @@ public class SignUpPageActivity extends AppCompatActivity {
         });
     }
 
+    // if the user has signed in go to feed
+    private void protectSignUpPage() {
+        if (userDetails.getSignIn()) {
+            Intent intent = new Intent(SignUpPageActivity.this, FeedActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -209,7 +250,6 @@ public class SignUpPageActivity extends AppCompatActivity {
             ImageView showProfilePic = findViewById(R.id.profilePic);
             showProfilePic.setImageBitmap(imageTaker.getImageBitmap());
             img = imageTaker.getImageBitmap();
-            showProfilePic.setVisibility(View.VISIBLE);
         }
     }
 

@@ -19,4 +19,16 @@
     <string name="like">Like</string>
     <string name="comment">Comment</string>
     <string name="share">Share</string>
+    <string name="author_profile_picture_content_description">Author profile picture</string>
+    <string name="user_name_hint">Winton</string>
+    <string name="post_button_text">Post</string>
+    <string name="whats_on_your_mind_hint">What\'s on your mind?</string>
+    <string name="post_picture_content_description">The photo the user uploads to the post</string>
+    <string name="add_photo_content_description">Adding a photo to the post</string>
+    <string name="time">Time</string>
+    <string name="ellipsis_info">More options</string>
+    <string name="post_text">Post Text</string>
+
+
+
 </resources>

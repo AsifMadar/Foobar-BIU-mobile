@@ -18,31 +18,30 @@ public class MainActivity extends AppCompatActivity {
     private String givenUsername = "#";
     private String givenPassword = "#";
 
-    /**
-     * Called when the activity is starting. This is where most initialization should go:
-     * calling setContentView(int) to inflate the activity's UI, using findViewById(int)
-     * to programmatically interact with widgets in the UI, setting up listeners, and
-     * initializing class-scope variables.
-     *
-     * @param savedInstanceState If the activity is being re-initialized after previously
-     *                           being shut down then this Bundle contains the data it most
-     *                           recently supplied in onSaveInstanceState(Bundle). Otherwise, it is null.
-     */
+    private final UserDetails userDetails = UserDetails.getInstance();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // Retrieve singleton instance of UserDetails to check sign-in status.
-        UserDetails userDetails = UserDetails.getInstance();
 
-        userDetails.setSignIn(true);
-        userDetails.setDisplayName("Asif");
-        // Automatically navigate to FeedActivity if user is already signed in.
+        protectSignInPage();
+
+        initializeSignInPage();
+
+    }
+
+    // Automatically navigate to FeedActivity if user is already signed in.
+    private void protectSignInPage() {
         if (userDetails.getSignIn()) {
             Intent intent = new Intent(MainActivity.this, FeedActivity.class);
             startActivity(intent);
             finish();
         }
+    }
+
+    private void initializeSignInPage() {
         // Initialize text fields for username and password input.
         EditText usernameEditText = findViewById(R.id.usernameEditText);
         EditText passwordEditText = findViewById(R.id.passwordEditText);
@@ -62,14 +61,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Setup sign in button with a click listener to handle user authentication.
+        setSignInButton();
+        setSignUpButton();
+
+    }
+
+    // Setup sign in button with a click listener to handle user authentication.
+    private void setSignInButton() {
         Button signInButton = findViewById(R.id.signInButton);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Validate username and password with stored credentials.
-                if (givenUsername.equals(userDetails.getUsername())
-                        && givenPassword.equals(userDetails.getPassword())) {
+                if (checkValidSignIn()) {
                     userDetails.setSignIn(true); // Update sign-in status.
                     // Navigate to FeedActivity upon successful authentication.
                     Intent intent = new Intent(MainActivity.this, FeedActivity.class);
@@ -81,8 +85,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
-        // Setup button to navigate to the sign-up page.
+    // Setup button to navigate to the sign-up page.
+    private void setSignUpButton() {
         Button signUpPageButton = findViewById(R.id.signUpPageActivity);
         signUpPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,5 +99,11 @@ public class MainActivity extends AppCompatActivity {
                 finish(); // Close current activity.
             }
         });
+    }
+
+    //check if the username and password are correct
+    private boolean checkValidSignIn() {
+        return givenUsername.equals(userDetails.getUsername())
+                && givenPassword.equals(userDetails.getPassword());
     }
 }

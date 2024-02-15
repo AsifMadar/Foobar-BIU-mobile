@@ -32,6 +32,7 @@ public class FeedActivity extends AppCompatActivity {
     // Request codes for activities
     static final int CREATE_POST_REQUEST = 1;
     static final int SHARE_PAGE_REQUEST = 2;
+    static final int COMMENT_PAGE_REQUEST = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,7 @@ public class FeedActivity extends AppCompatActivity {
                 PostDetails postDetails = new PostDetails(postCounter, null, null, "User input", null, "time");
                 // Add post to PostManager
                 postManager.putPost(postCounter, postDetails);
+                postDetails.setId(postCounter);
 
                 // Start CreatePostActivity to create a new post
                 Intent intent = new Intent(FeedActivity.this, CreatePostActivity.class);
@@ -138,6 +140,25 @@ public class FeedActivity extends AppCompatActivity {
             }
         });
 
+        LinearLayout commentCountLayout = view.findViewById(R.id.comment_count_layout);
+        TextView commentCount = commentCountLayout.findViewById(R.id.comment_text);
+
+        if (postDetails.getCommentCount() > 0) {
+            commentCountLayout.setVisibility(View.VISIBLE);
+        }
+        // Set click listener for comment section
+
+        LinearLayout commentLayout = view.findViewById(R.id.comment_layout);
+        commentLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Handle comment button click
+                Intent intentCommentActivity = new Intent(FeedActivity.this, CommentActivity.class);
+                intentCommentActivity.putExtra("postID", postDetails.getId());
+                startActivityForResult(intentCommentActivity, COMMENT_PAGE_REQUEST);
+            }
+        });
+
         // Set click listener for share section
         LinearLayout shareLayout = view.findViewById(R.id.share_layout);
         shareLayout.setOnClickListener(new View.OnClickListener() {
@@ -175,7 +196,21 @@ public class FeedActivity extends AppCompatActivity {
                 // Handle unsuccessful share activity completion
             }
         }
+        if (requestCode == COMMENT_PAGE_REQUEST) {
+            int modifiedPostId = data.getIntExtra("commentPostId", 0);
+            if (postManager.getPost(modifiedPostId) != null) {
+                int commentCount = postManager.getPost(modifiedPostId).getCommentCount();
+                TextView commentValues = postViewMap.get(modifiedPostId).findViewById(R.id.comment_count);
+                commentValues.setText(commentCount + " Comments");
+                if (commentCount < 1) {
+                    commentValues.setVisibility(View.INVISIBLE);
+                } else {
+                    commentValues.setVisibility(View.VISIBLE);
+                }
+            }
+        }
     }
+
 
     // Method to display edit or delete dialog for a post
     private void editOrDeleteButton(View view, PostDetails postDetails) {
@@ -228,12 +263,11 @@ public class FeedActivity extends AppCompatActivity {
         } else {
             postDetails.addLike(userName);
             numOfLikes++;
-            if (numOfLikes == 1) {
-                numOfLikeView.setVisibility(View.VISIBLE);
-            }
+            numOfLikeView.setVisibility(View.VISIBLE);
             likeIcon.setImageResource(R.drawable.like_icon_pressed);
             likeText.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.blue_like));
         }
         numOfLikeView.setText(numOfLikes + " likes");
     }
+
 }

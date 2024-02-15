@@ -22,6 +22,7 @@ public class PostDetails {
     private String time;
     // List of users who liked the post
     private List<String> likeList = new LinkedList<>();
+    private List<Comment> commentList = new LinkedList<>();
 
     /**
      * Constructor to initialize post details.
@@ -125,5 +126,45 @@ public class PostDetails {
      */
     public boolean isLiked(String user) {
         return likeList.contains(user);
+    }
+
+
+    /**
+     * Adds a comment to the list.
+     *
+     * @param comment The {@link Comment} object to be added to the list.
+     */
+    public void addComment(Comment comment) {
+        commentList.add(comment);
+    }
+
+    /**
+     * Removes a specified comment from the list by comparing the comment object itself.
+     *
+     * @param comment The {@link Comment} object to be removed.
+     * @return true if the comment was found and successfully removed, false otherwise.
+     */
+    public boolean removeComment(Comment comment) {
+        return commentList.remove(comment);
+    }
+
+    /**
+     * Retrieves a comment from the list by its index.
+     *
+     * @param index The index of the comment in the list.
+     * @return The {@link Comment} at the specified index in the list.
+     * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size()).
+     */
+    public Comment getComment(int index) {
+        return commentList.get(index);
+    }
+
+    /**
+     * Returns the number of comments in the list.
+     *
+     * @return The size of the comment list.
+     */
+    public int getCommentCount() {
+        return commentList.size();
     }
 }

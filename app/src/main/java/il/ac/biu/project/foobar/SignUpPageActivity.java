@@ -206,7 +206,7 @@ public class SignUpPageActivity extends AppCompatActivity {
                     userDetails.setPassword(password);
                     userDetails.setDisplayName(displayName);
                     userDetails.setImg(img);
-                    Intent intent = new Intent(SignUpPageActivity.this, FeedActivity.class);
+                    Intent intent = new Intent(SignUpPageActivity.this, FeedActivityMain.class);
                     startActivity(intent);
                 } else {
                     // If not valid, display a toast with an error message
@@ -234,7 +234,7 @@ public class SignUpPageActivity extends AppCompatActivity {
     // if the user has signed in go to feed
     private void protectSignUpPage() {
         if (userDetails.getSignIn()) {
-            Intent intent = new Intent(SignUpPageActivity.this, FeedActivity.class);
+            Intent intent = new Intent(SignUpPageActivity.this, FeedActivityMain.class);
             startActivity(intent);
             finish();
         }
@@ -250,6 +250,7 @@ public class SignUpPageActivity extends AppCompatActivity {
             ImageView showProfilePic = findViewById(R.id.profilePic);
             showProfilePic.setImageBitmap(imageTaker.getImageBitmap());
             img = imageTaker.getImageBitmap();
+            showProfilePic.setVisibility(View.VISIBLE);
         }
     }
 

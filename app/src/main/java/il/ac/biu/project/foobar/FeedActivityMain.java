@@ -7,26 +7,29 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
-import org.w3c.dom.Text;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.IOException;
 import java.util.HashMap;
 
-public class FeedActivity extends AppCompatActivity {
+public class FeedActivityMain extends AppCompatActivity {
     // Counter to keep track of posts
     int postCounter = 0;
+    ImageView profileImage;
     // Layout to contain posts
     LinearLayout layout;
     // Flag to indicate if editing a post
@@ -47,20 +50,101 @@ public class FeedActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Ensure only signed-in users can access the FeedActivity
         protectFeedPage();
 
-        setContentView(R.layout.activity_feed);
+        // Set the layout for the activity
+        setContentView(R.layout.activity_feed_main);
 
-        // Container layout for posts
+        // Initialize the container layout for posts
         layout = findViewById(R.id.container);
+        // Set up the button for adding new posts
+        setAddPostButton();
+        // Reload posts
+        reloadPosts();
+        // Show the home fragment initially
+        showHome();
 
-        try (InputStream inputStream = getResources().openRawResource(R.raw.posts)) {
-            this.loadPostsFromJson(inputStream);
-        } catch (java.io.IOException error) {
-            // In case of error loading the posts, simply don't load the posts.
+        // Initialize BottomNavigationView
+
+        BottomNavigationView navigationView = findViewById(R.id.bootomnavigationid);
+        navigationView.setItemIconTintList(null);
+        // Set listener for BottomNavigationView items
+        navigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        Fragment selectedFragment = null;
+                        int itemId = item.getItemId();
+                        // Handle navigation item clicks
+                        if (itemId == R.id.MenuID) {
+                            // Show the menu fragment
+                            findViewById(R.id.profile_bar).setVisibility(View.GONE);
+                            findViewById(R.id.scroll).setVisibility(View.GONE);
+                            selectedFragment = new MenuFragment();
+                        } else if (itemId == R.id.myhome) {
+                            // Show the home
+                            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.framelayout);
+                            if (currentFragment != null) {
+                                // Remove the currently displayed fragment
+                                getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
+                            }
+                            showHome();
+                            item.setChecked(true);
+                        }else if (itemId == R.id.FriendsId) {
+                            // Show the friends fragment
+                            findViewById(R.id.profile_bar).setVisibility(View.GONE);
+                            findViewById(R.id.scroll).setVisibility(View.GONE);
+                            selectedFragment = new FriendsFragment();
+                        }else if (itemId == R.id.VideoId) {
+                            // Show the video fragment
+                            findViewById(R.id.profile_bar).setVisibility(View.GONE);
+                            findViewById(R.id.scroll).setVisibility(View.GONE);
+                            selectedFragment = new VideoFragment();
+                        }else if (itemId == R.id.NotificationsId) {
+                            findViewById(R.id.profile_bar).setVisibility(View.GONE);
+                            findViewById(R.id.scroll).setVisibility(View.GONE);
+                            selectedFragment = new NotificationFragment();
+                        }
+
+                        // Replace the fragment in the frame layout with the selected fragment
+
+                        if (selectedFragment != null) {
+                            getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.framelayout, selectedFragment)
+                                    .commit();
+                            return true;
+                        }
+                        return false;
+                    }
+
+                });
+        // Set user profile picture
+        profileImage = findViewById(R.id.profile_image);
+
+        // Set user profile picture
+        Bitmap userProfilePicture = UserDetails.getInstance().getImg();
+        if (userProfilePicture != null) {
+            profileImage.setImageBitmap(userProfilePicture);
         }
 
-        setAddPostButton();
+        // Load posts from JSON file
+        if (postManager.getAllPosts().isEmpty()) {
+            try (InputStream inputStream = getResources().openRawResource(R.raw.posts)) {
+                this.loadPostsFromJson(inputStream);
+            } catch (IOException error) {
+
+            }
+        }
+    }
+    // Method to show the home
+    public void showHome(){
+        findViewById(R.id.profile_bar).setVisibility(View.VISIBLE);
+        findViewById(R.id.scroll).setVisibility(View.VISIBLE);
+        // Check the "Home" button in the bottom navigation view
+        BottomNavigationView navigationView = findViewById(R.id.bootomnavigationid);
+        navigationView.getMenu().findItem(R.id.myhome).setChecked(true);
 
     }
 
@@ -69,18 +153,20 @@ public class FeedActivity extends AppCompatActivity {
      * and CreatePostActivity is started for creating a new post.
      */
     private void setAddPostButton() {
-        Button addPostButton = findViewById(R.id.addPost);
+        TextView addPostButton = findViewById(R.id.whats_on_your_mind_textview);
         addPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Increment post counter
                 postCounter++;
                 // Create post details
-                PostDetails postDetails = new PostDetails(postCounter, null,null,  null, "User input", null, 0);
+                PostDetails postDetails = new PostDetails(postCounter, userDetails.getUsername(),
+                    null, null, null, null, 0);
                 // Add post to PostManager
                 postManager.putPost(postCounter, postDetails);
+
                 // Start CreatePostActivity to create a new post
-                Intent intent = new Intent(FeedActivity.this, CreatePostActivity.class);
+                Intent intent = new Intent(FeedActivityMain.this, CreatePostActivity.class);
                 intent.putExtra("postID", postCounter);
                 startActivityForResult(intent, CREATE_POST_REQUEST);
             }
@@ -93,7 +179,7 @@ public class FeedActivity extends AppCompatActivity {
      */
     private void protectFeedPage() {
         if (!userDetails.getSignIn()) {
-            Intent intent = new Intent(FeedActivity.this, MainActivity.class);
+            Intent intent = new Intent(FeedActivityMain.this, MainActivity.class);
             startActivity(intent);
             finish();
         }
@@ -110,7 +196,7 @@ public class FeedActivity extends AppCompatActivity {
         // Initialize post view
         postInitializer(postDetails, view);
         // Add post view to layout
-        layout.addView(view);
+        layout.addView(view,0);
     }
 
     /**
@@ -158,6 +244,7 @@ public class FeedActivity extends AppCompatActivity {
                 editOrDeleteButton(postViewMap.get(postCounter), postDetails);
             }
         });
+
         if(!postDetails.getUsername().equals(userDetails.getUsername())) {
             postOptionsButton.setVisibility(View.INVISIBLE);
         }
@@ -187,17 +274,20 @@ public class FeedActivity extends AppCompatActivity {
         });
 
         //comment section
-        LinearLayout commentCountLayout = view.findViewById(R.id.comment_count_layout);
+        TextView commentCountLayout = view.findViewById(R.id.comment_count);
         if (postDetails.getCommentCount() > 0) {
             commentCountLayout.setVisibility(View.VISIBLE);
+            commentCountLayout.setText(postDetails.getCommentCount() + " Comments");
+        } else {
+            commentCountLayout.setVisibility(View.INVISIBLE);
         }
-        // Set click listener for comment section
 
+        // Set click listener for comment section
         LinearLayout commentLayout = view.findViewById(R.id.comment_layout);
         commentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentCommentActivity = new Intent(FeedActivity.this, CommentActivity.class);
+                Intent intentCommentActivity = new Intent(FeedActivityMain.this, CommentActivity.class);
                 intentCommentActivity.putExtra("postID", postDetails.getId());
                 startActivityForResult(intentCommentActivity, COMMENT_PAGE_REQUEST);
             }
@@ -209,7 +299,7 @@ public class FeedActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Start ShareActivity for sharing the post
-                Intent intentShareActivity = new Intent(FeedActivity.this, ShareActivity.class);
+                Intent intentShareActivity = new Intent(FeedActivityMain.this, ShareActivity.class);
                 startActivityForResult(intentShareActivity, SHARE_PAGE_REQUEST);
             }
         });
@@ -240,6 +330,7 @@ public class FeedActivity extends AppCompatActivity {
                 }
             }
         }
+
         if (requestCode == SHARE_PAGE_REQUEST) {
             if (resultCode == RESULT_OK) {
                 // Handle successful share activity completion
@@ -247,6 +338,7 @@ public class FeedActivity extends AppCompatActivity {
                 // Handle unsuccessful share activity completion
             }
         }
+
         if (requestCode == COMMENT_PAGE_REQUEST) {
             int modifiedPostId = data.getIntExtra("commentPostId", 0);
             if (postManager.getPost(modifiedPostId) != null) {
@@ -264,7 +356,6 @@ public class FeedActivity extends AppCompatActivity {
         }
     }
 
-
     /**
      * Displays an AlertDialog with options to edit or delete a post. Based on the user's choice,
      * it either starts CreatePostActivity for editing the post or removes the post from the layout
@@ -281,7 +372,7 @@ public class FeedActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 editingPost = true;
-                Intent intent = new Intent(FeedActivity.this, CreatePostActivity.class);
+                Intent intent = new Intent(FeedActivityMain.this, CreatePostActivity.class);
                 intent.putExtra("postID", postDetails.getId());
                 startActivityForResult(intent, CREATE_POST_REQUEST);
             }
@@ -319,7 +410,7 @@ public class FeedActivity extends AppCompatActivity {
             postDetails.removeLike(userName);
             numOfLikes--;
             likeIcon.setImageResource(R.drawable.like_icon_not_pressed);
-            likeText.setTextColor(Color.BLACK);
+            likeText.setTextColor(Color.GRAY);
             if (numOfLikes == 0) {
                 numOfLikeView.setVisibility(View.INVISIBLE);
             }
@@ -332,6 +423,24 @@ public class FeedActivity extends AppCompatActivity {
             likeText.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.blue_like));
         }
         numOfLikeView.setText(numOfLikes + " likes");
+    }
+    private void reloadPosts() {
+        // Clear existing posts from the layout
+        layout.removeAllViews();
+
+        // Iterate through the entries in the postManager
+        for (PostDetails postDetails : postManager.getAllPosts()) {
+            // Add the post to the layout
+            addPost(postDetails);
+        }
+    }
+    //If savedInstanceState is not null, it means that the activity is being recreated due to a configuration change (such as a theme change in your case)
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Save the current selected item of the bottom navigation view
+        BottomNavigationView navigationView = findViewById(R.id.bootomnavigationid);
+        outState.putInt("selectedItemId", navigationView.getSelectedItemId());
     }
 
     private void loadPostsFromJson(InputStream jsonStream) {
@@ -407,13 +516,13 @@ public class FeedActivity extends AppCompatActivity {
         // Add posts to feed
         for (PostDetails postDetails : parsedPosts) {
             postManager.putPost(postDetails.getId(), postDetails);
-            this.addPost(postDetails);
         }
+
+        this.reloadPosts();
     }
-  
+
     @Override
     public void onBackPressed() {
-        Toast.makeText(FeedActivity.this,
-                "Logout first", Toast.LENGTH_SHORT).show();
+        Toast.makeText(FeedActivityMain.this, "Logout first", Toast.LENGTH_SHORT).show();
     }
 }

@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Foobar-BIU-mobile"
+rootProject.name = "FooBar"
 include(":app")

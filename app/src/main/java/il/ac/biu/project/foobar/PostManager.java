@@ -1,6 +1,10 @@
 package il.ac.biu.project.foobar;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * A singleton which manages the posts by ID.
@@ -58,12 +62,14 @@ public class PostManager {
     }
 
     /**
-     * Retrieves a copy of all posts currently stored in the postMap. This method ensures that the caller receives a copy of the postMap, preventing direct modification of the original map.
+     * Retrieves a list of all posts currently stored in the postMap, sorted by publishing time (oldest first).
      *
-     * @return A new HashMap containing all the PostDetails objects stored in the postMap.
+     * @return A list containing all the PostDetails objects stored in the postMap.
      */
-    public HashMap<Integer, PostDetails> getAllPosts() {
-        return new HashMap<>(postMap); // Return a copy to prevent modification outside
+    public List<PostDetails> getAllPosts() {
+        LinkedList<PostDetails> postsList = new LinkedList<PostDetails>(postMap.values());
+        postsList.sort(Comparator.comparingLong(PostDetails::getTime));
+        return postsList;
     }
 
     /**

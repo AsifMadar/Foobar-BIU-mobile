@@ -119,7 +119,7 @@ public class CommentActivity extends AppCompatActivity {
         if (comment.isLiked(username)) {
             likeButton.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.blue_like));
         } else {
-            likeButton.setTextColor(Color.BLACK);
+            likeButton.setTextColor(Color.GRAY);
         }
         likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,7 +129,7 @@ public class CommentActivity extends AppCompatActivity {
                     likeButton.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.blue_like));
                     comment.addLike(username);
                 } else {
-                    likeButton.setTextColor(Color.BLACK);
+                    likeButton.setTextColor(Color.GRAY);
                     comment.removeLike(username);
                 }
                 setLikesCount(comment, commentView);

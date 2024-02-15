@@ -2,6 +2,41 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.FoobarBIUmobile" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+
     </style>
+
+    <style name="SCREEN">
+        <item name="android:background">#232323</item></style>
+    <style name="TEXT">
+        <item name="android:textColor">#FFFFFF</item></style>
+    <style name="BUTTON">
+        <item name="android:background">#212122</item>
+        <item name="android:textColor">#BBBDC5</item>
+    </style>
+    <style name="Toolbar">
+        <item name="android:background">#373842</item>
+        <!-- Customize other toolbar attributes for dark mode -->
+    </style>
+    <style name="addphotobtn">
+        <item name="android:backgroundTint">#5D6BBA</item>
+        <!-- Customize other toolbar attributes for dark mode -->
+    </style>
+    <style name="Signupbtn">
+        <item name="android:backgroundTint">#475395</item>
+        <!-- Customize other toolbar attributes for dark mode -->
+    </style>
+    <style name="signinbtn">
+        <item name="android:backgroundTint">#354551</item>
+        <!-- Customize other toolbar attributes for dark mode -->
+    </style>
+    <style name="border">
+        <item name="android:background">#292929</item>
+        <!-- Customize other toolbar attributes for dark mode -->
+    </style>
+    <style name="userbar">
+        <item name="android:background">#353637</item>
+        <!-- Customize other toolbar attributes for dark mode -->
+    </style>
+
+
 </resources>

@@ -31,10 +31,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    // Automatically navigate to FeedActivity if user is already signed in.
+    // Automatically navigate to FeedActivityMain if user is already signed in.
     private void protectSignInPage() {
         if (userDetails.getSignIn()) {
-            Intent intent = new Intent(MainActivity.this, FeedActivity.class);
+            Intent intent = new Intent(MainActivity.this, FeedActivityMain.class);
             startActivity(intent);
             finish();
         }
@@ -74,8 +74,8 @@ public class MainActivity extends AppCompatActivity {
                 // Validate username and password with stored credentials.
                 if (checkValidSignIn()) {
                     userDetails.setSignIn(true); // Update sign-in status.
-                    // Navigate to FeedActivity upon successful authentication.
-                    Intent intent = new Intent(MainActivity.this, FeedActivity.class);
+                    // Navigate to FeedActivityMain upon successful authentication.
+                    Intent intent = new Intent(MainActivity.this, FeedActivityMain.class);
                     startActivity(intent);
                 } else {
                     // Show error message for invalid credentials.

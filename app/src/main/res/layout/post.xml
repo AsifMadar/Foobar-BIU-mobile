@@ -1,24 +1,42 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="5dp"
+    style="@style/SCREEN"
+    android:background="@drawable/commentandpost_bsckground"
+    android:layout_marginBottom="15dp">
 
 
     <!-- User Information -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/profile_info"
         android:orientation="horizontal"
+        style="@style/userbar"
         android:gravity="center_vertical">
 
-        <ImageView
-            android:id="@+id/profile_picture"
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/profile_imagecard"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/winton"
-            android:contentDescription="@string/author_profile_picture_content_description"/>
+            app:cardCornerRadius="50dp"
+            >
+            <ImageView
+                android:id="@+id/profile_picture"
+                android:layout_width="48dp"
+                android:background="@drawable/rounded_shape"
+                android:padding="2dp"
+                android:scaleType="centerCrop"
+                android:layout_height="48dp"
+                android:src="@drawable/winton"
+                android:contentDescription="@string/author_profile_picture_content_description"/>
+
+        </androidx.cardview.widget.CardView>
+
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -26,12 +44,13 @@
             android:orientation="vertical"
             android:layout_marginStart="8dp">
 
+
             <TextView
                 android:id="@+id/user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                android:text="@string/user_name_hint" />
+                android:text="user name" />
 
             <TextView
                 android:id="@+id/upload_time"
@@ -42,9 +61,12 @@
         </LinearLayout>
 
         <View
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+
+            />
 
         <ImageView
             android:id="@+id/ellipsis_icon"
@@ -57,27 +79,43 @@
             android:contentDescription="@string/ellipsis_info"
             android:layout_gravity="center_vertical" />
 
+
     </LinearLayout>
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        style="@style/border"
+        android:layout_marginStart="-2dp"/>
 
     <!-- Post Text -->
     <TextView
+        style="@style/BUTTON"
         android:id="@+id/post_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:padding="4dp"
+        android:layout_marginBottom="4dp"
         android:textSize="15sp"
         android:text="@string/post_text"
     />
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="#D3DBDF"
+        style="@style/border"
+        android:layout_marginStart="-2dp"/>
 
     <!-- Post Image -->
     <ImageView
         android:id="@+id/post_image"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="300dp"
         android:src="@drawable/add_picture"
         android:scaleType="fitCenter"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_marginTop="8dp" />
 
 

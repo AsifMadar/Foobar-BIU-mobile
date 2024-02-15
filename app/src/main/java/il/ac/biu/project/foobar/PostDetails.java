@@ -15,6 +15,10 @@ public class PostDetails {
     private int id;
     // Display name of the post author
     private String authorDisplayName;
+
+    // Username of the post author
+    private String username;
+
     // Profile picture of the post author
     private Bitmap authorProfilePicture;
     // User input or content of the post
@@ -36,7 +40,8 @@ public class PostDetails {
      * @param picture Picture attached to the post.
      * @param time Time when the post was created.
      */
-    public PostDetails(int id, String authorDisplayName, Bitmap authorProfilePicture, String userInput, Bitmap picture, long time) {
+    public PostDetails(int id,String username, String authorDisplayName, Bitmap authorProfilePicture, String userInput, Bitmap picture, long time) {
+        this.setUsername(username);
         this.id = id;
         this.authorDisplayName = authorDisplayName;
         this.authorProfilePicture = authorProfilePicture;
@@ -178,5 +183,22 @@ public class PostDetails {
      */
     public int getCommentCount() {
         return commentList.size();
+    }
+    /**
+     * Retrieves the username of the user.
+     *
+     * @return A String representing the user's username.
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * Sets or updates the username of the user.
+     *
+     * @param username The new username to be set for the user. This is a String value.
+     */
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

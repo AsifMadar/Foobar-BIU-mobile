@@ -81,7 +81,7 @@ public class FeedActivity extends AppCompatActivity {
                 // Increment post counter
                 postCounter++;
                 // Create post details
-                PostDetails postDetails = new PostDetails(postCounter, null, null, "User input", null, 0);
+                PostDetails postDetails = new PostDetails(postCounter, null,null,  null, "User input", null, 0);
                 // Add post to PostManager
                 postManager.putPost(postCounter, postDetails);
                 // Start CreatePostActivity to create a new post
@@ -163,6 +163,9 @@ public class FeedActivity extends AppCompatActivity {
                 editOrDeleteButton(postViewMap.get(postCounter), postDetails);
             }
         });
+        if(!postDetails.getUsername().equals(userDetails.getUsername())) {
+            postOptionsButton.setVisibility(View.INVISIBLE);
+        }
 
         // Initialize likes count
         LinearLayout likeLayout = view.findViewById(R.id.like_layout);
@@ -368,7 +371,7 @@ public class FeedActivity extends AppCompatActivity {
             }
 
             // Create the `PostDetails` instance
-            PostDetails parsedPost = new PostDetails(this.postCounter++,
+            PostDetails parsedPost = new PostDetails(this.postCounter++, post.author.username,
                 post.author.displayName, authorProfilePicture, post.contents, postImage,
                 post.timestamp);
 
@@ -383,6 +386,7 @@ public class FeedActivity extends AppCompatActivity {
 
         // Add posts to feed
         for (PostDetails postDetails : parsedPosts) {
+            postManager.putPost(postDetails.getId(), postDetails);
             this.addPost(postDetails);
         }
     }

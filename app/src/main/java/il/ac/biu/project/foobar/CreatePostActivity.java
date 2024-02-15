@@ -81,6 +81,7 @@ public class CreatePostActivity extends AppCompatActivity {
     private void publishPost(UserDetails user) {
         EditText postContent = findViewById(R.id.user_input_create_post);
         postDetails.setUserInput(postContent.getText().toString());
+        postDetails.setUsername(user.getUsername());
         postDetails.setAuthorDisplayName(user.getDisplayName());
         postDetails.setAuthorProfilePicture(user.getImg());
         postDetails.setTime(getTimestamp());

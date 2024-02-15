@@ -120,10 +120,12 @@ public class FeedActivityMain extends AppCompatActivity {
         }
 
         // Load posts from JSON file
-        try (InputStream inputStream = getResources().openRawResource(R.raw.posts)) {
-            this.loadPostsFromJson(inputStream);
-        } catch (java.io.IOException error) {
-            // In case of error loading the posts, simply don't load the posts.
+        if (postManager.getAllPosts().isEmpty()) {
+            try (InputStream inputStream = getResources().openRawResource(R.raw.posts)) {
+                this.loadPostsFromJson(inputStream);
+            } catch (IOException error) {
+
+            }
         }
     }
 
@@ -398,7 +400,7 @@ public class FeedActivityMain extends AppCompatActivity {
             postDetails.removeLike(userName);
             numOfLikes--;
             likeIcon.setImageResource(R.drawable.like_icon_not_pressed);
-            likeText.setTextColor(Color.BLACK);
+            likeText.setTextColor(Color.GRAY);
             if (numOfLikes == 0) {
                 numOfLikeView.setVisibility(View.INVISIBLE);
             }

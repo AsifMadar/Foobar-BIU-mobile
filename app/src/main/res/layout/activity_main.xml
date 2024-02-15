@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/enter_username"
         android:textColorHint="#636262"
-        android:textColor="#000000"
+        style="@style/TEXT"
         android:padding="16dp"
         />
 
@@ -44,6 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/password"
+        style="@style/TEXT"
         android:textSize="18sp"
         android:textColor="#000000"
 

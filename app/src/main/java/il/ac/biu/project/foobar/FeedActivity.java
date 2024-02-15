@@ -13,16 +13,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import android.widget.Toast;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import com.google.gson.Gson;
-
 import org.w3c.dom.Text;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -390,7 +385,7 @@ public class FeedActivity extends AppCompatActivity {
             this.addPost(postDetails);
         }
     }
-
+  
     @Override
     public void onBackPressed() {
         Toast.makeText(FeedActivity.this,

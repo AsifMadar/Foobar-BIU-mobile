@@ -33,7 +33,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="8dp"
                     android:layout_toEndOf="@id/profile_picture_create_post"
-                    android:text="@string/user_name_hint"
+                    android:text="user name"
                     android:textSize="18sp" />
 
                 <TextView

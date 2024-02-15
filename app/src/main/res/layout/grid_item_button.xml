@@ -1,0 +1,16 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="8dp"> <!-- Add padding to create space between buttons -->
+
+    <Button
+        android:id="@+id/grid_button"
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:focusable="true"
+        android:clickable="true"/>
+</LinearLayout>

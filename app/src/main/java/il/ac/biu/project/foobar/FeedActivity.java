@@ -375,6 +375,31 @@ public class FeedActivity extends AppCompatActivity {
                 parsedPost.addLike(user.username);
             }
 
+            // Get comments for the post
+            for (PostJsonDetails.CommentJsonDetails comment : post.comments) {
+                // Get profile picture
+                Bitmap commentAuthorProfilePicture = null;
+                try (@SuppressLint("DiscouragedApi") InputStream profilePictureStream =
+                     getResources().openRawResource(getResources().getIdentifier(
+                         comment.author.profileImage, "raw", getPackageName()))) {
+                    commentAuthorProfilePicture = BitmapFactory.decodeStream(profilePictureStream);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                // Create the `Comment` instance
+                Comment parsedComment = new Comment(comment.author.displayName,
+                    commentAuthorProfilePicture, comment.contents, comment.timestamp);
+
+                // Create likes list
+                for (PostJsonDetails.UserJsonDetails user : comment.likes) {
+                    parsedComment.addLike(user.username);
+                }
+
+                // Save parsed comment
+                parsedPost.addComment(parsedComment);
+            }
+
             // Save parsed post
             parsedPosts[i] = parsedPost;
         }

@@ -1,16 +1,39 @@
 package il.ac.biu.project.foobar;
 
 import android.graphics.Bitmap;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 public class Comment {
     private String text;
-    private String authorName;
-    private String time;
-    private Bitmap authorPicture;
+    private String authorDisplayName;
+    private long time;
+    private Bitmap authorProfilePicture;
     private List<String> likeList = new ArrayList<>();
     private List<Comment> commentList = new ArrayList<>();
+
+    /**
+     * Default constructor; Make sure to set all the fields manually if you use this constructor
+     */
+    public Comment() {}
+
+    /**
+     * Constructor to initialize comment details.
+     * @param authorDisplayName Display name of the comment author.
+     * @param authorProfilePicture Profile picture of the comment author.
+     * @param text Comment's contents.
+     * @param time Comment's creation time (in ms since UNIX epoch)
+     */
+    public Comment(String authorDisplayName, Bitmap authorProfilePicture, String text, long time) {
+        this.authorDisplayName = authorDisplayName;
+        this.authorProfilePicture = authorProfilePicture;
+        this.text = text;
+        this.time = time;
+    }
 
     /**
      * Gets the text of the comment.
@@ -32,31 +55,43 @@ public class Comment {
      * Gets the name of the author of the comment.
      * @return The author's name.
      */
-    public String getAuthorName() {
-        return authorName;
+    public String getAuthorDisplayName() {
+        return authorDisplayName;
     }
 
     /**
      * Sets the name of the author of the comment.
-     * @param authorName The name of the author.
+     * @param authorDisplayName The name of the author.
      */
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
+    public void setAuthorDisplayName(String authorDisplayName) {
+        this.authorDisplayName = authorDisplayName;
     }
 
     /**
      * Gets the time the comment was posted.
      * @return The post time of the comment.
      */
-    public String getTime() {
+    public long getTime() {
         return time;
+    }
+
+    /***
+     * Gets a string representing the time the comment was posted.
+     * @return The string representing the time the comment was posted.
+     */
+    public String getTimeStr() {
+        LocalDateTime dateTime = LocalDateTime.ofInstant(Instant
+                .ofEpochMilli(time), TimeZone.getDefault().toZoneId());
+
+        return "" + dateTime.getDayOfMonth() + '/' + dateTime.getMonthValue() + ' ' +
+                dateTime.getHour() + ':' + String.format("%02d", dateTime.getMinute());
     }
 
     /**
      * Sets the time the comment was posted.
      * @param time The post time to set.
      */
-    public void setTime(String time) {
+    public void setTime(long time) {
         this.time = time;
     }
 
@@ -64,16 +99,16 @@ public class Comment {
      * Gets the picture of the author of the comment.
      * @return The Bitmap of the author's picture.
      */
-    public Bitmap getAuthorPicture() {
-        return authorPicture;
+    public Bitmap getAuthorProfilePicture() {
+        return authorProfilePicture;
     }
 
     /**
      * Sets the picture of the author of the comment.
-     * @param authorPicture The Bitmap of the author's picture to set.
+     * @param authorProfilePicture The Bitmap of the author's picture to set.
      */
-    public void setAuthorPicture(Bitmap authorPicture) {
-        this.authorPicture = authorPicture;
+    public void setAuthorProfilePicture(Bitmap authorProfilePicture) {
+        this.authorProfilePicture = authorProfilePicture;
     }
 
     /**

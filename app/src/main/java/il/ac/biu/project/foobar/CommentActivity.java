@@ -72,22 +72,12 @@ public class CommentActivity extends AppCompatActivity {
      */
     private void publishComment(String commentText, View view) {
         Comment comment = new Comment();
-        comment.setTime(getTimeAndDate());
-        comment.setAuthorName(userDetails.getDisplayName());
-        comment.setAuthorPicture(userDetails.getImg());
+        comment.setTime(System.currentTimeMillis());
+        comment.setAuthorDisplayName(userDetails.getDisplayName());
+        comment.setAuthorProfilePicture(userDetails.getImg());
         comment.setText(commentText);
         postDetails.addComment(comment);
         renderComment(postDetails.getCommentCount() - 1, view);
-    }
-
-    /**
-     * Generates a formatted string representing the current date and time.
-     * @return A string representing the date and time.
-     */
-    private String getTimeAndDate() {
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE HH:mm");
-        return now.format(formatter);
     }
 
     /**
@@ -109,14 +99,14 @@ public class CommentActivity extends AppCompatActivity {
     private void renderComment(int i, View commentView) {
         Comment comment = postDetails.getComment(i);
         //sets profile picture
-        if (comment.getAuthorPicture() != null) {
+        if (comment.getAuthorProfilePicture() != null) {
             ImageView commentProfilePic = commentView.findViewById(R.id.profile_picture_comment);
-            commentProfilePic.setImageBitmap(comment.getAuthorPicture());
+            commentProfilePic.setImageBitmap(comment.getAuthorProfilePicture());
         }
 
         //sets comment author
         TextView authorName = commentView.findViewById(R.id.user_name_comment);
-        authorName.setText(comment.getAuthorName());
+        authorName.setText(comment.getAuthorDisplayName());
 
         //sets comment text
         EditText commentText = commentView.findViewById(R.id.comment_text_body);
@@ -149,7 +139,7 @@ public class CommentActivity extends AppCompatActivity {
         setLikesCount(comment, commentView);
         //sets time
         TextView uploadTimeComment = commentView.findViewById(R.id.upload_time_comment);
-        uploadTimeComment.setText(comment.getTime());
+        uploadTimeComment.setText(comment.getTimeStr());
         //sets options for the comment
         ImageView commentOptionsButton = commentView.findViewById(R.id.ellipsis_icon_comment);
         commentOptionsButton.setOnClickListener(new View.OnClickListener() {

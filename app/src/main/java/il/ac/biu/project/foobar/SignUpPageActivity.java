@@ -194,13 +194,13 @@ public class SignUpPageActivity extends AppCompatActivity {
         // Find the "Feed Activity" button in the layout
         Button feedActivityButton = findViewById(R.id.feedActivity);
 
-        // Set a click listener for the button
+
         feedActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Check if all input fields are valid
                 if (isAllValid()) {
-                    // If valid, update UserDetails and start FeedActivity
+                    // If valid, update UserDetails and start FeedActivityMain
                     userDetails.setSignIn(true);
                     userDetails.setUsername(username);
                     userDetails.setPassword(password);
@@ -250,6 +250,7 @@ public class SignUpPageActivity extends AppCompatActivity {
             ImageView showProfilePic = findViewById(R.id.profilePic);
             showProfilePic.setImageBitmap(imageTaker.getImageBitmap());
             img = imageTaker.getImageBitmap();
+            showProfilePic.setVisibility(View.VISIBLE);
         }
     }
 

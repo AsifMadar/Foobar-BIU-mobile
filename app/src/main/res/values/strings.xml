@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">Foobar-BIU-mobile</string>
+    <string name="app_name">FooBar</string>
     <string name="close">Close Navigation</string>
     <string name="comment">Comment</string>
     <string name="display_name_hint">2–16 alphanumeric characters</string>
     <string name="display_name">Display Name</string>
     <string name="enter_password">Enter your Password</string>
     <string name="enter_username">Enter your Username</string>
-    <string name="facebook">FooBar</string>
+    <string name="foobar">FooBar</string>
     <string name="friends">Friends</string>
     <string name="add_photo_content_description">Adding a photo to the post</string>
     <string name="author_profile_picture_content_description">Author profile picture</string>

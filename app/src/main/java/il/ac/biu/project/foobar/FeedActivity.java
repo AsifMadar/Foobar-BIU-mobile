@@ -66,8 +66,6 @@ public class FeedActivity extends AppCompatActivity {
                 PostDetails postDetails = new PostDetails(postCounter, null, null, "User input", null, "time");
                 // Add post to PostManager
                 postManager.putPost(postCounter, postDetails);
-                postDetails.setId(postCounter);
-
                 // Start CreatePostActivity to create a new post
                 Intent intent = new Intent(FeedActivity.this, CreatePostActivity.class);
                 intent.putExtra("postID", postCounter);

@@ -66,4 +66,14 @@ public class PostManager {
         return new HashMap<>(postMap); // Return a copy to prevent modification outside
     }
 
+    /**
+     * Checks if a post with the specified ID exists in the postMap.
+     *
+     * @param id The unique identifier of the post to check.
+     * @return true if the post exists, false otherwise.
+     */
+    public boolean containsPost(int id) {
+        return postMap.containsKey(id);
+    }
+
 }

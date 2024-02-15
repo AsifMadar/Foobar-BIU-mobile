@@ -15,6 +15,10 @@ public class PostDetails {
     private int id;
     // Display name of the post author
     private String authorDisplayName;
+
+    // Username of the post author
+    private String username;
+
     // Profile picture of the post author
     private Bitmap authorProfilePicture;
     // User input or content of the post
@@ -25,6 +29,7 @@ public class PostDetails {
     private long time;
     // List of users who liked the post
     private List<String> likeList = new LinkedList<>();
+    private List<Comment> commentList = new LinkedList<>();
 
     /**
      * Constructor to initialize post details.
@@ -35,7 +40,8 @@ public class PostDetails {
      * @param picture Picture attached to the post.
      * @param time Time when the post was created.
      */
-    public PostDetails(int id, String authorDisplayName, Bitmap authorProfilePicture, String userInput, Bitmap picture, long time) {
+    public PostDetails(int id,String username, String authorDisplayName, Bitmap authorProfilePicture, String userInput, Bitmap picture, long time) {
+        this.setUsername(username);
         this.id = id;
         this.authorDisplayName = authorDisplayName;
         this.authorProfilePicture = authorProfilePicture;
@@ -137,5 +143,62 @@ public class PostDetails {
      */
     public boolean isLiked(String user) {
         return likeList.contains(user);
+    }
+
+
+    /**
+     * Adds a comment to the list.
+     *
+     * @param comment The {@link Comment} object to be added to the list.
+     */
+    public void addComment(Comment comment) {
+        commentList.add(comment);
+    }
+
+    /**
+     * Removes a specified comment from the list by comparing the comment object itself.
+     *
+     * @param comment The {@link Comment} object to be removed.
+     * @return true if the comment was found and successfully removed, false otherwise.
+     */
+    public boolean removeComment(Comment comment) {
+        return commentList.remove(comment);
+    }
+
+    /**
+     * Retrieves a comment from the list by its index.
+     *
+     * @param index The index of the comment in the list.
+     * @return The {@link Comment} at the specified index in the list.
+     * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size()).
+     */
+    public Comment getComment(int index) {
+        return commentList.get(index);
+    }
+
+    /**
+     * Returns the number of comments in the list.
+     *
+     * @return The size of the comment list.
+     */
+    public int getCommentCount() {
+        return commentList.size();
+    }
+    /**
+     * Retrieves the username of the user.
+     *
+     * @return A String representing the user's username.
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * Sets or updates the username of the user.
+     *
+     * @param username The new username to be set for the user. This is a String value.
+     */
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

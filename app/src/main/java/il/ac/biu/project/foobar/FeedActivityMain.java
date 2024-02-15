@@ -262,9 +262,12 @@ public class FeedActivityMain extends AppCompatActivity {
         });
 
         //comment section
-        LinearLayout commentCountLayout = view.findViewById(R.id.comment_count_layout);
+        TextView commentCountLayout = view.findViewById(R.id.comment_count);
         if (postDetails.getCommentCount() > 0) {
             commentCountLayout.setVisibility(View.VISIBLE);
+            commentCountLayout.setText(postDetails.getCommentCount() + " Comments");
+        } else {
+            commentCountLayout.setVisibility(View.INVISIBLE);
         }
 
         // Set click listener for comment section

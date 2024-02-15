@@ -413,10 +413,8 @@ public class FeedActivityMain extends AppCompatActivity {
         // Clear existing posts from the layout
         layout.removeAllViews();
 
-        // Iterate through the entries in the postManager HashMap
-        for (HashMap.Entry<Integer, PostDetails> entry : postManager.getAllPosts().entrySet()) {
-            // Extract the post details
-            PostDetails postDetails = entry.getValue();
+        // Iterate through the entries in the postManager
+        for (PostDetails postDetails : postManager.getAllPosts()) {
             // Add the post to the layout
             addPost(postDetails);
         }
@@ -503,8 +501,9 @@ public class FeedActivityMain extends AppCompatActivity {
         // Add posts to feed
         for (PostDetails postDetails : parsedPosts) {
             postManager.putPost(postDetails.getId(), postDetails);
-            this.addPost(postDetails);
         }
+
+        this.reloadPosts();
     }
 
     @Override

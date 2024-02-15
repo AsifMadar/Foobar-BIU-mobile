@@ -5,26 +5,20 @@ import static android.app.Activity.RESULT_OK;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import java.util.HashMap;
-import java.util.Objects;
 
 public class HomeFragment extends Fragment {
     TextView textViewadd;
@@ -76,7 +70,8 @@ public class HomeFragment extends Fragment {
                 // Increment post counter
                 postCounter++;
                 // Create post details
-                PostDetails postDetails = new PostDetails(postCounter, "Author", null, "User input", null, "time");
+                PostDetails postDetails = new PostDetails(postCounter, userDetails.getUsername(),
+                    "Author", null, "User input", null, 0);
                 // Add post to PostManager
                 postManager.putPost(postCounter, postDetails);
 
@@ -116,7 +111,7 @@ public class HomeFragment extends Fragment {
 
         // Set time
         TextView time = view.findViewById(R.id.upload_time);
-        time.setText(postDetails.getTime());
+        time.setText(postDetails.getTimeStr());
 
         // Set post image if available
         ImageView postImage = view.findViewById(R.id.post_image);

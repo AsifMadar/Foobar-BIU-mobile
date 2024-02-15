@@ -3,6 +3,9 @@ package il.ac.biu.project.foobar;
 import android.graphics.Bitmap;
 import java.util.LinkedList;
 import java.util.List;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.TimeZone;
 
 /**
  * Represents the details of a post.
@@ -19,9 +22,10 @@ public class PostDetails {
     // Picture attached to the post
     private Bitmap picture;
     // Time when the post was created
-    private String time;
+    private long time;
     // List of users who liked the post
     private List<String> likeList = new LinkedList<>();
+    private List<Comment> commentList = new LinkedList<>();
 
     /**
      * Constructor to initialize post details.
@@ -32,7 +36,7 @@ public class PostDetails {
      * @param picture Picture attached to the post.
      * @param time Time when the post was created.
      */
-    public PostDetails(int id, String authorDisplayName, Bitmap authorProfilePicture, String userInput, Bitmap picture, String time) {
+    public PostDetails(int id, String authorDisplayName, Bitmap authorProfilePicture, String userInput, Bitmap picture, long time) {
         this.id = id;
         this.authorDisplayName = authorDisplayName;
         this.authorProfilePicture = authorProfilePicture;
@@ -83,11 +87,20 @@ public class PostDetails {
         this.picture = picture;
     }
 
-    public String getTime() {
+    public long getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public String getTimeStr() {
+        LocalDateTime dateTime = LocalDateTime.ofInstant(Instant
+                .ofEpochMilli(time), TimeZone.getDefault().toZoneId());
+
+        return "" + dateTime.getDayOfMonth() + '/' + dateTime.getMonthValue() + '/' +
+            dateTime.getYear() + ' ' + dateTime.getHour() + ':' +
+            String.format("%02d", dateTime.getMinute());
+    }
+
+    public void setTime(long time) {
         this.time = time;
     }
 
@@ -125,5 +138,45 @@ public class PostDetails {
      */
     public boolean isLiked(String user) {
         return likeList.contains(user);
+    }
+
+
+    /**
+     * Adds a comment to the list.
+     *
+     * @param comment The {@link Comment} object to be added to the list.
+     */
+    public void addComment(Comment comment) {
+        commentList.add(comment);
+    }
+
+    /**
+     * Removes a specified comment from the list by comparing the comment object itself.
+     *
+     * @param comment The {@link Comment} object to be removed.
+     * @return true if the comment was found and successfully removed, false otherwise.
+     */
+    public boolean removeComment(Comment comment) {
+        return commentList.remove(comment);
+    }
+
+    /**
+     * Retrieves a comment from the list by its index.
+     *
+     * @param index The index of the comment in the list.
+     * @return The {@link Comment} at the specified index in the list.
+     * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size()).
+     */
+    public Comment getComment(int index) {
+        return commentList.get(index);
+    }
+
+    /**
+     * Returns the number of comments in the list.
+     *
+     * @return The size of the comment list.
+     */
+    public int getCommentCount() {
+        return commentList.size();
     }
 }

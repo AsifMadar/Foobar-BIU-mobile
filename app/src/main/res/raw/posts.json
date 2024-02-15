@@ -1,0 +1,258 @@
+[
+	{
+		"author": {
+			"displayName": "Georg C.",
+			"profileImage": "user1",
+			"username": "gcantor"
+		},
+		"comments": [
+			{
+				"author": {
+					"displayName": "Eliyah Alias",
+					"profileImage": "user2",
+					"username": "alias.el"
+				},
+				"contents": "Hi & welcome! Do you feel like meeting tomorrow?",
+				"likes": [
+					{
+						"displayName": "Georg C.",
+						"profileImage": "user1",
+						"username": "gcantor"
+					}
+				],
+				"timestamp": 1707404921000
+			},
+			{
+				"author": {
+					"displayName": "Georg C.",
+					"profileImage": "user1",
+					"username": "gcantor"
+				},
+				"contents": "@Eliyah how about monday?",
+				"likes": [],
+				"timestamp": 1707412712000
+			}
+		],
+		"contents": "hi 👋! This is my first post here 🙂.\nWhat's up?",
+		"images": [],
+		"likes": [
+			{
+				"displayName": "Avi Adar",
+				"profileImage": "user3",
+				"username": "avi.adar1"
+			},
+			{
+				"displayName": "Eliyah Alias",
+				"profileImage": "user2",
+				"username": "alias.el"
+			},
+			{
+				"displayName": "Moishe Meivin",
+				"profileImage": "user4",
+				"username": "moisheM"
+			}
+		],
+		"shares": [
+			{
+				"displayName": "Avi Adar",
+				"profileImage": "user3",
+				"username": "avi.adar1"
+			},
+			{
+				"displayName": "Moishe Meivin",
+				"profileImage": "user4",
+				"username": "moisheM"
+			}
+		],
+		"timestamp": 1707400272000
+	},
+	{
+		"author": {
+			"displayName": "Moishe Meivin",
+			"profileImage": "user4",
+			"username": "moisheM"
+		},
+		"comments": [
+			{
+				"author": {
+					"displayName": "Avi Adar",
+					"profileImage": "user3",
+					"username": "avi.adar1"
+				},
+				"contents": "Wow, must be so fun!",
+				"likes": [],
+				"timestamp": 1707510238000
+			}
+		],
+		"contents": "Enjoying the morning in Hawaii...\nWhat a great view!",
+		"images": ["hawaii"],
+		"likes": [
+			{
+				"displayName": "Eliyah Alias",
+				"profileImage": "user2",
+				"username": "alias.el"
+			},
+			{
+				"displayName": "Georg C.",
+				"profileImage": "user1",
+				"username": "gcantor"
+			}
+			
+		],
+		"shares": [
+			{
+				"displayName": "Avi Adar",
+				"profileImage": "user3",
+				"username": "avi.adar1"
+			}
+		],
+		"timestamp": 1707507788000
+	},
+	{
+		"author": {
+			"displayName": "David",
+			"profileImage": "user5",
+			"username": "davidR"
+		},
+		"comments": [],
+		"contents": "Hi all, how are you?",
+		"images": [],
+		"likes": [],
+		"shares": [],
+		"timestamp": 1707384226000
+	},
+	{
+		"author": {
+			"displayName": "John G.",
+			"profileImage": "user6",
+			"username": "geljohn"
+		},
+		"comments": [],
+		"contents": "You know, working from home can be hard sometimes",
+		"images": [],
+		"likes": [],
+		"shares": [],
+		"timestamp": 1707301332000
+	},
+	{
+		"author": {
+			"displayName": "Happy Goose",
+			"profileImage": "user7",
+			"username": "yonatan.sp"
+		},
+		"comments": [],
+		"contents": "It's the migration season! I like watching birds fly :)",
+		"images": ["migration"],
+		"likes": [],
+		"shares": [],
+		"timestamp": 1707552999000
+	},
+	{
+		"author": {
+			"displayName": "Eliyah Alias",
+			"profileImage": "user2",
+			"username": "alias.el"
+		},
+		"comments": [
+			{
+				"author": {
+					"displayName": "Moishe Meivin",
+					"profileImage": "user4",
+					"username": "moisheM"
+				},
+				"contents": "As they say \"fight fire with fire\" 😂",
+				"likes": [
+					{
+						"displayName": "Eliyah Alias",
+						"profileImage": "user2",
+						"username": "alias.el"
+					}
+				],
+				"timestamp": 1707321941000
+
+			}
+		],
+		"contents": "Did you ever notice that what we call \"fire trucks\" are really water trucks?",
+		"images": [],
+		"likes": [
+			{
+				"displayName": "Moishe Meivin",
+				"profileImage": "user4",
+				"username": "moisheM"
+			}
+		],
+		"shares": [],
+		"timestamp": 1707318750000
+	},
+	{
+		"author": {
+			"displayName": "John G.",
+			"profileImage": "user6",
+			"username": "geljohn"
+		},
+		"comments": [
+			
+			{
+				"author": {
+					"displayName": "Eliyah Alias",
+					"profileImage": "user2",
+					"username": "alias.el"
+				},
+				"contents": "It's awesome man\nYou will like it for sure",
+				"likes": [],
+				"timestamp": 1707141177000
+
+			}
+		],
+		"contents": "So, what is this new \"FooBar\" app everyone is talking about?",
+		"images": [],
+		"likes": [],
+		"shares": [],
+		"timestamp": 1707139023000
+	},
+	{
+		"author": {
+			"displayName": "David",
+			"profileImage": "user5",
+			"username": "davidR"
+		},
+		"comments": [],
+		"contents": "Just created my account, hope this new social platform will be fun.",
+		"images": [],
+		"likes": [
+			{
+				"displayName": "Eliyah Alias",
+				"profileImage": "user2",
+				"username": "alias.el"
+			}
+		],
+		"shares": [],
+		"timestamp": 1707126738000
+	},
+	{
+		"author": {
+			"displayName": "Eliyah Alias",
+			"profileImage": "user2",
+			"username": "alias.el"
+		},
+		"comments": [],
+		"contents": "So I am officially the second person on this platform?\n\nNice.",
+		"images": [],
+		"likes": [],
+		"shares": [],
+		"timestamp": 1707060222000
+	},
+	{
+		"author": {
+			"displayName": "FooBar Official",
+			"profileImage": "favicon",
+			"username": "foobar"
+		},
+		"comments": [],
+		"contents": "Welcome to FooBar everyone!",
+		"images": ["favicon"],
+		"likes": [],
+		"shares": [],
+		"timestamp": 1707026400000
+	}
+]

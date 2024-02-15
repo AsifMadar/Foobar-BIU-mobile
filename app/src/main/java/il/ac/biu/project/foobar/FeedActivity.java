@@ -1,7 +1,10 @@
 package il.ac.biu.project.foobar;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -9,11 +12,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import java.util.HashMap;
+import com.google.gson.Gson;
 
+import org.w3c.dom.Text;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.HashMap;
 
 public class FeedActivity extends AppCompatActivity {
     // Counter to keep track of posts
@@ -32,6 +44,7 @@ public class FeedActivity extends AppCompatActivity {
     // Request codes for activities
     static final int CREATE_POST_REQUEST = 1;
     static final int SHARE_PAGE_REQUEST = 2;
+    static final int COMMENT_PAGE_REQUEST = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +57,20 @@ public class FeedActivity extends AppCompatActivity {
         // Container layout for posts
         layout = findViewById(R.id.container);
 
+        try (InputStream inputStream = getResources().openRawResource(R.raw.posts)) {
+            this.loadPostsFromJson(inputStream);
+        } catch (java.io.IOException error) {
+            // In case of error loading the posts, simply don't load the posts.
+        }
+
         setAddPostButton();
 
     }
 
-    // Button to add new posts
+    /**
+     * Sets up the button for adding new posts. When clicked, a new post ID is generated,
+     * and CreatePostActivity is started for creating a new post.
+     */
     private void setAddPostButton() {
         Button addPostButton = findViewById(R.id.addPost);
         addPostButton.setOnClickListener(new View.OnClickListener() {
@@ -57,9 +79,10 @@ public class FeedActivity extends AppCompatActivity {
                 // Increment post counter
                 postCounter++;
                 // Create post details
-                PostDetails postDetails = new PostDetails(postCounter, null, null, "User input", null, "time");
+                PostDetails postDetails = new PostDetails(postCounter, null, null, "User input", null, 0);
                 // Add post to PostManager
                 postManager.putPost(postCounter, postDetails);
+                postDetails.setId(postCounter);
 
                 // Start CreatePostActivity to create a new post
                 Intent intent = new Intent(FeedActivity.this, CreatePostActivity.class);
@@ -69,7 +92,10 @@ public class FeedActivity extends AppCompatActivity {
         });
     }
 
-    // Automatically navigate to FeedActivity if user is already signed in.
+    /**
+     * Ensures that only signed-in users can access the FeedActivity. If a user is not signed in,
+     * they are redirected to the MainActivity.
+     */
     private void protectFeedPage() {
         if (!userDetails.getSignIn()) {
             Intent intent = new Intent(FeedActivity.this, MainActivity.class);
@@ -78,7 +104,11 @@ public class FeedActivity extends AppCompatActivity {
         }
     }
 
-    // Method to add post to the layout
+    /**
+     * Adds a post to the feed layout. This method inflates a post layout and initializes it
+     * with the post details.
+     * @param postDetails The details of the post to be added to the feed.
+     */
     private void addPost(PostDetails postDetails) {
         // Inflate post layout
         View view = getLayoutInflater().inflate(R.layout.post, null);
@@ -88,7 +118,13 @@ public class FeedActivity extends AppCompatActivity {
         layout.addView(view);
     }
 
-    // Method to initialize post view
+    /**
+     * Initializes a post view with the provided post details. This includes setting up
+     * the author name, post content, profile picture, and time. It also sets up listeners
+     * for post options, like, comment, and share interactions.
+     * @param postDetails The details of the post to initialize the view with.
+     * @param view The view to be initialized.
+     */
     private void postInitializer(PostDetails postDetails, View view) {
         // Store post view
         postViewMap.put(postDetails.getId(), view);
@@ -107,7 +143,7 @@ public class FeedActivity extends AppCompatActivity {
 
         // Set time
         TextView time = view.findViewById(R.id.upload_time);
-        time.setText(postDetails.getTime());
+        time.setText(postDetails.getTimeStr());
 
         // Set post image if available
         ImageView postImage = view.findViewById(R.id.post_image);
@@ -128,13 +164,44 @@ public class FeedActivity extends AppCompatActivity {
             }
         });
 
+        // Initialize likes count
+        LinearLayout likeLayout = view.findViewById(R.id.like_layout);
+        int numOfLikes = postDetails.getNumberOfLikes();
+        if (numOfLikes > 0) {
+            TextView likeCount = view.findViewById(R.id.like_count);
+            likeCount.setVisibility(View.VISIBLE);
+            likeCount.setText(numOfLikes + " likes");
+        }
+
+        // Update like button image
+        if (postDetails.isLiked(userDetails.getUsername())) {
+            ImageView likeIcon = view.findViewById(R.id.like_icon);
+            likeIcon.setImageResource(R.drawable.like_icon_pressed);
+        }
+
         // Set click listener for like section
-        LinearLayout likeCount = view.findViewById(R.id.like_layout);
-        likeCount.setOnClickListener(new View.OnClickListener() {
+        likeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Handle like button click
                 handleLikeButtonClick(postDetails);
+            }
+        });
+
+        //comment section
+        LinearLayout commentCountLayout = view.findViewById(R.id.comment_count_layout);
+        if (postDetails.getCommentCount() > 0) {
+            commentCountLayout.setVisibility(View.VISIBLE);
+        }
+        // Set click listener for comment section
+
+        LinearLayout commentLayout = view.findViewById(R.id.comment_layout);
+        commentLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentCommentActivity = new Intent(FeedActivity.this, CommentActivity.class);
+                intentCommentActivity.putExtra("postID", postDetails.getId());
+                startActivityForResult(intentCommentActivity, COMMENT_PAGE_REQUEST);
             }
         });
 
@@ -150,7 +217,14 @@ public class FeedActivity extends AppCompatActivity {
         });
     }
 
-    // Method to handle result from activities
+    /**
+     * Handles the activity result from CreatePostActivity, ShareActivity, or CommentActivity.
+     * Depending on the requestCode, it updates the feed accordingly.
+     * @param requestCode The integer request code originally supplied to startActivityForResult(),
+     *                    allowing you to identify who this result came from.
+     * @param resultCode The integer result code returned by the child activity through its setResult().
+     * @param data An Intent, which can return result data to the caller (various data can be attached to Intent "extras").
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -175,9 +249,31 @@ public class FeedActivity extends AppCompatActivity {
                 // Handle unsuccessful share activity completion
             }
         }
+        if (requestCode == COMMENT_PAGE_REQUEST) {
+            int modifiedPostId = data.getIntExtra("commentPostId", 0);
+            if (postManager.getPost(modifiedPostId) != null) {
+                int commentCount = postManager.getPost(modifiedPostId).getCommentCount();
+                TextView commentValues = postViewMap.get(modifiedPostId).findViewById(R.id.comment_count);
+                // updates the comment count
+                commentValues.setText(commentCount + " Comments");
+                if (commentCount < 1) {
+                    // if there is no comment set invisible
+                    commentValues.setVisibility(View.INVISIBLE);
+                } else {
+                    commentValues.setVisibility(View.VISIBLE);
+                }
+            }
+        }
     }
 
-    // Method to display edit or delete dialog for a post
+
+    /**
+     * Displays an AlertDialog with options to edit or delete a post. Based on the user's choice,
+     * it either starts CreatePostActivity for editing the post or removes the post from the layout
+     * and PostManager.
+     * @param view The view of the post to be edited or deleted.
+     * @param postDetails The details of the post associated with the view.
+     */
     private void editOrDeleteButton(View view, PostDetails postDetails) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Choose an option");
@@ -209,7 +305,11 @@ public class FeedActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    // Method to handle like button click
+    /**
+     * Handles like button clicks. Updates the like count and icon based on whether the post is
+     * already liked by the user.
+     * @param postDetails The details of the post being liked or unliked.
+     */
     private void handleLikeButtonClick(PostDetails postDetails) {
         View postView = postViewMap.get(postDetails.getId());
         String userName = userDetails.getUsername();
@@ -228,12 +328,68 @@ public class FeedActivity extends AppCompatActivity {
         } else {
             postDetails.addLike(userName);
             numOfLikes++;
-            if (numOfLikes == 1) {
-                numOfLikeView.setVisibility(View.VISIBLE);
-            }
+
+            numOfLikeView.setVisibility(View.VISIBLE);
             likeIcon.setImageResource(R.drawable.like_icon_pressed);
             likeText.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.blue_like));
         }
         numOfLikeView.setText(numOfLikes + " likes");
+    }
+
+    private void loadPostsFromJson(InputStream jsonStream) {
+        Gson gson = new Gson();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(jsonStream));
+        PostJsonDetails[] posts = gson.fromJson(reader, PostJsonDetails[].class);
+        PostDetails[] parsedPosts = new PostDetails[posts.length];
+
+        for (int i = 0; i < posts.length; i++) {
+            PostJsonDetails post = posts[i];
+
+            // Get profile picture
+            Bitmap authorProfilePicture = null;
+            try (@SuppressLint("DiscouragedApi") InputStream profilePictureStream = getResources()
+                .openRawResource(getResources().getIdentifier(post.author.profileImage,
+                "raw", getPackageName()))) {
+                authorProfilePicture = BitmapFactory.decodeStream(profilePictureStream);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            // Get post picture
+            Bitmap postImage = null;
+            if (post.images.length > 0) {
+                try (@SuppressLint("DiscouragedApi") InputStream postPictureStream =
+                     getResources().openRawResource(getResources().getIdentifier(post.images[0],
+                     "raw", getPackageName()))) {
+                    postImage = BitmapFactory.decodeStream(postPictureStream);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            // Create the `PostDetails` instance
+            PostDetails parsedPost = new PostDetails(this.postCounter++,
+                post.author.displayName, authorProfilePicture, post.contents, postImage,
+                post.timestamp);
+
+            // Create likes list
+            for (PostJsonDetails.UserJsonDetails user : post.likes) {
+                parsedPost.addLike(user.username);
+            }
+
+            // Save parsed post
+            parsedPosts[i] = parsedPost;
+        }
+
+        // Add posts to feed
+        for (PostDetails postDetails : parsedPosts) {
+            this.addPost(postDetails);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(FeedActivity.this,
+                "Logout first", Toast.LENGTH_SHORT).show();
     }
 }

@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import java.time.LocalDateTime;
@@ -52,7 +54,13 @@ public class CreatePostActivity extends AppCompatActivity {
         postPublish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                publishPost(user);
+                EditText postContent = findViewById(R.id.user_input_create_post);
+                if (postDetails.getPicture() == null && postContent.getText().toString().trim().equals("")) {
+                    Toast.makeText(CreatePostActivity.this,
+                            "Cannot post empty post", Toast.LENGTH_SHORT).show();
+                } else {
+                    publishPost(user);
+                }
             }
         });
     }
@@ -75,7 +83,8 @@ public class CreatePostActivity extends AppCompatActivity {
         postDetails.setUserInput(postContent.getText().toString());
         postDetails.setAuthorDisplayName(user.getDisplayName());
         postDetails.setAuthorProfilePicture(user.getImg());
-        postDetails.setTime(getTimeAndDate());
+        postDetails.setTime(getTimestamp());
+
         if (img != null) {
             postDetails.setPicture(img);
         }
@@ -90,10 +99,8 @@ public class CreatePostActivity extends AppCompatActivity {
      * Returns the current time and date formatted as "DayOfWeek HH:mm".
      * @return A string representing the formatted current time and date.
      */
-    private String getTimeAndDate() {
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE HH:mm");
-        return now.format(formatter);
+    private Long getTimestamp() {
+        return System.currentTimeMillis();
     }
 
     /**

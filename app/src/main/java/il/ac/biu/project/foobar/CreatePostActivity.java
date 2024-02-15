@@ -83,7 +83,8 @@ public class CreatePostActivity extends AppCompatActivity {
         postDetails.setUserInput(postContent.getText().toString());
         postDetails.setAuthorDisplayName(user.getDisplayName());
         postDetails.setAuthorProfilePicture(user.getImg());
-        postDetails.setTime(getTimeAndDate());
+        postDetails.setTime(getTimestamp());
+
         if (img != null) {
             postDetails.setPicture(img);
         }
@@ -98,10 +99,8 @@ public class CreatePostActivity extends AppCompatActivity {
      * Returns the current time and date formatted as "DayOfWeek HH:mm".
      * @return A string representing the formatted current time and date.
      */
-    private String getTimeAndDate() {
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE HH:mm");
-        return now.format(formatter);
+    private Long getTimestamp() {
+        return System.currentTimeMillis();
     }
 
     /**

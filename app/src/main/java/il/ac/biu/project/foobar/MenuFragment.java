@@ -9,6 +9,8 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -79,6 +81,8 @@ public class MenuFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override
@@ -119,7 +123,7 @@ public class MenuFragment extends Fragment {
         }
 
         // Set up dark mode switch
-        switchMode=rootView.findViewById(R.id.switch_dark_mode);
+        switchMode = rootView.findViewById(R.id.switch_dark_mode);
         sharedPreferences= getActivity().getSharedPreferences("MODE", Context.MODE_PRIVATE);
         nightmode = sharedPreferences.getBoolean("nightmode",false);
 
@@ -132,7 +136,7 @@ public class MenuFragment extends Fragment {
                 nightmode = !nightmode;
                 switchMode.setChecked(nightmode); // Update the switch state
 
-                if(nightmode){
+                if (nightmode) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -142,6 +146,12 @@ public class MenuFragment extends Fragment {
                 editor = sharedPreferences.edit();
                 editor.putBoolean("nightmode", nightmode);
                 editor.apply();
+
+                // Close the MenuFragment and show the home fragment
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.remove(MenuFragment.this).commit();
+                ((FeedActivityMain) requireActivity()).showHome();
             }
         });
 

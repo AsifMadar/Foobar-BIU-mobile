@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:gravity="center"
-    android:background="#FFFFFF"
+    style="@style/SCREEN"
     tools:context=".MainActivity">
 
     <TextView
@@ -16,7 +16,7 @@
         android:text="@string/sign_in"
         android:textSize="35sp"
         android:textStyle="bold"
-        android:background="#0F2DD6"
+        android:background="#5C73F4"
         android:textColor="#FFFFFF"
         android:padding="20dp"
         android:layout_marginBottom="16dp"/>
@@ -60,6 +60,7 @@
         android:padding="16dp"
         />
     <Button
+        style="@style/signinbtn"
         android:id="@+id/signInButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -68,9 +69,9 @@
         android:textSize="20sp"
         android:textColor="#FFFFFF"
         android:layout_marginTop="16dp"
-        android:backgroundTint="#0F2DD6"
         android:layout_centerInParent="true"/>
     <Button
+        style="@style/Signupbtn"
         android:id="@+id/signUpPageActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -79,7 +80,6 @@
         android:textSize="20sp"
         android:textColor="#FFFFFF"
         android:layout_marginTop="16dp"
-        android:backgroundTint="#19551B"
         android:layout_centerInParent="true"/>
 
 </LinearLayout>

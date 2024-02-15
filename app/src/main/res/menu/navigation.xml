@@ -3,25 +3,25 @@
 <item
     android:id="@+id/myhome"
     android:icon="@drawable/home_selector"
-    android:title="@string/home"
+    android:title="Home"
     android:layout_width="wrap_content"
     />
     <item
         android:id="@+id/FriendsId"
         android:icon="@drawable/friends_selector"
-        android:title="@string/friends"
+        android:title="Friends"
         android:layout_width="wrap_content"
         />
     <item
         android:id="@+id/VideoId"
         android:icon="@drawable/videos_selector"
-        android:title="@string/video"
+        android:title="Video"
         android:layout_width="wrap_content"
         />
     <item
         android:id="@+id/NotificationsId"
         android:icon="@drawable/notifications_selector"
-        android:title="@string/notifications"
+        android:title="Notifications"
         android:layout_width="wrap_content"
         />
     <item

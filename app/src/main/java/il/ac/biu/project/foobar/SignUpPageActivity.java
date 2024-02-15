@@ -194,13 +194,13 @@ public class SignUpPageActivity extends AppCompatActivity {
         // Find the "Feed Activity" button in the layout
         Button feedActivityButton = findViewById(R.id.feedActivity);
 
-
+        // Set a click listener for the button
         feedActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Check if all input fields are valid
                 if (isAllValid()) {
-                    // If valid, update UserDetails and start FeedActivityMain
+                    // If valid, update UserDetails and start FeedActivity
                     userDetails.setSignIn(true);
                     userDetails.setUsername(username);
                     userDetails.setPassword(password);

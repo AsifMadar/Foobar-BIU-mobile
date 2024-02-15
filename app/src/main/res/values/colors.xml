@@ -48,7 +48,6 @@
     <color name="very_dark_teal">#00796b</color>
     <color name="very_dark_blue">#0d47a1</color>
     <color name="lavander">#8692f7</color>
-
     <color name="blue_like">#228BE6</color>
-
+    <color name="black">#FF000000</color>
 </resources>

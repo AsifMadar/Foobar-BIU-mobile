@@ -1,16 +1,16 @@
 <resources>
+    <string name="add_photo_content_description">Adding a photo to the post</string>
     <string name="app_name">FooBar</string>
+    <string name="author_profile_picture_content_description">Author profile picture</string>
     <string name="close">Close Navigation</string>
     <string name="comment">Comment</string>
     <string name="display_name_hint">2–16 alphanumeric characters</string>
     <string name="display_name">Display Name</string>
+    <string name="ellipsis_info">More options</string>
     <string name="enter_password">Enter your Password</string>
     <string name="enter_username">Enter your Username</string>
     <string name="foobar">FooBar</string>
     <string name="friends">Friends</string>
-    <string name="add_photo_content_description">Adding a photo to the post</string>
-    <string name="author_profile_picture_content_description">Author profile picture</string>
-    <string name="ellipsis_info">More options</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home">Home</string>
     <string name="like">Like</string>
@@ -24,10 +24,9 @@
     <string name="post_picture_content_description">The photo the user uploads to the post</string>
     <string name="post_text">Post Text</string>
     <string name="profile_picture_must">Add a profile picture (must)</string>
-    <string name="profile">Profile</string>
+    <string name="profile">Profile</string>=======
     <string name="retype_password">Retype Password</string>
     <string name="retypePassword_hint">Retype your password</string>
-    <string name="search">Search</string>
     <string name="share">Share</string>
     <string name="sign_in_page">Sign In page</string>
     <string name="sign_in">Sign In</string>
@@ -40,5 +39,4 @@
     <string name="video">Video</string>
     <string name="what_s_on_your_mind">What\'s on your mind?</string>
     <string name="whats_on_your_mind_hint">What\'s on your mind?</string>
-    <string name="write_your_post_here">Write your post here...</string>
 </resources>

@@ -9,41 +9,45 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 
+/**
+ * CommentActivity manages the UI and functionality related to displaying and interacting with comments on a post.
+ * It allows users to add new comments, edit or delete existing ones, and view all comments associated with a specific post.
+ */
 public class CommentActivity extends AppCompatActivity {
     private PostDetails postDetails;
     LinearLayout layout;
     UserDetails userDetails = UserDetails.getInstance();
-    boolean editingComment = false;
-    static final int EDIT_COMMENT_REQUEST = 1;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
+        // Fetch the post ID passed through the intent and retrieve the corresponding post details.
         int postId = getIntent().getIntExtra("postID", 0);
         PostManager postManager = PostManager.getInstance();
         postDetails = postManager.getPost(postId);
+        //sets the container of the comments
         layout = findViewById(R.id.comments_container);
+        //render the comments contained in the post
         renderComments();
+        //render the abillity to add new comments
         renderAddComment();
     }
 
+    /**
+     * Sets up the UI for adding a new comment, including an EditText for input and a send button.
+     */
     private void renderAddComment() {
         EditText commentText = findViewById(R.id.comment_text);
-        String check = commentText.getText().toString();
         ImageView sendCommentButton = findViewById(R.id.send_comment_button);
         sendCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +65,11 @@ public class CommentActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Publishes a new comment by adding it to the post's comment list and rendering it in the UI.
+     * @param commentText The text of the comment to be published.
+     * @param view The view to be used for displaying the comment.
+     */
     private void publishComment(String commentText, View view) {
         Comment comment = new Comment();
         comment.setTime(getTimeAndDate());
@@ -69,15 +78,21 @@ public class CommentActivity extends AppCompatActivity {
         comment.setText(commentText);
         postDetails.addComment(comment);
         renderComment(postDetails.getCommentCount() - 1, view);
-
     }
 
+    /**
+     * Generates a formatted string representing the current date and time.
+     * @return A string representing the date and time.
+     */
     private String getTimeAndDate() {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE HH:mm");
         return now.format(formatter);
     }
 
+    /**
+     * Renders all comments associated with the post.
+     */
     private void renderComments() {
         for (int i = 0; i < postDetails.getCommentCount(); i++) {
             View view = getLayoutInflater().inflate(R.layout.comment, null);
@@ -86,6 +101,11 @@ public class CommentActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Renders a single comment in the UI.
+     * @param i The index of the comment in the post's comment list.
+     * @param commentView The view to be used for displaying the comment.
+     */
     private void renderComment(int i, View commentView) {
         Comment comment = postDetails.getComment(i);
         //sets profile picture
@@ -99,7 +119,7 @@ public class CommentActivity extends AppCompatActivity {
         authorName.setText(comment.getAuthorName());
 
         //sets comment text
-        EditText commentText = commentView.findViewById(R.id.comment_text);
+        EditText commentText = commentView.findViewById(R.id.comment_text_body);
         commentText.setText(comment.getText());
 
         //sets like button color
@@ -156,8 +176,11 @@ public class CommentActivity extends AppCompatActivity {
     }
 
 
-    // Method to display edit or delete dialog for a comment
-    private void editOrDeleteButton(View view, Comment comment) {
+    /**
+     * Displays a dialog allowing the user to edit or delete a comment.
+     * @param view The view associated with the comment to be edited or deleted.
+     * @param comment The comment object to be edited or deleted.
+     */    private void editOrDeleteButton(View view, Comment comment) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Choose an option");
 
@@ -165,8 +188,7 @@ public class CommentActivity extends AppCompatActivity {
         builder.setPositiveButton("Edit", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                editingComment = true;
-                EditText commentText = view.findViewById(R.id.comment_text);
+                EditText commentText = view.findViewById(R.id.comment_text_body);
                 // Make EditText editable
                 commentText.setFocusableInTouchMode(true);
                 commentText.setFocusable(true);
@@ -184,7 +206,7 @@ public class CommentActivity extends AppCompatActivity {
                     if (commentText.getText().toString().trim().equals("")) {
                         Toast.makeText(CommentActivity.this,
                                 "Cannot post empty comment", Toast.LENGTH_SHORT).show();
-                    } else {
+                    } else { //makes the comment read only
                         comment.setText(commentText.getText().toString());
                         commentText.setFocusableInTouchMode(false);
                         commentText.setFocusable(false);
@@ -211,16 +233,10 @@ public class CommentActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent resultData = new Intent();
-        // Assuming postDetails.getId() correctly fetches the ID you want to return.
         resultData.putExtra("commentPostId", postDetails.getId());
-
-        // RESULT_OK is a standard resultCode indicating successful operation
         setResult(RESULT_OK, resultData);
-
-        // Call finish() to destroy this activity
+        //destroy the activity after the user exits
         finish();
-
-        // Do not call super.onBackPressed() after finish()
     }
 
 }

@@ -91,9 +91,6 @@
             android:id="@+id/like_count_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackground"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:layout_weight="1">
@@ -117,9 +114,6 @@
             android:id="@+id/comment_count_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackground"
             android:orientation="horizontal"
             android:gravity="end"
             android:layout_weight="1">

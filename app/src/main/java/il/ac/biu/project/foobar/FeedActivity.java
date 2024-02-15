@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -49,7 +51,10 @@ public class FeedActivity extends AppCompatActivity {
 
     }
 
-    // Button to add new posts
+    /**
+     * Sets up the button for adding new posts. When clicked, a new post ID is generated,
+     * and CreatePostActivity is started for creating a new post.
+     */
     private void setAddPostButton() {
         Button addPostButton = findViewById(R.id.addPost);
         addPostButton.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +76,10 @@ public class FeedActivity extends AppCompatActivity {
         });
     }
 
-    // Automatically navigate to FeedActivity if user is already signed in.
+    /**
+     * Ensures that only signed-in users can access the FeedActivity. If a user is not signed in,
+     * they are redirected to the MainActivity.
+     */
     private void protectFeedPage() {
         if (!userDetails.getSignIn()) {
             Intent intent = new Intent(FeedActivity.this, MainActivity.class);
@@ -80,7 +88,11 @@ public class FeedActivity extends AppCompatActivity {
         }
     }
 
-    // Method to add post to the layout
+    /**
+     * Adds a post to the feed layout. This method inflates a post layout and initializes it
+     * with the post details.
+     * @param postDetails The details of the post to be added to the feed.
+     */
     private void addPost(PostDetails postDetails) {
         // Inflate post layout
         View view = getLayoutInflater().inflate(R.layout.post, null);
@@ -90,7 +102,13 @@ public class FeedActivity extends AppCompatActivity {
         layout.addView(view);
     }
 
-    // Method to initialize post view
+    /**
+     * Initializes a post view with the provided post details. This includes setting up
+     * the author name, post content, profile picture, and time. It also sets up listeners
+     * for post options, like, comment, and share interactions.
+     * @param postDetails The details of the post to initialize the view with.
+     * @param view The view to be initialized.
+     */
     private void postInitializer(PostDetails postDetails, View view) {
         // Store post view
         postViewMap.put(postDetails.getId(), view);
@@ -140,9 +158,8 @@ public class FeedActivity extends AppCompatActivity {
             }
         });
 
+        //comment section
         LinearLayout commentCountLayout = view.findViewById(R.id.comment_count_layout);
-        TextView commentCount = commentCountLayout.findViewById(R.id.comment_text);
-
         if (postDetails.getCommentCount() > 0) {
             commentCountLayout.setVisibility(View.VISIBLE);
         }
@@ -152,7 +169,6 @@ public class FeedActivity extends AppCompatActivity {
         commentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Handle comment button click
                 Intent intentCommentActivity = new Intent(FeedActivity.this, CommentActivity.class);
                 intentCommentActivity.putExtra("postID", postDetails.getId());
                 startActivityForResult(intentCommentActivity, COMMENT_PAGE_REQUEST);
@@ -171,7 +187,14 @@ public class FeedActivity extends AppCompatActivity {
         });
     }
 
-    // Method to handle result from activities
+    /**
+     * Handles the activity result from CreatePostActivity, ShareActivity, or CommentActivity.
+     * Depending on the requestCode, it updates the feed accordingly.
+     * @param requestCode The integer request code originally supplied to startActivityForResult(),
+     *                    allowing you to identify who this result came from.
+     * @param resultCode The integer result code returned by the child activity through its setResult().
+     * @param data An Intent, which can return result data to the caller (various data can be attached to Intent "extras").
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -201,8 +224,10 @@ public class FeedActivity extends AppCompatActivity {
             if (postManager.getPost(modifiedPostId) != null) {
                 int commentCount = postManager.getPost(modifiedPostId).getCommentCount();
                 TextView commentValues = postViewMap.get(modifiedPostId).findViewById(R.id.comment_count);
+                // updates the comment count
                 commentValues.setText(commentCount + " Comments");
                 if (commentCount < 1) {
+                    // if there is no comment set invisible
                     commentValues.setVisibility(View.INVISIBLE);
                 } else {
                     commentValues.setVisibility(View.VISIBLE);
@@ -212,7 +237,13 @@ public class FeedActivity extends AppCompatActivity {
     }
 
 
-    // Method to display edit or delete dialog for a post
+    /**
+     * Displays an AlertDialog with options to edit or delete a post. Based on the user's choice,
+     * it either starts CreatePostActivity for editing the post or removes the post from the layout
+     * and PostManager.
+     * @param view The view of the post to be edited or deleted.
+     * @param postDetails The details of the post associated with the view.
+     */
     private void editOrDeleteButton(View view, PostDetails postDetails) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Choose an option");
@@ -244,7 +275,11 @@ public class FeedActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    // Method to handle like button click
+    /**
+     * Handles like button clicks. Updates the like count and icon based on whether the post is
+     * already liked by the user.
+     * @param postDetails The details of the post being liked or unliked.
+     */
     private void handleLikeButtonClick(PostDetails postDetails) {
         View postView = postViewMap.get(postDetails.getId());
         String userName = userDetails.getUsername();
@@ -270,4 +305,9 @@ public class FeedActivity extends AppCompatActivity {
         numOfLikeView.setText(numOfLikes + " likes");
     }
 
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(FeedActivity.this,
+                "Logout first", Toast.LENGTH_SHORT).show();
+    }
 }

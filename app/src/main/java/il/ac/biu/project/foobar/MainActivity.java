@@ -26,9 +26,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        userDetails.setUsername("asif");
-        userDetails.setDisplayName("Asif");
-        userDetails.setSignIn(true);
         protectSignInPage();
 
         initializeSignInPage();

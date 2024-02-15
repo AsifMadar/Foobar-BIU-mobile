@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:padding="5dp"
     style="@style/SCREEN"
-    android:background="@drawable/button_background"
+    android:background="@drawable/commentandpost_bsckground"
     android:layout_marginBottom="15dp">
 
 

@@ -82,7 +82,9 @@ public class MenuFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-
+        // Load the saved night mode setting from SharedPreferences
+        sharedPreferences = requireActivity().getSharedPreferences("MODE", Context.MODE_PRIVATE);
+        nightmode = sharedPreferences.getBoolean("nightmode", false);
     }
 
     @Override
@@ -124,8 +126,6 @@ public class MenuFragment extends Fragment {
 
         // Set up dark mode switch
         switchMode = rootView.findViewById(R.id.switch_dark_mode);
-        sharedPreferences= getActivity().getSharedPreferences("MODE", Context.MODE_PRIVATE);
-        nightmode = sharedPreferences.getBoolean("nightmode",false);
 
         switchMode.setChecked(nightmode); // Set the switch state based on the night mode setting
 

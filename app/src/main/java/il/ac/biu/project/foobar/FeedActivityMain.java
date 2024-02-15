@@ -149,7 +149,7 @@ public class FeedActivityMain extends AppCompatActivity {
                 postCounter++;
                 // Create post details
                 PostDetails postDetails = new PostDetails(postCounter, userDetails.getUsername(),
-                    "Author", null, "User input", null, 0);
+                    null, null, null, null, 0);
                 // Add post to PostManager
                 postManager.putPost(postCounter, postDetails);
 

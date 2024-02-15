@@ -64,7 +64,6 @@ public class MenuFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment MenuFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static MenuFragment newInstance(String param1, String param2) {
         MenuFragment fragment = new MenuFragment();
         Bundle args = new Bundle();

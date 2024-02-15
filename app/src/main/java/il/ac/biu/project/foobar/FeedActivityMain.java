@@ -50,21 +50,26 @@ public class FeedActivityMain extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Ensure only signed-in users can access the FeedActivity
         protectFeedPage();
 
+        // Set the layout for the activity
         setContentView(R.layout.activity_feed_main);
 
-        // Container layout for posts
+        // Initialize the container layout for posts
         layout = findViewById(R.id.container);
+        // Set up the button for adding new posts
         setAddPostButton();
+        // Reload posts
         reloadPosts();
+        // Show the home fragment initially
         showHome();
 
         // Initialize BottomNavigationView
 
         BottomNavigationView navigationView = findViewById(R.id.bootomnavigationid);
         navigationView.setItemIconTintList(null);
-
+        // Set listener for BottomNavigationView items
         navigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -72,11 +77,14 @@ public class FeedActivityMain extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         Fragment selectedFragment = null;
                         int itemId = item.getItemId();
+                        // Handle navigation item clicks
                         if (itemId == R.id.MenuID) {
+                            // Show the menu fragment
                             findViewById(R.id.profile_bar).setVisibility(View.GONE);
                             findViewById(R.id.scroll).setVisibility(View.GONE);
                             selectedFragment = new MenuFragment();
                         } else if (itemId == R.id.myhome) {
+                            // Show the home
                             Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.framelayout);
                             if (currentFragment != null) {
                                 // Remove the currently displayed fragment
@@ -85,10 +93,12 @@ public class FeedActivityMain extends AppCompatActivity {
                             showHome();
                             item.setChecked(true);
                         }else if (itemId == R.id.FriendsId) {
+                            // Show the friends fragment
                             findViewById(R.id.profile_bar).setVisibility(View.GONE);
                             findViewById(R.id.scroll).setVisibility(View.GONE);
                             selectedFragment = new FriendsFragment();
                         }else if (itemId == R.id.VideoId) {
+                            // Show the video fragment
                             findViewById(R.id.profile_bar).setVisibility(View.GONE);
                             findViewById(R.id.scroll).setVisibility(View.GONE);
                             selectedFragment = new VideoFragment();
@@ -98,7 +108,7 @@ public class FeedActivityMain extends AppCompatActivity {
                             selectedFragment = new NotificationFragment();
                         }
 
-                        // Add additional 'else if' blocks for other menu items if needed
+                        // Replace the fragment in the frame layout with the selected fragment
 
                         if (selectedFragment != null) {
                             getSupportFragmentManager().beginTransaction()
@@ -110,7 +120,7 @@ public class FeedActivityMain extends AppCompatActivity {
                     }
 
                 });
-
+        // Set user profile picture
         profileImage = findViewById(R.id.profile_image);
 
         // Set user profile picture
@@ -128,7 +138,7 @@ public class FeedActivityMain extends AppCompatActivity {
             }
         }
     }
-
+    // Method to show the home
     public void showHome(){
         findViewById(R.id.profile_bar).setVisibility(View.VISIBLE);
         findViewById(R.id.scroll).setVisibility(View.VISIBLE);

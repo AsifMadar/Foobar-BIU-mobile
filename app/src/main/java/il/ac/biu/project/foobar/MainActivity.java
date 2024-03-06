@@ -7,11 +7,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import il.ac.biu.project.foobar.api.SignInAPI;
 import il.ac.biu.project.foobar.entities.AdvancedTextField;
 import il.ac.biu.project.foobar.entities.SignInRequest;
 import il.ac.biu.project.foobar.entities.UserDetails;
+import il.ac.biu.project.foobar.viewmodels.SignInViewModel;
 
 /**
  * The main activity for the Foobar-BIU mobile app. This class handles user authentication,
@@ -22,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
     // Default values for username and password, used prior to user input.
     private String givenUsername = "#";
     private String givenPassword = "#";
-    private SignInAPI signInAPI = new SignInAPI();
 
+    private SignInViewModel signInViewModel;
     private final UserDetails userDetails = UserDetails.getInstance();
 
 
@@ -33,20 +35,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         protectSignInPage();
 
+        signInViewModel = new ViewModelProvider(this).get(SignInViewModel.class);
+
         initializeSignInPage();
-
-    }
-
-    // Automatically navigate to FeedActivityMain if user is already signed in.
-    private void protectSignInPage() {
-        if (userDetails.getSignIn()) {
-            Intent intent = new Intent(MainActivity.this, FeedActivityMain.class);
-            startActivity(intent);
-            finish();
-        }
     }
 
     private void initializeSignInPage() {
+        signInViewModel.getSignInSuccess().observe(this, success -> {
+            if(success) {
+                proceedToFeed();
+            } else {
+                Toast.makeText(MainActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+            }
+        });
         // Initialize text fields for username and password input.
         EditText usernameEditText = findViewById(R.id.usernameEditText);
         EditText passwordEditText = findViewById(R.id.passwordEditText);
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            signIn();
+            signInViewModel.signIn(givenUsername, givenPassword);
             }
         });
     }
@@ -96,35 +97,19 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //check if the username and password are correct, sign in if true
-    private void signIn() {
-        SignInRequest signInRequest = new SignInRequest(givenUsername, givenPassword);
-        signInAPI.signInToServer(signInRequest, new SignInAPI.SignInResponseCallback() {
-            @Override
-            public void onSuccess(String jwtToken) {
-                userDetails.setJwt(jwtToken);
-                runOnUiThread(() -> {
-                    userDetails.setSignIn(true); // Update sign-in status.
-                    proceedToNextActivity(); // Method to continue to the feed
-                });
-            }
 
-            @Override
-            public void onFailure(String errorMessage) {
-                if (errorMessage.equals("Error: 404")) {
-                    Toast.makeText(MainActivity.this,
-                            "Invalid username or password", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(MainActivity.this,
-                            "FAILED - " + errorMessage, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-    private void proceedToNextActivity() {
+    private void proceedToFeed() {
         Intent intent = new Intent(MainActivity.this, FeedActivityMain.class);
         startActivity(intent);
         finish();
     }
+    // Automatically navigate to FeedActivityMain if user is already signed in.
+    private void protectSignInPage() {
+        if (userDetails.getSignIn()) {
+            Intent intent = new Intent(MainActivity.this, FeedActivityMain.class);
+            startActivity(intent);
+            finish();
+        }
+    }
 }
+

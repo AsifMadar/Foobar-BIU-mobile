@@ -1,4 +1,4 @@
-package il.ac.biu.project.foobar;
+package il.ac.biu.project.foobar.entities;
 
 import android.graphics.Bitmap;
 
@@ -14,6 +14,7 @@ public class UserDetails {
     private String password;
     private Bitmap img;
     private String displayName;
+    private String jwt ="";
 
     /**
      * Private constructor to prevent instantiation.
@@ -123,5 +124,13 @@ public class UserDetails {
     }
 
     public void setProfilePhoto(Bitmap profilePhoto) {
+    }
+
+    public String getJwt() {
+        return jwt;
+    }
+
+    public void setJwt(String jwt) {
+        this.jwt = jwt;
     }
 }

@@ -20,6 +20,10 @@ import androidx.fragment.app.Fragment;
 
 import java.util.HashMap;
 
+import il.ac.biu.project.foobar.entities.PostDetails;
+import il.ac.biu.project.foobar.entities.PostManager;
+import il.ac.biu.project.foobar.entities.UserDetails;
+
 public class HomeFragment extends Fragment {
     TextView textViewadd;
     boolean editingPost = false;

@@ -10,8 +10,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import il.ac.biu.project.foobar.AdvancedTextField.InputCallback;
-import il.ac.biu.project.foobar.AdvancedTextField.ValidationFunction;
+
+import il.ac.biu.project.foobar.entities.AdvancedTextField;
+import il.ac.biu.project.foobar.entities.AdvancedTextField.InputCallback;
+import il.ac.biu.project.foobar.entities.AdvancedTextField.ValidationFunction;
+import il.ac.biu.project.foobar.entities.UserDetails;
 
 
 /**

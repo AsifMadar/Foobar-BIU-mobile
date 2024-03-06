@@ -8,6 +8,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import il.ac.biu.project.foobar.api.SignInAPI;
+import il.ac.biu.project.foobar.entities.AdvancedTextField;
+import il.ac.biu.project.foobar.entities.SignInRequest;
+import il.ac.biu.project.foobar.entities.UserDetails;
+
 /**
  * The main activity for the Foobar-BIU mobile app. This class handles user authentication,
  * including login and navigation to the sign-up or feed activity depending on the user's
@@ -17,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     // Default values for username and password, used prior to user input.
     private String givenUsername = "#";
     private String givenPassword = "#";
+    private SignInAPI signInAPI = new SignInAPI();
 
     private final UserDetails userDetails = UserDetails.getInstance();
 
@@ -71,17 +77,7 @@ public class MainActivity extends AppCompatActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Validate username and password with stored credentials.
-                if (checkValidSignIn()) {
-                    userDetails.setSignIn(true); // Update sign-in status.
-                    // Navigate to FeedActivityMain upon successful authentication.
-                    Intent intent = new Intent(MainActivity.this, FeedActivityMain.class);
-                    startActivity(intent);
-                } else {
-                    // Show error message for invalid credentials.
-                    Toast.makeText(MainActivity.this,
-                            "Invalid Username or Password", Toast.LENGTH_SHORT).show();
-                }
+            signIn();
             }
         });
     }
@@ -100,9 +96,35 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //check if the username and password are correct
-    private boolean checkValidSignIn() {
-        return givenUsername.equals(userDetails.getUsername())
-                && givenPassword.equals(userDetails.getPassword());
+    //check if the username and password are correct, sign in if true
+    private void signIn() {
+        SignInRequest signInRequest = new SignInRequest(givenUsername, givenPassword);
+        signInAPI.signInToServer(signInRequest, new SignInAPI.SignInResponseCallback() {
+            @Override
+            public void onSuccess(String jwtToken) {
+                userDetails.setJwt(jwtToken);
+                runOnUiThread(() -> {
+                    userDetails.setSignIn(true); // Update sign-in status.
+                    proceedToNextActivity(); // Method to continue to the feed
+                });
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                if (errorMessage.equals("Error: 404")) {
+                    Toast.makeText(MainActivity.this,
+                            "Invalid username or password", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this,
+                            "FAILED - " + errorMessage, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void proceedToNextActivity() {
+        Intent intent = new Intent(MainActivity.this, FeedActivityMain.class);
+        startActivity(intent);
+        finish();
     }
 }

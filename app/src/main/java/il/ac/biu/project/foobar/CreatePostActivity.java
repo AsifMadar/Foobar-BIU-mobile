@@ -11,8 +11,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
+import il.ac.biu.project.foobar.entities.PostDetails;
+import il.ac.biu.project.foobar.entities.PostManager;
+import il.ac.biu.project.foobar.entities.UserDetails;
 
 /**
  * Activity class for creating and editing posts.

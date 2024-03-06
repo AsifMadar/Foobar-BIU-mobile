@@ -1,6 +1,5 @@
-package il.ac.biu.project.foobar;
+package il.ac.biu.project.foobar.entities;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;

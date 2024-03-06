@@ -26,6 +26,12 @@ import java.io.InputStreamReader;
 import java.io.IOException;
 import java.util.HashMap;
 
+import il.ac.biu.project.foobar.entities.Comment;
+import il.ac.biu.project.foobar.entities.PostDetails;
+import il.ac.biu.project.foobar.entities.PostJsonDetails;
+import il.ac.biu.project.foobar.entities.PostManager;
+import il.ac.biu.project.foobar.entities.UserDetails;
+
 public class FeedActivityMain extends AppCompatActivity {
     // Counter to keep track of posts
     int postCounter = 0;

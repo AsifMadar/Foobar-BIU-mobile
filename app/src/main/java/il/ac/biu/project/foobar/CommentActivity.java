@@ -15,8 +15,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
+import il.ac.biu.project.foobar.entities.Comment;
+import il.ac.biu.project.foobar.entities.PostDetails;
+import il.ac.biu.project.foobar.entities.PostManager;
+import il.ac.biu.project.foobar.entities.UserDetails;
 
 
 /**

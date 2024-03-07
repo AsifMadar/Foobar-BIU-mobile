@@ -2,6 +2,7 @@ package il.ac.biu.project.foobar.entities;
 
 import android.graphics.Bitmap;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -17,8 +18,9 @@ import java.util.TimeZone;
 @Entity
 public class PostDetails {
     // Unique identifier for the post
-    @PrimaryKey(autoGenerate = true)
-    private int id;
+    @PrimaryKey
+    @NonNull
+    private String id;
     // Display name of the post author
     private String authorDisplayName;
 
@@ -33,6 +35,10 @@ public class PostDetails {
     private Bitmap picture;
     // Time when the post was created
     private long time;
+
+
+
+
     // List of users who liked the post
     private List<String> likeList = new LinkedList<>();
     private List<Comment> commentList = new LinkedList<>();
@@ -46,7 +52,7 @@ public class PostDetails {
      * @param picture Picture attached to the post.
      * @param time Time when the post was created.
      */
-    public PostDetails(int id,String username, String authorDisplayName, Bitmap authorProfilePicture, String userInput, Bitmap picture, long time) {
+    public PostDetails(String id,String username, String authorDisplayName, Bitmap authorProfilePicture, String userInput, Bitmap picture, long time) {
         this.setUsername(username);
         this.id = id;
         this.authorDisplayName = authorDisplayName;
@@ -58,11 +64,11 @@ public class PostDetails {
 
     // Getters and Setters
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -91,6 +97,8 @@ public class PostDetails {
     }
 
     public Bitmap getPicture() {
+        if(picture == null)
+            return null;
         return picture;
     }
 
@@ -207,4 +215,20 @@ public class PostDetails {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public List<String> getLikeList() {
+        return likeList;
+    }
+
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
+    public void setLikeList(List<String> likeList) {
+        this.likeList = likeList;
+    }
+
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
+    }
+
 }

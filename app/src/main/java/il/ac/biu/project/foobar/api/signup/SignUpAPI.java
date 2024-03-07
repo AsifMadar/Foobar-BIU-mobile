@@ -1,7 +1,5 @@
 package il.ac.biu.project.foobar.api.signup;
 
-import android.util.Log;
-
 import il.ac.biu.project.foobar.entities.requests.SignUpRequest;
 import retrofit2.Callback;
 import il.ac.biu.project.foobar.MyApplication;

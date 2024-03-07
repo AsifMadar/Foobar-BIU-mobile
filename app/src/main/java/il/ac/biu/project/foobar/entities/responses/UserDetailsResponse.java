@@ -1,4 +1,4 @@
-package il.ac.biu.project.foobar.entities.requests;
+package il.ac.biu.project.foobar.entities.responses;
 
 import java.util.List;
 

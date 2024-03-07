@@ -30,4 +30,5 @@ public class PostJsonDetails {
     public UserJsonDetails[] likes;
     public UserJsonDetails[] shares;
     public long timestamp;
+    public String id;
 }

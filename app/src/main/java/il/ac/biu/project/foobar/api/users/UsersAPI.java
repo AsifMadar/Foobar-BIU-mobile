@@ -7,7 +7,7 @@ import android.util.Log;
 import il.ac.biu.project.foobar.MyApplication;
 import il.ac.biu.project.foobar.R;
 import il.ac.biu.project.foobar.entities.UserDetails;
-import il.ac.biu.project.foobar.entities.requests.UserDetailsResponse;
+import il.ac.biu.project.foobar.entities.responses.UserDetailsResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,7 +53,7 @@ public class UsersAPI {
                     callback.onSuccess(userDetails);
                 } else {
                     // Handle error response, e.g., unauthorized or bad request
-                    Log.d("123ERROR CODE -", String.valueOf(response.code()));
+                    Log.d("ERROR CODE -", String.valueOf(response.code()));
                     callback.onFailure("Error: " + response.code());
                 }
             }
@@ -61,7 +61,7 @@ public class UsersAPI {
             @Override
             public void onFailure(Call<UserDetailsResponse> call, Throwable t) {
                 // Notify callback about failure to execute the request
-                Log.d("123ERROR -", t.getMessage());
+                Log.d("ERROR -", t.getMessage());
                 callback.onFailure("Failure: " + t.getMessage());
             }
         });

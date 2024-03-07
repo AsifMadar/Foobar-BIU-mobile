@@ -38,7 +38,6 @@ public class SignUpAPI {
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                Log.d("SignUpAPI", "Response code: " + response.code()); // This will print the response code
                 if (response.isSuccessful()) {
 
                     // Notify callback about success
@@ -51,7 +50,6 @@ public class SignUpAPI {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Log.d("SignUpAPI", "Response code: " + t.getMessage()); // This will print the response code
                 // Notify callback about failure
                 callback.onFailure("Failure: " + t.getMessage());
             }

@@ -1,6 +1,6 @@
-package il.ac.biu.project.foobar.api;
+package il.ac.biu.project.foobar.api.signin;
 
-import il.ac.biu.project.foobar.entities.SignInRequest;
+import il.ac.biu.project.foobar.entities.requests.SignInRequest;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;

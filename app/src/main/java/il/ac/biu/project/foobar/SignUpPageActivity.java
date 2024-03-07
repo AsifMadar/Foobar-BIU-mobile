@@ -1,5 +1,10 @@
 package il.ac.biu.project.foobar;
 
+import static il.ac.biu.project.foobar.utils.SignUpValidations.containsOnlyEnglishCharsAndNumbers;
+import static il.ac.biu.project.foobar.utils.SignUpValidations.containsOnlyEnglishCharsAndNumbersAndSpace;
+import static il.ac.biu.project.foobar.utils.SignUpValidations.isAllValid;
+import static il.ac.biu.project.foobar.utils.SignUpValidations.isStringLengthInRange;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -10,11 +15,16 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
+import java.util.LinkedList;
 
 import il.ac.biu.project.foobar.entities.AdvancedTextField;
 import il.ac.biu.project.foobar.entities.AdvancedTextField.InputCallback;
 import il.ac.biu.project.foobar.entities.AdvancedTextField.ValidationFunction;
 import il.ac.biu.project.foobar.entities.UserDetails;
+import il.ac.biu.project.foobar.viewmodels.SignInViewModel;
+import il.ac.biu.project.foobar.viewmodels.SignUpViewModel;
 
 
 /**
@@ -31,58 +41,12 @@ public class SignUpPageActivity extends AppCompatActivity {
     private ImageTaker imageTaker;
     private final UserDetails userDetails = UserDetails.getInstance();
 
+    private SignUpViewModel signUpViewModel;
+    private SignInViewModel signInViewModel;
 
 
 
-    /**
-     * Check if the input contains only English characters and numbers.
-     *
-     * @param input The input string to check.
-     * @return True if the input contains only English characters and numbers, false otherwise.
-     */
-    private static boolean containsOnlyEnglishCharsAndNumbers(String input) {
-        return input.matches("[a-zA-Z0-9]+");
-    }
 
-    /**
-     * Check if the input contains only English characters, numbers and space between two words.
-     *
-     * @param input The input string to check.
-     * @return True if the input contains only English characters,numbers, and space between two words, false otherwise.
-     */
-    private static boolean containsOnlyEnglishCharsAndNumbersAndSpace(String input) {
-        return input.matches("[a-zA-Z0-9]+( [a-zA-Z0-9]+)*");
-
-    }
-
-    /**
-     * Check if the string length is within a specified range.
-     *
-     * @param input     The input string to check.
-     * @param minLength The minimum allowed length.
-     * @param maxLength The maximum allowed length.
-     * @return True if the string length is within the specified range, false otherwise.
-     */
-    private static boolean isStringLengthInRange(String input, int minLength, int maxLength) {
-        int length = input.length();
-        return length >= minLength && length <= maxLength;
-    }
-
-    /**
-     * Check if all input fields are valid.
-     *
-     * @return True if all input fields are valid, false otherwise.
-     */
-    private boolean isAllValid() {
-        return (containsOnlyEnglishCharsAndNumbers(username)
-                && isStringLengthInRange(username, 5, 16))
-                && (containsOnlyEnglishCharsAndNumbers(password)
-                && isStringLengthInRange(password, 8, 20))
-                && (containsOnlyEnglishCharsAndNumbersAndSpace(displayName)
-                && isStringLengthInRange(displayName, 2, 20))
-                && rePassword.equals(password)
-                && img != null;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +54,9 @@ public class SignUpPageActivity extends AppCompatActivity {
         setContentView(R.layout.sign_up_page);
 
         protectSignUpPage();
+        signUpViewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
+
+        signInViewModel = new ViewModelProvider(this).get(SignInViewModel.class);
 
         setSignUpPage();
     }
@@ -194,6 +161,27 @@ public class SignUpPageActivity extends AppCompatActivity {
 
     // sets sign up button which goes to feed if given valid user details
     private void setSignUpButton() {
+        signUpViewModel.getSignUpSuccess().observe(this, success -> {
+            if(success) {
+                // If valid, update UserDetails and start FeedActivity
+                userDetails.setUsername(username);
+                userDetails.setPassword(password);
+                userDetails.setDisplayName(displayName);
+                userDetails.setImg(img);
+                userDetails.setFriendsList(new LinkedList<String>());
+                signInViewModel.signIn(username, password);
+            } else {
+                Toast.makeText(SignUpPageActivity.this, "Invalid Fields or missing a photo", Toast.LENGTH_SHORT).show();
+            }
+        });
+        signInViewModel.getSignInSuccess().observe(this, success -> {
+            if(success) {
+                userDetails.setSignIn(true);
+                proceedToFeed();
+            } else {
+                Toast.makeText(SignUpPageActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+            }
+        });
         // Find the "Feed Activity" button in the layout
         Button feedActivityButton = findViewById(R.id.feedActivity);
 
@@ -202,15 +190,8 @@ public class SignUpPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Check if all input fields are valid
-                if (isAllValid()) {
-                    // If valid, update UserDetails and start FeedActivity
-                    userDetails.setSignIn(true);
-                    userDetails.setUsername(username);
-                    userDetails.setPassword(password);
-                    userDetails.setDisplayName(displayName);
-                    userDetails.setImg(img);
-                    Intent intent = new Intent(SignUpPageActivity.this, FeedActivityMain.class);
-                    startActivity(intent);
+                if (isAllValid(username, password, displayName, rePassword, img)) {
+                    signUpViewModel.signUp(username, password, displayName, img);
                 } else {
                     // If not valid, display a toast with an error message
                     Toast.makeText(SignUpPageActivity.this,
@@ -218,6 +199,12 @@ public class SignUpPageActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void proceedToFeed() {
+        Intent intent = new Intent(SignUpPageActivity.this, FeedActivityMain.class);
+        startActivity(intent);
+        finish();
     }
 
     //sets a button to navigate to sign in page

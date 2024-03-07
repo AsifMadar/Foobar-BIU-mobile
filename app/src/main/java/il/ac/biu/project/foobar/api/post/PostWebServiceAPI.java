@@ -1,4 +1,4 @@
-package il.ac.biu.project.foobar.api;
+package il.ac.biu.project.foobar.api.post;
 
 import java.util.List;
 import retrofit2.Call;

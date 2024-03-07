@@ -1,14 +1,11 @@
 package il.ac.biu.project.foobar.viewmodels;
 
-import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
-import il.ac.biu.project.foobar.MainActivity;
-import il.ac.biu.project.foobar.api.SignInAPI;
-import il.ac.biu.project.foobar.entities.SignInRequest;
+import il.ac.biu.project.foobar.api.signin.SignInAPI;
+import il.ac.biu.project.foobar.entities.requests.SignInRequest;
 import il.ac.biu.project.foobar.entities.UserDetails;
 
 public class SignInViewModel extends  ViewModel{

@@ -1,10 +1,10 @@
-package il.ac.biu.project.foobar.api;
+package il.ac.biu.project.foobar.api.signin;
 
 
 import retrofit2.Callback;
 import il.ac.biu.project.foobar.MyApplication;
 import il.ac.biu.project.foobar.R;
-import il.ac.biu.project.foobar.entities.SignInRequest;
+import il.ac.biu.project.foobar.entities.requests.SignInRequest;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -13,8 +13,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SignInAPI {
     private Retrofit retrofit;
     private SignInWebServiceAPI signInWebServiceAPI;
-
-    private String responseBody = null;
 
 
     public SignInAPI() {

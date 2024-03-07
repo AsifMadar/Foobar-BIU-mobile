@@ -1,4 +1,4 @@
-package il.ac.biu.project.foobar.api;
+package il.ac.biu.project.foobar.api.post;
 
 import androidx.lifecycle.MutableLiveData;
 import java.util.List;

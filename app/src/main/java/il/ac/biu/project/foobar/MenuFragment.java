@@ -99,7 +99,7 @@ public class MenuFragment extends Fragment {
             public void onClick(View view) {
                 // Clear user session
                 userDetails.setSignIn(false);
-
+                userDetails.setJwt("");
                 // Go back to MainActivity
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);

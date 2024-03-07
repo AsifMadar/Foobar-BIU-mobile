@@ -1,6 +1,10 @@
 package il.ac.biu.project.foobar.entities;
 
 import android.graphics.Bitmap;
+
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.time.Instant;
@@ -10,8 +14,10 @@ import java.util.TimeZone;
 /**
  * Represents the details of a post.
  */
+@Entity
 public class PostDetails {
     // Unique identifier for the post
+    @PrimaryKey(autoGenerate = true)
     private int id;
     // Display name of the post author
     private String authorDisplayName;

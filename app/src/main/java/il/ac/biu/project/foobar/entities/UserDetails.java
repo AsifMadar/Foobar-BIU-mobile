@@ -1,6 +1,11 @@
 package il.ac.biu.project.foobar.entities;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Singleton class for managing user details.
@@ -15,6 +20,8 @@ public class UserDetails {
     private Bitmap img;
     private String displayName;
     private String jwt ="";
+    private List<String> friendsList = new LinkedList<>();
+
 
     /**
      * Private constructor to prevent instantiation.
@@ -132,5 +139,12 @@ public class UserDetails {
 
     public void setJwt(String jwt) {
         this.jwt = jwt;
+    }
+    public List<String> getFriendsList() {
+        return friendsList;
+    }
+
+    public void setFriendsList(List<String> friendsList) {
+        this.friendsList = friendsList;
     }
 }

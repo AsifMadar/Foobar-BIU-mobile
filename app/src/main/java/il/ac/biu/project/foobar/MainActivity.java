@@ -9,11 +9,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import il.ac.biu.project.foobar.api.SignInAPI;
 import il.ac.biu.project.foobar.entities.AdvancedTextField;
-import il.ac.biu.project.foobar.entities.SignInRequest;
 import il.ac.biu.project.foobar.entities.UserDetails;
 import il.ac.biu.project.foobar.viewmodels.SignInViewModel;
+import il.ac.biu.project.foobar.viewmodels.UserViewModel;
 
 /**
  * The main activity for the Foobar-BIU mobile app. This class handles user authentication,
@@ -28,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private SignInViewModel signInViewModel;
     private final UserDetails userDetails = UserDetails.getInstance();
 
+    UserViewModel userViewModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         protectSignInPage();
 
         signInViewModel = new ViewModelProvider(this).get(SignInViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         initializeSignInPage();
     }
@@ -43,9 +45,18 @@ public class MainActivity extends AppCompatActivity {
     private void initializeSignInPage() {
         signInViewModel.getSignInSuccess().observe(this, success -> {
             if(success) {
-                proceedToFeed();
+                userViewModel.fetchUserDetails(givenUsername, userDetails.getJwt());
             } else {
                 Toast.makeText(MainActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        userViewModel.getUserDetailsFetchSuccess().observe(this, success -> {
+            if(success) {
+                proceedToFeed();
+            }
+            else {
+                Toast.makeText(MainActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
             }
         });
         // Initialize text fields for username and password input.

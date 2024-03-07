@@ -10,6 +10,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
+
 import il.ac.biu.project.foobar.AdvancedTextField.InputCallback;
 import il.ac.biu.project.foobar.AdvancedTextField.ValidationFunction;
 
@@ -26,6 +29,8 @@ public class SignUpPageActivity extends AppCompatActivity {
     private String displayName = "";
     private Bitmap img;
     private ImageTaker imageTaker;
+    private ArrayList<String> friends=new ArrayList<>();
+    private ArrayList<String> friendRequests=friends=new ArrayList<>();;
     private final UserDetails userDetails = UserDetails.getInstance();
 
 
@@ -89,6 +94,16 @@ public class SignUpPageActivity extends AppCompatActivity {
         protectSignUpPage();
 
         setSignUpPage();
+        //sample for tests
+        setFriendRequests();
+    }
+    private void setFriendRequests() {
+        // Add sample friend requests to the list
+        friendRequests = new ArrayList<>();
+        friendRequests.add("Friend 1");
+        friendRequests.add("Friend 2");
+        friendRequests.add("Friend 3");
+        // You can add more sample friend requests as needed
     }
 
     private void setSignUpPage() {
@@ -206,6 +221,8 @@ public class SignUpPageActivity extends AppCompatActivity {
                     userDetails.setPassword(password);
                     userDetails.setDisplayName(displayName);
                     userDetails.setImg(img);
+                    userDetails.setFriends(friends);
+                    userDetails.setFriendRequests(friendRequests);
                     Intent intent = new Intent(SignUpPageActivity.this, FeedActivityMain.class);
                     startActivity(intent);
                 } else {

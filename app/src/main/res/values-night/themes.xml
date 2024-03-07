@@ -10,7 +10,7 @@
     <style name="TEXT">
         <item name="android:textColor">#FFFFFF</item></style>
     <style name="BUTTON">
-        <item name="android:background">#212122</item>
+        <item name="android:backgroundTint">#212122</item>
         <item name="android:textColor">#BBBDC5</item>
     </style>
     <style name="Toolbar">

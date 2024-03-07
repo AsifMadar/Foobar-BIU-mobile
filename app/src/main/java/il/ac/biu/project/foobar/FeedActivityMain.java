@@ -101,7 +101,7 @@ public class FeedActivityMain extends AppCompatActivity {
                             // Show the video fragment
                             findViewById(R.id.profile_bar).setVisibility(View.GONE);
                             findViewById(R.id.scroll).setVisibility(View.GONE);
-                            selectedFragment = new VideoFragment();
+                            selectedFragment = new ProfileFragment();
                         }else if (itemId == R.id.NotificationsId) {
                             findViewById(R.id.profile_bar).setVisibility(View.GONE);
                             findViewById(R.id.scroll).setVisibility(View.GONE);

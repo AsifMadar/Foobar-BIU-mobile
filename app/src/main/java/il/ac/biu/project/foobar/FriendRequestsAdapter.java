@@ -1,6 +1,7 @@
 package il.ac.biu.project.foobar;
-import android.util.Log;
 
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 public class FriendRequestsAdapter extends RecyclerView.Adapter<FriendRequestsAdapter.ViewHolder> {
 
     private ArrayList<String> friendRequests;
+    private static final int REQUEST_CODE_FRIEND_REQUESTS = 1;
 
     public FriendRequestsAdapter(ArrayList<String> friendRequests) {
         this.friendRequests = friendRequests;
@@ -35,19 +37,19 @@ public class FriendRequestsAdapter extends RecyclerView.Adapter<FriendRequestsAd
             @Override
             public void onClick(View v) {
                 // Handle adding friend action
-                String friendName = friendRequests.get(holder.getAdapterPosition());
+                String friendName = friendRequests.remove(holder.getAdapterPosition());
+                notifyDataSetChanged(); // Notify adapter of data change
 
                 // Add friend to friend list
                 UserDetails.getInstance().addFriend(friendName);
 
-                // Remove friend request
-                friendRequests.remove(holder.getAdapterPosition());
-
-                // Notify adapter of data change
-                notifyDataSetChanged();
-
+                // Print the name of the friend added
                 Log.d("FriendRequestsAdapter", "Friend added: " + friendName);
-                Log.d("FriendRequestsAdapter", "Friend added: " + UserDetails.getInstance().getFriendRequests());
+
+                // Pass back the updated friend list to the FriendsFragment
+                Intent resultIntent = new Intent();
+                resultIntent.putStringArrayListExtra("updatedFriendsList", UserDetails.getInstance().getFriends());
+                ((FriendRequests) holder.itemView.getContext()).setResult(REQUEST_CODE_FRIEND_REQUESTS, resultIntent);
             }
         });
 

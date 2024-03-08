@@ -148,6 +148,9 @@ public class UserDetails {
         return friends;
     }
     public void addFriend(String friendName) {
+        if(friends==null)
+        {friends=new ArrayList<>();
+        }
         friends.add(friendName);
     }
     /**

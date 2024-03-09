@@ -9,7 +9,10 @@ import androidx.room.Room;
 import java.util.LinkedList;
 import java.util.List;
 import il.ac.biu.project.foobar.entities.PostDetails;
+import il.ac.biu.project.foobar.repositories.PostsTasks.AddLikeTask;
 import il.ac.biu.project.foobar.repositories.PostsTasks.AddPostTask;
+import il.ac.biu.project.foobar.repositories.PostsTasks.DeletePostTask;
+import il.ac.biu.project.foobar.repositories.PostsTasks.EditPostTask;
 import il.ac.biu.project.foobar.repositories.PostsTasks.GetPostsTask;
 
 public class PostsRepository {
@@ -49,8 +52,19 @@ public class PostsRepository {
     public void add(PostDetails postDetails){
         new AddPostTask(postListData, dao, postDetails).execute();
     }
+
+    public void deletePost(PostDetails postDetails){
+        new DeletePostTask(postListData, dao, postDetails).execute();
+    }
+
+    public void editPost(PostDetails postDetails){
+        new EditPostTask(postListData, dao, postDetails).execute();
+    }
     public PostDetails getPostFromData(String id){
         return dao.get(id);
+    }
+    public void addLike(PostDetails postDetails){
+        new AddLikeTask(postListData, dao, postDetails).execute();
     }
 
 

@@ -26,6 +26,7 @@ public class CreatePostActivity extends AppCompatActivity {
     private ImageTaker imageTaker;
     private PostManager postManager = PostManager.getInstance();
     private String postId;
+    private boolean isEditing = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,8 @@ public class CreatePostActivity extends AppCompatActivity {
         postId = getIntent().getStringExtra("postID");
         UserDetails user = UserDetails.getInstance();
         if(postManager.getPost(postId) != null)  {
+            postDetails = postManager.getPost(postId);
+            isEditing = true;
             setTemplateEditPost(postManager.getPost(postId));
         } else {
             this.postDetails = new PostDetails(postId, user.getUsername(), user.getDisplayName(), user.getImg(), "", null, 0);
@@ -120,12 +123,9 @@ public class CreatePostActivity extends AppCompatActivity {
      */
     private void setTemplateEditPost(PostDetails postDetails) {
         ImageView profileImage = findViewById(R.id.profile_picture_create_post);
-        System.out.println("HEYLO2");
         System.out.println(postDetails.getId());
-
         if (postDetails.getAuthorProfilePicture() != null) {
             profileImage.setImageBitmap(postDetails.getAuthorProfilePicture());
-            System.out.println("HEYLO3");
         }
         TextView nameView = findViewById(R.id.user_name_create_post);
         nameView.setText(postDetails.getAuthorDisplayName());

@@ -7,7 +7,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Path;
 
 public interface UsersWebServiceAPI {
-    @GET("{id}") // Use @Path to specify that "id" is a variable part of the URL
+    @GET("/api/users/{id}") // Use @Path to specify that "id" is a variable part of the URL
     Call<UserDetailsResponse> getUserDetails(@Path("id") String userID, @Header("Authorization") String jwtToken);
     // Add @Header to dynamically add the JWT token to the request
 }

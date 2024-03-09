@@ -10,7 +10,9 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import il.ac.biu.project.foobar.entities.PostDetails;
 
@@ -18,10 +20,22 @@ public interface PostWebServiceAPI {
     @GET("posts")
     Call<List<PostDetails>> getPosts();
 
-    @POST("{userId}/posts")
+    @POST("/api/users/{userId}/posts")
     Call<PostJsonDetails> createPost(@Path("userId") String userId,
                                      @Header("Authorization") String jwtToken, @Body AddPostRequest postRequest);
 
-    @DELETE("posts/{id}")
-    Call<Void> deletePost(@Path("id") int id);
+    @DELETE("/api/users/{id}/posts/{pid}")
+    Call<Void> deletePost(@Path("id") String userId,
+                          @Path("pid") String postId,
+                          @Header("Authorization") String jwtToken);
+
+    @PATCH("/api/users/{id}/posts/{pid}")
+    Call<PostJsonDetails> editPost(@Path("id") String userId,
+                                   @Path("pid") String postId,
+                                   @Header("Authorization") String jwtToken,
+                                   @Body AddPostRequest postRequest);
+
+    @POST("/api/{pid}")
+    Call<Void> addLike(@Path("pid") String postID,
+                                     @Header("Authorization") String jwtToken);
 }

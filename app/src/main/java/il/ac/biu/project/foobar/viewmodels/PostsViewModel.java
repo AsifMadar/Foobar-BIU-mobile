@@ -26,6 +26,20 @@ public class PostsViewModel extends ViewModel {
         postsRepository.add(post);
     }
 
+    public void edit(PostDetails post) {
+        postsRepository.editPost(post);
+    }
+    public void delete(PostDetails post) {
+        postsRepository.deletePost(post);
+    }
+
+    public void addLike(PostDetails post) {
+        postsRepository.addLike(post);
+    }
+
+
+
+
     public PostDetails getPostFromData(String postID) {
         return postsRepository.getPostFromData(postID);
     }

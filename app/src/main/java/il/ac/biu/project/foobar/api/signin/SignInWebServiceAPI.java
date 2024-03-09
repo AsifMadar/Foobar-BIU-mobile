@@ -7,7 +7,7 @@ import retrofit2.http.POST;
 
 public interface SignInWebServiceAPI {
 
-    @POST("tokens")
+    @POST("/api/tokens")
     Call<String> signIn(@Body SignInRequest request);
 
 }

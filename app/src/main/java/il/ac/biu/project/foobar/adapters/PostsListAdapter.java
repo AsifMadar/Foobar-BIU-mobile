@@ -22,6 +22,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import il.ac.biu.project.foobar.CommentActivity;
@@ -29,6 +31,8 @@ import il.ac.biu.project.foobar.CreatePostActivity;
 import il.ac.biu.project.foobar.R;
 import il.ac.biu.project.foobar.ShareActivity;
 import il.ac.biu.project.foobar.entities.PostDetails;
+import il.ac.biu.project.foobar.entities.PostManager;
+import il.ac.biu.project.foobar.entities.PostRemoveListener;
 import il.ac.biu.project.foobar.entities.UserDetails;
 
 public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.PostViewHolder> {
@@ -38,7 +42,6 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
         private PostViewHolder(View itemView) {
             super(itemView);
-
         }
     }
 
@@ -49,12 +52,14 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
     private final Context feedContext;
 
+    private PostRemoveListener listener;
 
-    public PostsListAdapter(Activity feedActivity, Context context) {
+
+    public PostsListAdapter(Activity feedActivity, Context context, PostRemoveListener removeListener) {
         postInflater = LayoutInflater.from(context);
         this.feedActivity = feedActivity;
         feedContext = context;
-
+        listener = removeListener;
     }
 
     @NonNull
@@ -80,6 +85,13 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     }
 
     public void setPosts(List<PostDetails> s) {
+        Collections.sort(s, new Comparator<PostDetails>() {
+            @Override
+            public int compare(PostDetails p1, PostDetails p2) {
+                // Sort in descending order of time (most recent first)
+                return Long.compare(p2.getTime(), p1.getTime());
+            }
+        });
         posts = s;
         notifyDataSetChanged();
     }
@@ -196,6 +208,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
      * @param postDetails The details of the post associated with the view.
      */
     private void editOrDeleteButton(View postView, PostDetails postDetails) {
+        PostManager.getInstance().putPost(postDetails.getId(), postDetails);
         AlertDialog.Builder builder = new AlertDialog.Builder(feedContext);
         builder.setTitle("Choose an option");
 
@@ -214,10 +227,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         builder.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-//                // Remove post view and data from layout and PostManager
-//                layout.removeView(postViewMap.get(postDetails.getId()));
-//                postViewMap.remove(postDetails.getId());
-//                postManager.removePost(postDetails.getId());
+                listener.onDeletePost(postDetails);
             }
         });
 
@@ -255,4 +265,6 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         }
         numOfLikeView.setText(numOfLikes + " likes");
     }
+
+
 }

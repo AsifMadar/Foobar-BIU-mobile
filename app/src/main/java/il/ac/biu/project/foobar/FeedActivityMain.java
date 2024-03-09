@@ -38,6 +38,7 @@ import il.ac.biu.project.foobar.entities.Comment;
 import il.ac.biu.project.foobar.entities.PostDetails;
 import il.ac.biu.project.foobar.entities.PostJsonDetails;
 import il.ac.biu.project.foobar.entities.PostManager;
+import il.ac.biu.project.foobar.entities.PostRemoveListener;
 import il.ac.biu.project.foobar.entities.UserDetails;
 import il.ac.biu.project.foobar.repositories.PostsRepository;
 import il.ac.biu.project.foobar.viewmodels.PostsViewModel;
@@ -74,13 +75,20 @@ public class FeedActivityMain extends AppCompatActivity {
         // Initialize the container layout for posts
         layout = findViewById(R.id.container);
 
-        postsListAdapter = new PostsListAdapter(this, this);
+        postsViewModel = new ViewModelProvider(this).get(PostsViewModel.class);
+
+
+        postsListAdapter = new PostsListAdapter(this, this, new PostRemoveListener() {
+            @Override
+            public void onDeletePost(PostDetails postDetails) {
+                postsViewModel.delete(postDetails);
+            }
+        });
         layout.setAdapter(postsListAdapter);
         layout.setLayoutManager(new LinearLayoutManager(this));
 
 
 
-        postsViewModel = new ViewModelProvider(this).get(PostsViewModel.class);
 
         postsViewModel.get().observe(this, new Observer<List<PostDetails>>() {
             @Override
@@ -226,18 +234,8 @@ public class FeedActivityMain extends AppCompatActivity {
 
         if (requestCode == CREATE_POST_REQUEST && resultCode == RESULT_OK && data != null) {
             String modifiedPostId = data.getStringExtra("modifiedPostId");
-            //if (postsViewModel.getPostFromData(modifiedPostId) != null) {
                 PostDetails post = PostManager.getInstance().getPost(modifiedPostId);
-//                if (editingPost) {
-//                    // Update post view if editing post
-//                    postInitializer(postManager.getPost(modifiedPostId), postViewMap.get(modifiedPostId));
-//                    editingPost = false;
-//                }
-//                else {
-                    // Add new post view
                     postsViewModel.add(post);
-               // }
-           // }
         }
 
         if (requestCode == SHARE_PAGE_REQUEST) {
@@ -246,6 +244,12 @@ public class FeedActivityMain extends AppCompatActivity {
             } else {
                 // Handle unsuccessful share activity completion
             }
+        }
+
+        if (requestCode == EDIT_POST_REQUEST) {
+            String modifiedPostId = data.getStringExtra("modifiedPostId");
+            PostDetails post = PostManager.getInstance().getPost(modifiedPostId);
+            postsViewModel.edit(post);
         }
 
 //        if (requestCode == COMMENT_PAGE_REQUEST) {

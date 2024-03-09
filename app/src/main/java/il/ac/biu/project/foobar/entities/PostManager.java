@@ -38,7 +38,9 @@ public class PostManager {
      * @param postDetails The PostDetails object containing the post's data.
      */
     public void putPost(String id, PostDetails postDetails) {
-        postMap.put(id, postDetails);
+        if (!postMap.containsKey(id)) {
+            postMap.put(id, postDetails);
+        }
     }
 
     /**

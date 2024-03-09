@@ -3,26 +3,23 @@ package il.ac.biu.project.foobar.api.post;
 import androidx.annotation.NonNull;
 
 import il.ac.biu.project.foobar.MyApplication;
-
 import il.ac.biu.project.foobar.R;
 import il.ac.biu.project.foobar.entities.PostDetails;
 import il.ac.biu.project.foobar.entities.PostJsonDetails;
-import il.ac.biu.project.foobar.entities.PostManager;
 import il.ac.biu.project.foobar.entities.UserDetails;
-import il.ac.biu.project.foobar.entities.requests.AddPostRequest;
-import il.ac.biu.project.foobar.entities.responses.PostResponse;
+import il.ac.biu.project.foobar.entities.requests.AddPostRequest; // You might need to create or use an appropriate request class for editing
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class AddPostAPI {
+public class EditPostAPI {
 
     private Retrofit retrofit;
     private PostWebServiceAPI postWebServiceAPI;
 
-    public AddPostAPI() {
+    public EditPostAPI() {
         retrofit = new Retrofit.Builder()
                 .baseUrl(MyApplication.context.getString(R.string.BaseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
@@ -32,33 +29,33 @@ public class AddPostAPI {
     }
 
     /**
-     * Create a new post, using the server
+     * Edit an existing post, using the server
      *
-     * @param postDetails The post details.
+     * @param postId The ID of the post to edit.
+     * @param postDetails The new post details.
      * @param jwtToken The JWT token for authorization.
      * @param callback The callback to handle the response.
      */
-    public void addPost(PostDetails postDetails, String jwtToken, AddPostResponseCallback callback) {
-        AddPostRequest addPostRequest = new AddPostRequest(postDetails.getUserInput(), postDetails.getPicture());
-        // Ensure the PostWebServiceAPI interface's createPost method accepts an AddPostRequest and includes a way to set the Authorization header
-        Call<PostJsonDetails> call = postWebServiceAPI.createPost(UserDetails.getInstance().getUsername(),
-                "Bearer " + jwtToken, addPostRequest);
+    public void editPost(String postId, PostDetails postDetails, String jwtToken, EditPostResponseCallback callback) {
+        // Assuming you have a request body similar to AddPostRequest for editing
+        AddPostRequest editPostRequest = new AddPostRequest(postDetails.getUserInput(), postDetails.getPicture());
+        // Adjust the method call according to your Retrofit interface definition
+        Call<PostJsonDetails> call = postWebServiceAPI.editPost(UserDetails.getInstance().getUsername(), postId,
+                "Bearer " + jwtToken, editPostRequest);
 
         call.enqueue(new Callback<PostJsonDetails>() {
             @Override
             public void onResponse(@NonNull Call<PostJsonDetails> call, @NonNull Response<PostJsonDetails> response) {
-                new Thread(() ->{
+                new Thread(() -> {
                     if (response.isSuccessful() && response.body() != null) {
-                    PostManager.getInstance().removePost(postDetails.getId());
-                    postDetails.setId(response.body().id);
-                    callback.onSuccess(postDetails);
-                } else {
-                    // Handle error response, e.g., unauthorized or bad request
-                    callback.onFailure("Error: " + response.code());
-                }
-            }).start();
-        }
+                        // Assuming response contains updated post details
+                        callback.onSuccess(postDetails);
+                    } else {
+                        callback.onFailure("Error: " + response.code());
 
+                    }
+                }).start();
+            }
 
             @Override
             public void onFailure(@NonNull Call<PostJsonDetails> call, @NonNull Throwable t) {
@@ -68,8 +65,8 @@ public class AddPostAPI {
         });
     }
 
-    public interface AddPostResponseCallback {
-        void onSuccess(PostDetails addedPost);
+    public interface EditPostResponseCallback {
+        void onSuccess(PostDetails updatedPost);
         void onFailure(String errorMessage);
     }
 

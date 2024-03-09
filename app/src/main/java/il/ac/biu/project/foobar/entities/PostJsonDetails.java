@@ -27,8 +27,8 @@ public class PostJsonDetails {
     public CommentJsonDetails[] comments;
     public String contents;
     public String[] images;
-    public UserJsonDetails[] likes;
-    public UserJsonDetails[] shares;
+    public String[] likes;
+    public String[] shares;
     public long timestamp;
     public String id;
 }

@@ -18,9 +18,8 @@ import retrofit2.http.Path;
 import il.ac.biu.project.foobar.entities.PostDetails;
 
 public interface PostWebServiceAPI {
-    @GET("posts")
-    Call<List<PostDetails>> getPosts();
-
+    @GET("/api/posts")
+    Call<List<PostJsonDetails>> getPosts(@Header("Authorization") String jwtToken);
     @POST("/api/users/{userId}/posts")
     Call<PostJsonDetails> createPost(@Path("userId") String userId,
                                      @Header("Authorization") String jwtToken, @Body AddPostRequest postRequest);

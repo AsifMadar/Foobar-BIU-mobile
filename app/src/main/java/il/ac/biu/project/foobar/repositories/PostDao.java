@@ -26,5 +26,8 @@ public interface PostDao {
 
     @Delete
     void delete(PostDetails... posts);
+
+    @Query("DELETE FROM PostDetails")
+    void deleteAll();
 }
 

@@ -36,9 +36,6 @@ public class PostDetails {
     // Time when the post was created
     private long time;
 
-
-
-
     // List of users who liked the post
     private List<String> likeList = new LinkedList<>();
     private List<Comment> commentList = new LinkedList<>();

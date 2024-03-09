@@ -4,8 +4,11 @@ import static il.ac.biu.project.foobar.MyApplication.context;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import il.ac.biu.project.foobar.entities.PostDetails;
 import il.ac.biu.project.foobar.repositories.PostsRepository;
@@ -13,6 +16,7 @@ import il.ac.biu.project.foobar.repositories.PostsRepository;
 public class PostsViewModel extends ViewModel {
     private PostsRepository postsRepository;
     private LiveData<List<PostDetails>> posts;
+
 
     public PostsViewModel() {
         postsRepository = new PostsRepository(context);
@@ -37,19 +41,20 @@ public class PostsViewModel extends ViewModel {
         postsRepository.addLike(post);
     }
 
-
-
-
     public PostDetails getPostFromData(String postID) {
         return postsRepository.getPostFromData(postID);
     }
-//
-//    public void delete(PostDetails post) {
-//        postsRepository.delete(post);
-//    }
+    public void reload(SwipeRefreshLayout postsRefresh) {
+        postsRepository.reload(postsRefresh);
+    }
 
+    //used for the first initialization
     public void reload() {
         postsRepository.reload();
+    }
+
+    public void clearPostsFromDB() {
+        postsRepository.clearPostsFromDB();
     }
 
 }

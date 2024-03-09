@@ -171,7 +171,7 @@ public class SignUpPageActivity extends AppCompatActivity {
                 userDetails.setFriendsList(new LinkedList<String>());
                 signInViewModel.signIn(username, password);
             } else {
-                Toast.makeText(SignUpPageActivity.this, "Invalid Fields or missing a photo", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUpPageActivity.this, "Username already taken", Toast.LENGTH_SHORT).show();
             }
         });
         signInViewModel.getSignInSuccess().observe(this, success -> {

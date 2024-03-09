@@ -11,26 +11,21 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.gson.Gson;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.util.HashMap;
+
 import java.util.List;
 
 import il.ac.biu.project.foobar.adapters.PostsListAdapter;
@@ -82,8 +77,22 @@ public class FeedActivityMain extends AppCompatActivity {
         // Show the home fragment initially
         showHome();
 
+        initializeBottomNavigationView();
         // Initialize BottomNavigationView
 
+
+
+        // Load posts from JSON file
+//        if (postManager.getAllPosts().isEmpty()) {
+//            try (InputStream inputStream = getResources().openRawResource(R.raw.posts)) {
+//                this.loadPostsFromJson(inputStream);
+//            } catch (IOException error) {
+//
+//            }
+//        }
+    }
+
+    private void initializeBottomNavigationView() {
         BottomNavigationView navigationView = findViewById(R.id.bootomnavigationid);
         navigationView.setItemIconTintList(null);
         // Set listener for BottomNavigationView items
@@ -99,7 +108,7 @@ public class FeedActivityMain extends AppCompatActivity {
                             // Show the menu fragment
                             findViewById(R.id.profile_bar).setVisibility(View.GONE);
                             findViewById(R.id.scroll).setVisibility(View.GONE);
-                            selectedFragment = new MenuFragment();
+                            selectedFragment = new MenuFragment(postsViewModel);
                         } else if (itemId == R.id.myhome) {
                             // Show the home
                             Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.framelayout);
@@ -145,16 +154,8 @@ public class FeedActivityMain extends AppCompatActivity {
         if (userProfilePicture != null) {
             profileImage.setImageBitmap(userProfilePicture);
         }
-
-        // Load posts from JSON file
-//        if (postManager.getAllPosts().isEmpty()) {
-//            try (InputStream inputStream = getResources().openRawResource(R.raw.posts)) {
-//                this.loadPostsFromJson(inputStream);
-//            } catch (IOException error) {
-//
-//            }
-//        }
     }
+
     // Method to show the home
     public void showHome(){
         findViewById(R.id.profile_bar).setVisibility(View.VISIBLE);
@@ -371,6 +372,15 @@ public class FeedActivityMain extends AppCompatActivity {
                 postsListAdapter.setPosts(postsList);
             }
         });
+
+        SwipeRefreshLayout  postsRefresh = findViewById(R.id.scroll);
+        postsRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                postsViewModel.reload(postsRefresh);
+            }
+        });
+        postsViewModel.reload();
     }
 
     @Override

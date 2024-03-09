@@ -41,7 +41,7 @@ public class AddLikeTask extends AsyncTask<String, Void, Boolean> {
                 onPostExecute(false);
             }
         });
-        return null;
+        return false;
     }
 
     @Override

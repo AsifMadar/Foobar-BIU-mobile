@@ -30,6 +30,7 @@ import il.ac.biu.project.foobar.CommentActivity;
 import il.ac.biu.project.foobar.CreatePostActivity;
 import il.ac.biu.project.foobar.R;
 import il.ac.biu.project.foobar.ShareActivity;
+import il.ac.biu.project.foobar.entities.AddLikePostListener;
 import il.ac.biu.project.foobar.entities.PostDetails;
 import il.ac.biu.project.foobar.entities.PostManager;
 import il.ac.biu.project.foobar.entities.PostRemoveListener;
@@ -52,14 +53,19 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
     private final Context feedContext;
 
-    private PostRemoveListener listener;
+    private PostRemoveListener postRemoveListener;
+    private AddLikePostListener addLikePostListener;
 
 
-    public PostsListAdapter(Activity feedActivity, Context context, PostRemoveListener removeListener) {
+
+    public PostsListAdapter(Activity feedActivity, Context context, PostRemoveListener removeListener,
+                            AddLikePostListener addLikePostListener) {
+
         postInflater = LayoutInflater.from(context);
         this.feedActivity = feedActivity;
         feedContext = context;
-        listener = removeListener;
+        postRemoveListener = removeListener;
+        this.addLikePostListener = addLikePostListener;
     }
 
     @NonNull
@@ -166,6 +172,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             public void onClick(View view) {
                 // Handle like button click
                 handleLikeButtonClick(view, postDetails);
+                addLikePostListener.onLikePost(postDetails);
             }
         });
 
@@ -227,7 +234,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         builder.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                listener.onDeletePost(postDetails);
+                postRemoveListener.onDeletePost(postDetails);
             }
         });
 
@@ -241,12 +248,16 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
      * already liked by the user.
      * @param postDetails The details of the post being liked or unliked.
      */
-    private void handleLikeButtonClick(View postView, PostDetails postDetails) {
+    private void handleLikeButtonClick(View view, PostDetails postDetails) {
+        View postView = (View) view.getParent().getParent().getParent();
+
         String userName = userDetails.getUsername();
         int numOfLikes = postDetails.getNumberOfLikes();
         ImageView likeIcon = postView.findViewById(R.id.like_icon);
         TextView numOfLikeView = postView.findViewById(R.id.like_count);
+
         TextView likeText = postView.findViewById(R.id.like_text);
+
         if (postDetails.isLiked(userName)) {
             postDetails.removeLike(userName);
             numOfLikes--;
@@ -265,6 +276,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         }
         numOfLikeView.setText(numOfLikes + " likes");
     }
+
 
 
 }

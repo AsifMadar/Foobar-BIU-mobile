@@ -3,6 +3,7 @@ package il.ac.biu.project.foobar.api.post;
 import androidx.annotation.NonNull;
 import il.ac.biu.project.foobar.MyApplication;
 import il.ac.biu.project.foobar.R;
+import il.ac.biu.project.foobar.entities.requests.LikeRequest;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,7 +32,7 @@ public class AddLikeAPI {
      * @param callback The callback to handle the response.
      */
     public void addLike(String postID, String jwtToken, AddLikeResponseCallback callback) {
-        Call<Void> call = postWebServiceAPI.addLike(postID, "Bearer " + jwtToken);
+        Call<Void> call = postWebServiceAPI.addLike(new LikeRequest(postID), "Bearer " + jwtToken);
 
         call.enqueue(new Callback<Void>() {
             @Override

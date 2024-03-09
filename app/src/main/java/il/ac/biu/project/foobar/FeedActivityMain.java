@@ -34,6 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import il.ac.biu.project.foobar.adapters.PostsListAdapter;
+import il.ac.biu.project.foobar.entities.AddLikePostListener;
 import il.ac.biu.project.foobar.entities.Comment;
 import il.ac.biu.project.foobar.entities.PostDetails;
 import il.ac.biu.project.foobar.entities.PostJsonDetails;
@@ -72,30 +73,9 @@ public class FeedActivityMain extends AppCompatActivity {
         // Set the layout for the activity
         setContentView(R.layout.activity_feed_main);
 
-        // Initialize the container layout for posts
-        layout = findViewById(R.id.container);
+        // Initialize the adapter and view model for posts
 
-        postsViewModel = new ViewModelProvider(this).get(PostsViewModel.class);
-
-
-        postsListAdapter = new PostsListAdapter(this, this, new PostRemoveListener() {
-            @Override
-            public void onDeletePost(PostDetails postDetails) {
-                postsViewModel.delete(postDetails);
-            }
-        });
-        layout.setAdapter(postsListAdapter);
-        layout.setLayoutManager(new LinearLayoutManager(this));
-
-
-
-
-        postsViewModel.get().observe(this, new Observer<List<PostDetails>>() {
-            @Override
-            public void onChanged(List<PostDetails> postsList) {
-                postsListAdapter.setPosts(postsList);
-            }
-        });
+        setPostsViewModel();
 
         setAddPostButton();
 
@@ -365,21 +345,36 @@ public class FeedActivityMain extends AppCompatActivity {
 //
 //        this.reloadPosts();
 //    }
+    private void setPostsViewModel() {
+        layout = findViewById(R.id.container);
+
+        postsViewModel = new ViewModelProvider(this).get(PostsViewModel.class);
+
+        postsListAdapter = new PostsListAdapter(this, this, new PostRemoveListener() {
+            @Override
+            public void onDeletePost(PostDetails postDetails) {
+                postsViewModel.delete(postDetails);
+            }
+        }, new AddLikePostListener() {
+            @Override
+            public void onLikePost(PostDetails postDetails) {
+                postsViewModel.addLike(postDetails);
+            }
+        });
+        layout.setAdapter(postsListAdapter);
+        layout.setLayoutManager(new LinearLayoutManager(this));
+
+
+        postsViewModel.get().observe(this, new Observer<List<PostDetails>>() {
+            @Override
+            public void onChanged(List<PostDetails> postsList) {
+                postsListAdapter.setPosts(postsList);
+            }
+        });
+    }
 
     @Override
     public void onBackPressed() {
         Toast.makeText(FeedActivityMain.this, "Logout first", Toast.LENGTH_SHORT).show();
     }
-
-//    private void observePosts() {
-//        // Observe the LiveData within the ViewModel
-//        postsViewModel.get().observe(this, newPosts -> {
-//            // This code block will be executed every time the posts data changes.
-//            // For example, you can update your UI here.
-//            // If you are using a RecyclerView:
-//             postsListAdapter.setPosts(newPosts);
-//             postsListAdapter.notifyDataSetChanged();
-//
-//        });
-//    }
 }

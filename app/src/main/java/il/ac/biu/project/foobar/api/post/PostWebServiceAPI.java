@@ -4,6 +4,7 @@ import java.util.List;
 
 import il.ac.biu.project.foobar.entities.PostJsonDetails;
 import il.ac.biu.project.foobar.entities.requests.AddPostRequest;
+import il.ac.biu.project.foobar.entities.requests.LikeRequest;
 import il.ac.biu.project.foobar.entities.responses.PostResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -35,7 +36,7 @@ public interface PostWebServiceAPI {
                                    @Header("Authorization") String jwtToken,
                                    @Body AddPostRequest postRequest);
 
-    @POST("/api/{pid}")
-    Call<Void> addLike(@Path("pid") String postID,
-                                     @Header("Authorization") String jwtToken);
+    @POST("/api/likes")
+    Call<Void> addLike(@Body LikeRequest body,
+                       @Header("Authorization") String jwtToken);
 }

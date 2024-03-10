@@ -1,14 +1,15 @@
 package il.ac.biu.project.foobar.entities.responses;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserDetailsResponse {
     private String username;
     private String displayName;
     private String profileImage;
-    private List<String> friends;
+    private ArrayList<String> friends;
 
-    public UserDetailsResponse(String username, String displayName, String profileImage, List<String> friends) {
+    public UserDetailsResponse(String username, String displayName, String profileImage, ArrayList<String> friends) {
         this.username = username;
         this.displayName = displayName;
         this.profileImage = profileImage;
@@ -27,7 +28,7 @@ public class UserDetailsResponse {
         return profileImage;
     }
 
-    public List<String> getFriends() {
+    public ArrayList<String> getFriends() {
         return friends;
     }
 }

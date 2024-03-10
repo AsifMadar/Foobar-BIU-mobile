@@ -183,7 +183,7 @@ public class SignUpPageActivity extends AppCompatActivity {
                 userDetails.setPassword(password);
                 userDetails.setDisplayName(displayName);
                 userDetails.setImg(img);
-                userDetails.setFriendsList(new LinkedList<String>());
+                userDetails.setFriends(new ArrayList<String>());
                 signInViewModel.signIn(username, password);
             } else {
                 Toast.makeText(SignUpPageActivity.this, "Username already taken", Toast.LENGTH_SHORT).show();

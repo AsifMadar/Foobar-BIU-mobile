@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
+import il.ac.biu.project.foobar.entities.UserDetails;
+
 public class ProfileFragment extends Fragment {
 
     private RecyclerView friendsRecyclerView;

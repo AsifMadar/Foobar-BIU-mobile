@@ -42,6 +42,8 @@ public class FriendRequestsAdapter extends RecyclerView.Adapter<FriendRequestsAd
             @Override
             public void onClick(View v) {
 
+
+
                     // Handle adding friend action
                 String friendName = friendRequests.remove(holder.getAdapterPosition());
                 notifyDataSetChanged(); // Notify adapter of data change

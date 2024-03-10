@@ -21,7 +21,8 @@ public class UserDetails {
     private Bitmap img;
     private String displayName;
     private String jwt ="";
-    private List<String> friendsList = new LinkedList<>();
+    private ArrayList<String> friends;
+    private ArrayList<String> friendRequests;
 
 
     /**
@@ -141,12 +142,47 @@ public class UserDetails {
     public void setJwt(String jwt) {
         this.jwt = jwt;
     }
-    public List<String> getFriendsList() {
-        return friendsList;
+    public void setFriends(ArrayList<String> friendsList) {
+        friends = friendsList;
     }
-
-    public void setFriendsList(List<String> friendsList) {
-        this.friendsList = friendsList;
+    /**
+     * Get the user's friends.
+     *
+     * @return List of friends.
+     */
+    public ArrayList<String> getFriends() {
+        return friends;
+    }
+    public void addFriend(String friendName) {
+        if(friends==null)
+            {friends=new ArrayList<>();
+            }
+            friends.add(friendName);
+        }
+    /**	    public List<String> getFriendsList() {
+     * Set the user's friend requests.	        return friendsList;
+     *
+     * @param requests List of friend requests.
+     */
+    public void setFriendRequests(ArrayList<String> requests) {
+        if(friendRequests==null)
+        {friendRequests=new ArrayList<>();
+        }
+        friendRequests = requests;
+    }
+    /**	    public void setFriendsList(List<String> friendsList) {
+     * Get the user's friend requests.	        this.friendsList = friendsList;
+     *
+     * @return List of friend requests.
+     */
+    public ArrayList<String> getFriendRequests() {
+        return friendRequests;
+    }
+    public void addFriendRequest(String friendName) {
+        if(friendRequests==null)
+        {friendRequests=new ArrayList<>();
+        }
+        friendRequests.add(friendName);
     }
 
     public ArrayList<String> getFriendRequests() {

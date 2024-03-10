@@ -51,7 +51,6 @@ public class AddPostTask extends AsyncTask<PostDetails, Void, PostDetails> {
             PostManager.getInstance().putPost(postDetails.getId(), postDetails);
             dao.insert(post);
             postListData.postValue(dao.getPosts());
-
         }
     }
 }

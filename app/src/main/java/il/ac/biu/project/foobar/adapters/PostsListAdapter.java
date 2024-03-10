@@ -154,17 +154,27 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         // Initialize likes count
         LinearLayout likeLayout = view.findViewById(R.id.like_layout);
         int numOfLikes = postDetails.getNumberOfLikes();
+        TextView likeCount = view.findViewById(R.id.like_count);
         if (numOfLikes > 0) {
-            TextView likeCount = view.findViewById(R.id.like_count);
             likeCount.setVisibility(View.VISIBLE);
             likeCount.setText(numOfLikes + " likes");
+        } else {
+            likeCount.setVisibility(View.INVISIBLE);
         }
+        ImageView likeIcon = view.findViewById(R.id.like_icon);
+        TextView likeText = view.findViewById(R.id.like_text);
 
         // Update like button image
         if (postDetails.isLiked(userDetails.getUsername())) {
-            ImageView likeIcon = view.findViewById(R.id.like_icon);
             likeIcon.setImageResource(R.drawable.like_icon_pressed);
+            likeText.setTextColor(ContextCompat.getColor(feedContext.getApplicationContext(), R.color.blue_like));
+
+        } else {
+            likeIcon.setImageResource(R.drawable.like_icon_not_pressed);
+            likeText.setTextColor(Color.GRAY);
         }
+
+
 
         // Set click listener for like section
         likeLayout.setOnClickListener(new View.OnClickListener() {
@@ -223,7 +233,6 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         builder.setPositiveButton("Edit", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                System.out.println("PostID" + postView.getId());
                 Intent intent = new Intent(feedContext, CreatePostActivity.class);
                 intent.putExtra("postID", postDetails.getId());
                 feedActivity.startActivityForResult(intent, EDIT_POST_REQUEST);

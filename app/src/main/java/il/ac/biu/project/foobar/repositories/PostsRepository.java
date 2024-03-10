@@ -13,6 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import il.ac.biu.project.foobar.entities.PostDetails;
+import il.ac.biu.project.foobar.entities.PostManager;
 import il.ac.biu.project.foobar.repositories.PostsTasks.AddLikeTask;
 import il.ac.biu.project.foobar.repositories.PostsTasks.AddPostTask;
 import il.ac.biu.project.foobar.repositories.PostsTasks.DeletePostTask;
@@ -80,6 +81,7 @@ public class PostsRepository {
     public void clearPostsFromDB() {
         executor.execute(() -> {
             dao.deleteAll();
+            PostManager.getInstance().removeAllPosts();
         });
       }
 

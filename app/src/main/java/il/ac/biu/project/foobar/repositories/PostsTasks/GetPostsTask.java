@@ -12,6 +12,7 @@ import il.ac.biu.project.foobar.api.post.GetPostsAPI;
 import il.ac.biu.project.foobar.entities.Comment;
 import il.ac.biu.project.foobar.entities.PostJsonDetails;
 import il.ac.biu.project.foobar.entities.PostDetails;
+import il.ac.biu.project.foobar.entities.PostManager;
 import il.ac.biu.project.foobar.repositories.PostDao;
 import il.ac.biu.project.foobar.entities.UserDetails;
 import il.ac.biu.project.foobar.utils.images;
@@ -48,6 +49,7 @@ public class GetPostsTask extends AsyncTask<Void, Void, Void> {
                 postListData.postValue(dao.getPosts());
                 if (postsRefresh != null)
                   postsRefresh.setRefreshing(false);
+                PostManager.getInstance().removeAllPosts();
             }
 
             @Override

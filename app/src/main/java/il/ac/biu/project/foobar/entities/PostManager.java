@@ -83,4 +83,8 @@ public class PostManager {
         return postMap.containsKey(id);
     }
 
+    public void removeAllPosts() {
+        postMap.clear();
+    }
+
 }

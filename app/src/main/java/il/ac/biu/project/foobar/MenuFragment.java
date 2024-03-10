@@ -21,6 +21,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import il.ac.biu.project.foobar.entities.PostManager;
 import il.ac.biu.project.foobar.entities.UserDetails;
 import il.ac.biu.project.foobar.viewmodels.PostsViewModel;
 
@@ -88,6 +89,7 @@ public class MenuFragment extends Fragment {
                 userDetails.setSignIn(false);
                 userDetails.setJwt("");
                 postsViewModel.clearPostsFromDB();
+                PostManager.getInstance().removeAllPosts();
                 // Go back to MainActivity
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);

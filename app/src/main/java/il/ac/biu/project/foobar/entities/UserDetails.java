@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -146,5 +147,9 @@ public class UserDetails {
 
     public void setFriendsList(List<String> friendsList) {
         this.friendsList = friendsList;
+    }
+
+    public ArrayList<String> getFriendRequests() {
+        return null;
     }
 }

@@ -49,19 +49,14 @@ public class UsersAPI {
                     userDetails.setImg(base64ToBitmap(userDetailsResponse.getProfileImage()));
                     userDetails.setFriendsList(userDetailsResponse.getFriends());
 
-                    // Now, UserDetails singleton is updated. Calling onSuccess with the updated UserDetails
                     callback.onSuccess(userDetails);
                 } else {
-                    // Handle error response, e.g., unauthorized or bad request
-                    Log.d("ERROR CODE -", String.valueOf(response.code()));
                     callback.onFailure("Error: " + response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<UserDetailsResponse> call, Throwable t) {
-                // Notify callback about failure to execute the request
-                Log.d("ERROR -", t.getMessage());
                 callback.onFailure("Failure: " + t.getMessage());
             }
         });

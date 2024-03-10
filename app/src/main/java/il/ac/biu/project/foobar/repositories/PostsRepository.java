@@ -25,7 +25,7 @@ public class PostsRepository {
     private AppDB db;
 
     private PostListData postListData;
-    private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
 
     public PostsRepository(Context context) {

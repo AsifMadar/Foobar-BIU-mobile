@@ -1,4 +1,4 @@
-package il.ac.biu.project.foobar;
+package il.ac.biu.project.foobar.entities;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -99,7 +99,7 @@ public class AdvancedTextField {
     /**
      * Interface for providing a validation function for the AdvancedTextField.
      */
-    interface ValidationFunction {
+    public interface ValidationFunction {
         /**
          * Checks the validity of the input.
          *
@@ -112,7 +112,7 @@ public class AdvancedTextField {
     /**
      * Interface for handling input changes in the AdvancedTextField.
      */
-    interface InputCallback {
+    public interface InputCallback {
         /**
          * Called when the input changes.
          *

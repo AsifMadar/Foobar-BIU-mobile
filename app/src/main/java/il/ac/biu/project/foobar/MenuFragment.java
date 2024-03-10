@@ -11,7 +11,6 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -20,11 +19,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 
-import java.util.Arrays;
-import java.util.List;
+import il.ac.biu.project.foobar.entities.PostManager;
+import il.ac.biu.project.foobar.entities.UserDetails;
+import il.ac.biu.project.foobar.viewmodels.PostsViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,28 +49,14 @@ public class MenuFragment extends Fragment {
     boolean nightmode;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+    PostsViewModel postsViewModel;
 
 
-    public MenuFragment() {
-        // Required empty public constructor
+    public MenuFragment(PostsViewModel postsViewModel) {
+        this.postsViewModel = postsViewModel;
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MenuFragment.
-     */
-    public static MenuFragment newInstance(String param1, String param2) {
-        MenuFragment fragment = new MenuFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -102,7 +87,9 @@ public class MenuFragment extends Fragment {
             public void onClick(View view) {
                 // Clear user session
                 userDetails.setSignIn(false);
-
+                userDetails.setJwt("");
+                postsViewModel.clearPostsFromDB();
+                PostManager.getInstance().removeAllPosts();
                 // Go back to MainActivity
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);

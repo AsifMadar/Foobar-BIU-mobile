@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import il.ac.biu.project.foobar.FriendRequestsAdapter;
-import il.ac.biu.project.foobar.UserDetails;
+import il.ac.biu.project.foobar.entities.UserDetails;
 
 public class FriendRequests extends AppCompatActivity {
 

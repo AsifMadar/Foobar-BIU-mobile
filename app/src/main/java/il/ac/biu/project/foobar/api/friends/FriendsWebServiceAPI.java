@@ -11,7 +11,7 @@ import retrofit2.http.Path;
 
 public interface FriendsWebServiceAPI {
 
-    @GET("users/{id}/friends")
+    @GET("/api/users/{id}/friends")
     Call<ArrayList<String>> getFriends(@Path("id") String userId);
 
     @POST("users/{id}/friends")

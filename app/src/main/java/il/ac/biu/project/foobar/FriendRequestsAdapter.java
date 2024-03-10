@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
+import il.ac.biu.project.foobar.entities.UserDetails;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,6 +41,8 @@ public class FriendRequestsAdapter extends RecyclerView.Adapter<FriendRequestsAd
         holder.addFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
 
                     // Handle adding friend action
                 String friendName = friendRequests.remove(holder.getAdapterPosition());

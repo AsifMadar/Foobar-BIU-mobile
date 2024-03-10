@@ -184,8 +184,4 @@ public class UserDetails {
         }
         friendRequests.add(friendName);
     }
-
-    public ArrayList<String> getFriendRequests() {
-        return null;
-    }
 }

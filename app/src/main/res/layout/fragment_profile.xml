@@ -56,11 +56,11 @@
             android:layout_marginTop="10dp">
 
             <TextView
-                android:id="@+id/editProfile"
+                android:id="@+id/addFriend"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Edit Profile"
+                android:text="Add Friend"
                 android:textColor="#008577"
                 android:gravity="center"
                 android:background="?android:attr/selectableItemBackground"

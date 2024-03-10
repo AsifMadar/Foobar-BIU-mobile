@@ -51,7 +51,6 @@ public class FriendsFragment extends Fragment {
                 startActivityForResult(intent, REQUEST_CODE_FRIEND_REQUESTS);
             }
         });
-
         return view;
     }
 

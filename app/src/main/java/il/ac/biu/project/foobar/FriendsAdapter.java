@@ -16,6 +16,8 @@ import java.util.ArrayList;
 public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHolder> {
 
     private ArrayList<String> friendsList;
+    private BottomSheetDialog dialog; // Added member variable
+
 
     public FriendsAdapter(ArrayList<String> friendsList) {
         this.friendsList = friendsList;
@@ -38,7 +40,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 // Show bottom sheet dialog with menu options
-                showBottomSheetDialog(v.getContext());
+                showBottomSheetDialog(v.getContext(), friend); // Pass the friend name to the method
             }
         });
     }
@@ -58,13 +60,45 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         }
     }
 
-    private void showBottomSheetDialog(Context context) {
+    private void showBottomSheetDialog(Context context, String friendName) {
         // Inflate the layout for menu options
         View view = LayoutInflater.from(context).inflate(R.layout.menu_options, null);
 
         // Create a BottomSheetDialog
-        BottomSheetDialog dialog = new BottomSheetDialog(context);
+        dialog = new BottomSheetDialog(context);
         dialog.setContentView(view);
         dialog.show();
+
+        // Get references to menu options
+        TextView watchProfileText = view.findViewById(R.id.watchProfileText);
+        TextView removeFriendText = view.findViewById(R.id.removeFriendText);
+
+        // Set click listeners for menu options
+        watchProfileText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle watch profile action
+                // For example: open profile activity
+            }
+        });
+
+        removeFriendText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle remove friend action
+                removeFriend(friendName); // Call method to remove friend
+            }
+        });
+    }
+
+    private void removeFriend(String friendName) {
+        // Remove friend from the list
+        friendsList.remove(friendName);
+        notifyDataSetChanged(); // Notify adapter of data change
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+        // You might want to notify the server about this change if necessary
+        // For example: send a request to the server to update the friend list
     }
 }

@@ -173,4 +173,10 @@ public class UserDetails {
     public ArrayList<String> getFriendRequests() {
         return friendRequests;
     }
+    public void addFriendRequest(String friendName) {
+        if(friendRequests==null)
+        {friendRequests=new ArrayList<>();
+        }
+        friendRequests.add(friendName);
+    }
 }

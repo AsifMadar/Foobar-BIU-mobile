@@ -4,16 +4,24 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FriendsAPI {
-    private Retrofit retrofit;
-    private FriendsWebServiceAPI friendsWebServiceAPI;
+    private static FriendsAPI instance;
+    private final Retrofit retrofit;
+    private final FriendsWebServiceAPI friendsWebServiceAPI;
 
-    public FriendsAPI() {
+    private FriendsAPI() {
         retrofit = new Retrofit.Builder()
                 .baseUrl("http://foo.com/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         friendsWebServiceAPI = retrofit.create(FriendsWebServiceAPI.class);
+    }
+
+    public static FriendsAPI getInstance() {
+        if (instance == null) {
+            instance = new FriendsAPI();
+        }
+        return instance;
     }
 
     public FriendsWebServiceAPI getFriendsWebServiceAPI() {

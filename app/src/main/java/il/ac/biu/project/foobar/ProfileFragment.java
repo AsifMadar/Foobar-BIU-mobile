@@ -40,6 +40,20 @@ public class ProfileFragment extends Fragment {
         TextView friendsTitle = view.findViewById(R.id.friendsTitle);
         friendsTitle.setText("Friends (" + friendsList.size() + ")");
 
+        TextView addFriendTextView = view.findViewById(R.id.addFriend);
+        addFriendTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle adding friend action
+                // Here, you can add the friend request to the user
+                String friendName = "Dummy Friend"; // You can replace this with actual friend data
+                UserDetails.getInstance().addFriendRequest(friendName);
+
+                // Optionally, you can display a message or update UI indicating the friend request is sent
+                // For example, Toast.makeText(getContext(), "Friend request sent to " + friendName, Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return view;
     }
 }

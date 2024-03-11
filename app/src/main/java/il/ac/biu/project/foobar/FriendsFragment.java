@@ -9,17 +9,22 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import il.ac.biu.project.foobar.entities.UserDetails;
+import il.ac.biu.project.foobar.viewmodels.FriendsViewModel;
 
 public class FriendsFragment extends Fragment {
 
     private RecyclerView friendsRecyclerView;
     private ArrayList<String> friendsList;
     private FriendsAdapter friendsAdapter;
+    private FriendsViewModel friendsViewModel; // Added ViewModel
+
     private static final int REQUEST_CODE_FRIEND_REQUESTS = 1;
 
     @Override
@@ -31,15 +36,29 @@ public class FriendsFragment extends Fragment {
         friendsRecyclerView = view.findViewById(R.id.friendsRecyclerView);
         friendsRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
-        // Get the friend list from UserDetails
-        friendsList = UserDetails.getInstance().getFriends();
-        if (friendsList == null) {
-            friendsList = new ArrayList<>(); // Initialize if null
-        }
+        // Initialize ViewModel
+        friendsViewModel = new ViewModelProvider(this).get(FriendsViewModel.class);
 
         // Initialize adapter
+        friendsList = new ArrayList<>(); // Initialize with an empty list
         friendsAdapter = new FriendsAdapter(friendsList);
         friendsRecyclerView.setAdapter(friendsAdapter);
+
+        // Observe friends list LiveData from ViewModel
+        friendsViewModel.getFriendsLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<String>>() {
+            @Override
+            public void onChanged(ArrayList<String> updatedFriendsList) {
+                // Update RecyclerView with the new list of friends
+                friendsList.clear(); // Clear the current list
+                friendsList.addAll(updatedFriendsList); // Update with the new list
+                friendsAdapter.notifyDataSetChanged(); // Notify adapter of data change
+            }
+        });
+
+        // Load friends when the fragment is created
+        String jwtToken = UserDetails.getInstance().getJwt(); // Retrieve JWT token from the appropriate source
+        String userId = UserDetails.getInstance().getUsername();
+        friendsViewModel.loadFriends(userId, jwtToken);
 
         // Find the button by ID
         Button friendRequestsButton = view.findViewById(R.id.friendRequestsButton);
@@ -53,6 +72,7 @@ public class FriendsFragment extends Fragment {
                 startActivityForResult(intent, REQUEST_CODE_FRIEND_REQUESTS);
             }
         });
+
         return view;
     }
 

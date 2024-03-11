@@ -1,10 +1,12 @@
 package il.ac.biu.project.foobar.api.friends;
 
 import java.util.ArrayList;
+
+import il.ac.biu.project.foobar.entities.requests.AddFriendRequest;
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PATCH;
 import retrofit2.http.Path;
@@ -12,14 +14,14 @@ import retrofit2.http.Path;
 public interface FriendsWebServiceAPI {
 
     @GET("/api/users/{id}/friends")
-    Call<ArrayList<String>> getFriends(@Path("id") String userId);
+    Call<ArrayList<String>> getFriends(@Path("id") String userId, @Header("Authorization") String jwtToken);
 
-    @POST("users/{id}/friends")
-    Call<Void> addFriendRequest(@Path("id") String userId, @Body String friendId);
+    @POST("/api/users/{id}/friends")
+    Call<Void> sendFriendRequest(@Path("id") String friendId, @Header("Authorization") String jwtToken);
 
-    @PATCH("users/{userId}/friends/{friendId}")
-    Call<Void> approveFriendRequest(@Path("userId") String userId, @Path("friendId") String friendId);
+    @PATCH("/api/users/{id}/friends/{fid}")
+    Call<Void> approveFriendRequest(@Path("id") String userId, @Path("fid") String friendId, @Header("Authorization") String jwtToken);
 
-    @DELETE("users/{userId}/friends/{friendId}")
-    Call<Void> removeFriend(@Path("userId") String userId, @Path("friendId") String friendId);
+    @DELETE("/api/users/{id}/friends/{fid}")
+    Call<Void> removeFriend(@Path("id") String userId, @Path("fid") String friendId, @Header("Authorization") String jwtToken);
 }

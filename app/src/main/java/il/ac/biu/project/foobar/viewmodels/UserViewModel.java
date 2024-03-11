@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import il.ac.biu.project.foobar.api.users.DeleteUserAPI;
 import il.ac.biu.project.foobar.api.users.EditUserDetailsAPI;
 import il.ac.biu.project.foobar.api.users.UsersAPI;
 import il.ac.biu.project.foobar.entities.UserDetails;
@@ -19,11 +20,12 @@ public class UserViewModel extends ViewModel {
     private final MutableLiveData<Boolean> userDetailEditSuccess = new MutableLiveData<>();
 
     private final UsersAPI usersAPI = new UsersAPI();
+     private final DeleteUserAPI deleteUserApi = new DeleteUserAPI();
 
     private final EditUserDetailsAPI editUserDetailsApi = new EditUserDetailsAPI();
 
-    private final UserDetails userDetails = UserDetails.getInstance();
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final MutableLiveData<Boolean> userDeletionSuccess = new MutableLiveData<>();
 
 
     public LiveData<Boolean> getUserDetailsFetchSuccess() {
@@ -33,6 +35,10 @@ public class UserViewModel extends ViewModel {
     public LiveData<Boolean> getUserDetailEditSuccess() {
         return userDetailEditSuccess;
     }
+    public LiveData<Boolean> getUserDeleteSuccess() {
+        return userDeletionSuccess;
+    }
+
 
 
     // Method to fetch user details
@@ -54,21 +60,38 @@ public class UserViewModel extends ViewModel {
         });
     }
 
-    public void editUserDetails(String userId, String jwtToken, String displayName, Bitmap profilePic) {
+    public void deleteUser(String userId, String jwtToken) {
         executor.execute(() -> {
-            editUserDetailsApi.editUserDetails(userId, jwtToken, displayName,
-                    profilePic, new EditUserDetailsAPI.UserEditResponseCallback() {
+            deleteUserApi.deleteUser(userId, jwtToken, new DeleteUserAPI.UserDeleteResponseCallback() {
 
-                        @Override
-                        public void onSuccess() {
-                            userDetailEditSuccess.postValue(true);
-                        }
+                @Override
+                public void onSuccess() {
+                    userDeletionSuccess.postValue(true);
+                }
 
-                        @Override
-                        public void onFailure(String errorMessage) {
-                            userDetailEditSuccess.postValue(false);
-                        }
-                    });
+                @Override
+                public void onFailure(String errorMessage) {
+                    userDeletionSuccess.postValue(false);
+                }
+            });
         });
     }
+
+    public void editUserDetails(String userId, String jwtToken, String displayName, Bitmap profilePic) {
+        executor.execute(() -> {
+            editUserDetailsApi.editUserDetails(userId, jwtToken, displayName, profilePic, new EditUserDetailsAPI.UserEditResponseCallback() {
+                @Override
+                public void onSuccess() {
+                    userDetailEditSuccess.postValue(true);
+                }
+
+                @Override
+                public void onFailure(String errorMessage) {
+                    userDetailEditSuccess.postValue(false);
+                }
+            });
+        });
+    }
+
+
 }

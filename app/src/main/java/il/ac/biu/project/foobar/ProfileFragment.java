@@ -71,7 +71,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void sendFriendRequest(String jwtToken) {
-        String friendId = "user1";
+        String friendId = "aaaaaaaa";
 
         sendFriendRequestAPI.sendFriendRequest(friendId, jwtToken, new SendFriendRequestAPI.SendFriendRequestCallback() {
             @Override
@@ -91,5 +91,8 @@ public class ProfileFragment extends Fragment {
         friendsRecyclerView.setAdapter(friendsAdapter);
         TextView friendsTitle = getView().findViewById(R.id.friendsTitle);
         friendsTitle.setText("Friends (" + friends.size() + ")");
+    }
+    private void updateFriendsCount(int count) {
+        TextView friendsTitle = getView().findViewById(R.id.friendsTitle);
     }
 }

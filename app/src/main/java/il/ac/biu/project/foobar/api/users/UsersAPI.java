@@ -48,6 +48,7 @@ public class UsersAPI {
                     userDetails.setDisplayName(userDetailsResponse.getDisplayName());
                     userDetails.setImg(base64ToBitmap(userDetailsResponse.getProfileImage()));
                     userDetails.setFriends(userDetailsResponse.getFriends());
+                    userDetails.setFriendRequests(userDetailsResponse.getFriendRequests());
 
                     // Now, UserDetails singleton is updated. Calling onSuccess with the updated UserDetails
                     callback.onSuccess(userDetails);

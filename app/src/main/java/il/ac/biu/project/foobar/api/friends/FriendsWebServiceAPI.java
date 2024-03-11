@@ -23,5 +23,5 @@ public interface FriendsWebServiceAPI {
     Call<Void> approveFriendRequest(@Path("id") String userId, @Path("fid") String friendId, @Header("Authorization") String jwtToken);
 
     @DELETE("/api/users/{id}/friends/{fid}")
-    Call<Void> removeFriend(@Path("id") String userId, @Path("fid") String friendId, @Header("Authorization") String jwtToken);
+    Call<Void> rejectFriendshipOrDelete(@Path("id") String userId, @Path("fid") String friendId, @Header("Authorization") String jwtToken);
 }

@@ -70,10 +70,7 @@ public class SignUpPageActivity extends AppCompatActivity {
     private void setFriendRequests() {
         // Add sample friend requests to the list
         friendRequests = new ArrayList<>();
-        friendRequests.add("Friend 1");
-        friendRequests.add("Friend 2");
-        friendRequests.add("Friend 3");
-        // You can add more sample friend requests as needed
+
     }
 
     private void setSignUpPage() {

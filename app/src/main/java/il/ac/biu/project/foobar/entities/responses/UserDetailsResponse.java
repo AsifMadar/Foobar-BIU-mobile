@@ -8,12 +8,14 @@ public class UserDetailsResponse {
     private String displayName;
     private String profileImage;
     private ArrayList<String> friends;
+    private ArrayList<String> friendRequests;
 
-    public UserDetailsResponse(String username, String displayName, String profileImage, ArrayList<String> friends) {
+    public UserDetailsResponse(String username, String displayName, String profileImage, ArrayList<String> friends,ArrayList<String> friendRequests) {
         this.username = username;
         this.displayName = displayName;
         this.profileImage = profileImage;
         this.friends = friends;
+        this.friendRequests =friendRequests;
     }
 
     public String getUsername() {
@@ -30,6 +32,9 @@ public class UserDetailsResponse {
 
     public ArrayList<String> getFriends() {
         return friends;
+    }
+    public ArrayList<String> getFriendRequests() {
+        return friendRequests;
     }
 }
 

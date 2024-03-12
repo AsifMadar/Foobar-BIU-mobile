@@ -48,6 +48,7 @@ public class UsersAPI {
                     userDetails.setDisplayName(userDetailsResponse.getDisplayName());
                     userDetails.setImg(base64ToBitmap(userDetailsResponse.getProfileImage()));
                     userDetails.setFriends(userDetailsResponse.getFriends());
+                    userDetails.setFriendRequests(userDetailsResponse.getFriendRequests());
 
                     callback.onSuccess(userDetails);
                 } else {

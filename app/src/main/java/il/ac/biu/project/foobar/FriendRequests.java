@@ -31,8 +31,8 @@ public class FriendRequests extends AppCompatActivity {
         // Find the RecyclerView
         RecyclerView friendRequestsRecyclerView = findViewById(R.id.friendRequestsRecyclerView);
 
-        // Set up the RecyclerView adapter
-        FriendRequestsAdapter adapter = new FriendRequestsAdapter(friendRequestsList);
+        // Set up the RecyclerView adapter with the context of this activity
+        FriendRequestsAdapter adapter = new FriendRequestsAdapter(friendRequestsList, this);
         friendRequestsRecyclerView.setAdapter(adapter);
         friendRequestsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -48,4 +48,5 @@ public class FriendRequests extends AppCompatActivity {
             }
         });
     }
+
 }

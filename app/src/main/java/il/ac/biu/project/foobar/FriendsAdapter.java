@@ -1,6 +1,7 @@
 package il.ac.biu.project.foobar;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
+
+import il.ac.biu.project.foobar.api.friends.RejectFriendRequestAPI;
+import il.ac.biu.project.foobar.entities.UserDetails;
 
 public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHolder> {
 
@@ -86,7 +90,30 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 // Handle remove friend action
-                removeFriend(friendName); // Call method to remove friend
+                deleteFriend(friendName); // Call method to delete friend
+            }
+        });
+    }
+
+    private void deleteFriend(String friendName) {
+        // Initialize DeleteFriendAPI
+        RejectFriendRequestAPI deleteFriendAPI = new RejectFriendRequestAPI();
+
+        // Get JWT token from UserDetails
+        String jwtToken = UserDetails.getInstance().getJwt();
+
+        // Call the API to delete the friend
+        deleteFriendAPI.rejectFriendRequestOrDeleteFriend(UserDetails.getInstance().getUsername(), friendName, jwtToken, new RejectFriendRequestAPI.RejectFriendRequestCallback() {
+            @Override
+            public void onSuccess() {
+                // Handle successful deletion
+                removeFriend(friendName);// Remove friend from the list
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                // Handle failure to delete friend
+                Log.e("FriendsAdapter", "Failed to delete friend: " + errorMessage);
             }
         });
     }

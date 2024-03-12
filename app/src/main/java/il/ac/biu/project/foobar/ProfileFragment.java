@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,10 +21,12 @@ import il.ac.biu.project.foobar.adapters.FriendsAdapter;
 import il.ac.biu.project.foobar.adapters.PostsListAdapter;
 import il.ac.biu.project.foobar.api.friends.SendFriendRequestAPI;
 import il.ac.biu.project.foobar.entities.AddLikePostListener;
+import il.ac.biu.project.foobar.entities.GoToProfileListener;
 import il.ac.biu.project.foobar.entities.PostDetails;
 import il.ac.biu.project.foobar.entities.PostRemoveListener;
 import il.ac.biu.project.foobar.entities.UserDetails;
 import il.ac.biu.project.foobar.entities.responses.UserDetailsResponse;
+import il.ac.biu.project.foobar.utils.images;
 import il.ac.biu.project.foobar.viewmodels.FriendsViewModel;
 import il.ac.biu.project.foobar.viewmodels.PostsViewModel;
 import il.ac.biu.project.foobar.viewmodels.UserViewModel;
@@ -40,16 +43,20 @@ public class ProfileFragment extends Fragment {
     private RecyclerView layout;
 
     UserDetailsResponse profileUser = null;
+    String userID;
+
+    public ProfileFragment(PostsViewModel postsViewModel, String userID) {
+        this.postsViewModel = postsViewModel;
+        this.userID = userID;
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        String userID = getArguments().getString("userID");
-
         setUserAndPostsViewModel(userID, view);
 
-        setFriendsAndSendFriendViewModel(view);        // Initialize RecyclerView for friends
 
 
         return view;
@@ -78,7 +85,7 @@ public class ProfileFragment extends Fragment {
 
         // Load friends
         String jwtToken = UserDetails.getInstance().getJwt(); // Retrieve JWT token from the appropriate source
-        friendsViewModel.loadFriends(UserDetails.getInstance().getUsername(), jwtToken);
+        friendsViewModel.loadFriends(userID, jwtToken);
 
         TextView addFriendTextView = view.findViewById(R.id.addFriend);
         addFriendTextView.setOnClickListener(new View.OnClickListener() {
@@ -104,12 +111,16 @@ public class ProfileFragment extends Fragment {
             public void onLikePost(PostDetails postDetails) {
                 postsViewModel.addLike(postDetails);
             }
+        }, new GoToProfileListener() {
+            @Override
+            public void goToProfile(String userID) {
+            }
         });
         layout.setAdapter(postsListAdapter);
         layout.setLayoutManager(new LinearLayoutManager(getContext()));
         userViewModel =new ViewModelProvider(this).get(UserViewModel.class);
 
-        postsViewModel.get().observe(getViewLifecycleOwner(), new Observer<List<PostDetails>>() {
+        postsViewModel.getProfilePosts().observe(getViewLifecycleOwner(), new Observer<List<PostDetails>>() {
             @Override
             public void onChanged(List<PostDetails> postsList) {
                 postsListAdapter.setPosts(postsList);
@@ -122,6 +133,9 @@ public class ProfileFragment extends Fragment {
             public void onChanged(UserDetailsResponse userDetailsResponse) {
                 if (userDetailsResponse != null) {
                     profileUser = userDetailsResponse;
+                    setProfileUserUI(view);
+                    setFriendsAndSendFriendViewModel(view);        // Initialize RecyclerView for friends
+
                 } else {
                     Toast.makeText(getContext(), "Server Error", Toast.LENGTH_SHORT).show();
                 }
@@ -130,8 +144,24 @@ public class ProfileFragment extends Fragment {
         postsViewModel.reloadUserPosts(userID);
     }
 
+    private void setProfileUserUI(View view) {
+        TextView textView = view.findViewById(R.id.tv_username);
+        textView.setText(profileUser.getDisplayName());
+        ImageView imageView = view.findViewById(R.id.image_profile);
+        imageView.setImageBitmap(images.base64ToBitmap(profileUser.getProfileImage()));
+        UserDetails userDetails = UserDetails.getInstance();
+
+        if (profileUser.getFriends().contains(userDetails.getUsername())
+                || profileUser.getUsername().equals((userDetails.getUsername()))) {
+            view.findViewById(R.id.addFriend).setVisibility(View.GONE);
+        } else {
+            view.findViewById(R.id.addFriend).setVisibility(View.VISIBLE);
+
+        }
+    }
+
     private void sendFriendRequest(String jwtToken) {
-        String friendId = "aaaaaaaa";
+        String friendId = profileUser.getUsername();
 
         sendFriendRequestAPI.sendFriendRequest(friendId, jwtToken, new SendFriendRequestAPI.SendFriendRequestCallback() {
             @Override

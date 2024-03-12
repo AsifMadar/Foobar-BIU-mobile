@@ -16,14 +16,19 @@ import il.ac.biu.project.foobar.repositories.PostsRepository;
 public class PostsViewModel extends ViewModel {
     private PostsRepository postsRepository;
     private LiveData<List<PostDetails>> posts;
+    private LiveData<List<PostDetails>> profilePosts;
 
 
     public PostsViewModel() {
         postsRepository = new PostsRepository(context);
         posts = postsRepository.getAll();
+        profilePosts = postsRepository.getProfilePosts();
     }
     public LiveData<List<PostDetails>> get() {
         return posts;
+    }
+    public LiveData<List<PostDetails>> getProfilePosts() {
+        return profilePosts;
     }
 
     public void add(PostDetails post) {

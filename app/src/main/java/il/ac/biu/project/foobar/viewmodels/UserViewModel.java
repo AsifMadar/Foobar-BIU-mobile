@@ -62,22 +62,22 @@ public class UserViewModel extends ViewModel {
         });
     }
 
-//    public void deleteUser(String userId, String jwtToken) {
-//        executor.execute(() -> {
-//            deleteUserApi.deleteUser(userId, jwtToken, new DeleteUserAPI.UserDeleteResponseCallback() {
-//
-//                @Override
-//                public void onSuccess() {
-//                    userDeletionSuccess.postValue(true);
-//                }
-//
-//                @Override
-//                public void onFailure(String errorMessage) {
-//                    userDeletionSuccess.postValue(false);
-//                }
-//            });
-//        });
-//    }
+    public void deleteUser(String userId, String jwtToken) {
+        executor.execute(() -> {
+            deleteUserApi.deleteUser(userId, jwtToken, new DeleteUserAPI.UserDeleteResponseCallback() {
+
+                @Override
+                public void onSuccess() {
+                    userDeletionSuccess.postValue(true);
+                }
+
+                @Override
+                public void onFailure(String errorMessage) {
+                    userDeletionSuccess.postValue(false);
+                }
+            });
+        });
+    }
 
     public void editUserDetails(String userId, String jwtToken, String displayName, Bitmap profilePic) {
         executor.execute(() -> {

@@ -27,6 +27,7 @@ public class PostsRepository {
 
     private PostListData postListData;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private PostListData profilePostListData;
 
 
     public PostsRepository(Context context) {
@@ -34,6 +35,11 @@ public class PostsRepository {
                 AppDB.class, "PostsDB").build();
         dao = db.postDao();
         postListData = new PostListData();
+        profilePostListData = new PostListData();
+    }
+
+    public LiveData<List<PostDetails>> getProfilePosts() {
+        return profilePostListData;
     }
 
     class PostListData extends MutableLiveData<List<PostDetails>> {
@@ -62,7 +68,7 @@ public class PostsRepository {
     }
 
     public void reloadUserPosts(String userID){
-        new GetUserPostsTask(userID, postListData, dao).execute();
+        new GetUserPostsTask(userID, profilePostListData, dao).execute();
     }
 
     public void add(PostDetails postDetails){

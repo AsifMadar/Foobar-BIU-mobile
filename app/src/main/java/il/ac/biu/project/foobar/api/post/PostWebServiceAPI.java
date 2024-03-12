@@ -39,7 +39,7 @@ public interface PostWebServiceAPI {
     Call<Void> addLike(@Body LikeRequest body,
                        @Header("Authorization") String jwtToken);
 
-    @GET("/api/users/:id/posts")
+    @GET("/api/users/{id}/posts")
             Call<List<PostJsonDetails>> getUserPosts(@Path("id") String userId,
                                                      @Header("Authorization") String jwtToken);
 

@@ -31,6 +31,7 @@ import java.util.List;
 import il.ac.biu.project.foobar.adapters.PostsListAdapter;
 import il.ac.biu.project.foobar.entities.AddLikePostListener;
 import il.ac.biu.project.foobar.entities.Comment;
+import il.ac.biu.project.foobar.entities.GoToProfileListener;
 import il.ac.biu.project.foobar.entities.PostDetails;
 import il.ac.biu.project.foobar.entities.PostJsonDetails;
 import il.ac.biu.project.foobar.entities.PostManager;
@@ -79,16 +80,6 @@ public class FeedActivityMain extends AppCompatActivity {
         initializeBottomNavigationView();
         // Initialize BottomNavigationView
 
-
-
-        // Load posts from JSON file
-//        if (postManager.getAllPosts().isEmpty()) {
-//            try (InputStream inputStream = getResources().openRawResource(R.raw.posts)) {
-//                this.loadPostsFromJson(inputStream);
-//            } catch (IOException error) {
-//
-//            }
-//        }
     }
 
     private void initializeBottomNavigationView() {
@@ -126,14 +117,13 @@ public class FeedActivityMain extends AppCompatActivity {
                             // Show the video fragment
                             findViewById(R.id.profile_bar).setVisibility(View.GONE);
                             findViewById(R.id.scroll).setVisibility(View.GONE);
-                            selectedFragment = new ProfileFragment();
+                            selectedFragment = new ProfileFragment(postsViewModel, UserDetails.getInstance().getUsername());
                         }else if (itemId == R.id.NotificationsId) {
                             findViewById(R.id.profile_bar).setVisibility(View.GONE);
                             findViewById(R.id.scroll).setVisibility(View.GONE);
                             selectedFragment = new NotificationFragment();
                         }
 
-                        // Replace the fragment in the frame layout with the selected fragment
 
                         if (selectedFragment != null) {
                             getSupportFragmentManager().beginTransaction()
@@ -283,6 +273,19 @@ public class FeedActivityMain extends AppCompatActivity {
             @Override
             public void onLikePost(PostDetails postDetails) {
                 postsViewModel.addLike(postDetails);
+            }
+        }, new GoToProfileListener() {
+
+            @Override
+            public void goToProfile(String userID) {
+                findViewById(R.id.profile_bar).setVisibility(View.GONE);
+                findViewById(R.id.scroll).setVisibility(View.GONE);
+                Fragment selectedFragment = new ProfileFragment(postsViewModel, userID);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.framelayout, selectedFragment) // Use your actual container ID
+                        .addToBackStack(null) // Optional: Add this transaction to the back stack
+                        .commit();
+
             }
         });
         layout.setAdapter(postsListAdapter);

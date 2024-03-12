@@ -28,9 +28,11 @@ import java.util.List;
 
 import il.ac.biu.project.foobar.CommentActivity;
 import il.ac.biu.project.foobar.CreatePostActivity;
+import il.ac.biu.project.foobar.ProfileFragment;
 import il.ac.biu.project.foobar.R;
 import il.ac.biu.project.foobar.ShareActivity;
 import il.ac.biu.project.foobar.entities.AddLikePostListener;
+import il.ac.biu.project.foobar.entities.GoToProfileListener;
 import il.ac.biu.project.foobar.entities.PostDetails;
 import il.ac.biu.project.foobar.entities.PostManager;
 import il.ac.biu.project.foobar.entities.PostRemoveListener;
@@ -56,19 +58,21 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
     private PostRemoveListener postRemoveListener;
     private AddLikePostListener addLikePostListener;
+    private GoToProfileListener goToProfileListener;
 
 
 
 
 
     public PostsListAdapter(Activity feedActivity, Context context, PostRemoveListener removeListener,
-                            AddLikePostListener addLikePostListener) {
+                            AddLikePostListener addLikePostListener, GoToProfileListener goToProfileListener) {
 
         postInflater = LayoutInflater.from(context);
         this.feedActivity = feedActivity;
         feedContext = context;
         postRemoveListener = removeListener;
         this.addLikePostListener = addLikePostListener;
+        this.goToProfileListener = goToProfileListener;
     }
 
     @NonNull
@@ -118,9 +122,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         goToProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // hodaya please add here the call for the fragment with postDetails.getUserName()
-                // the called string should be called userID
-            }
+                goToProfileListener.goToProfile(postDetails.getUsername());}
         });
         // Set author name
         TextView nameView = view.findViewById(R.id.user_name);

@@ -1,6 +1,7 @@
 package il.ac.biu.project.foobar.api.users;
 
 import il.ac.biu.project.foobar.api.users.UsersWebServiceAPI;
+import il.ac.biu.project.foobar.entities.UserDetails;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

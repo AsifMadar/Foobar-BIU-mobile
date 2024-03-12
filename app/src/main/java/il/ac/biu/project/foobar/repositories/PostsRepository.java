@@ -19,6 +19,7 @@ import il.ac.biu.project.foobar.repositories.PostsTasks.AddPostTask;
 import il.ac.biu.project.foobar.repositories.PostsTasks.DeletePostTask;
 import il.ac.biu.project.foobar.repositories.PostsTasks.EditPostTask;
 import il.ac.biu.project.foobar.repositories.PostsTasks.GetPostsTask;
+import il.ac.biu.project.foobar.repositories.PostsTasks.GetUserPostsTask;
 
 public class PostsRepository {
     private PostDao dao;
@@ -58,6 +59,10 @@ public class PostsRepository {
 
     public void reload(){
         new GetPostsTask(postListData, dao).execute();
+    }
+
+    public void reloadUserPosts(String userID){
+        new GetUserPostsTask(userID, postListData, dao).execute();
     }
 
     public void add(PostDetails postDetails){

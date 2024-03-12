@@ -1,4 +1,4 @@
-package il.ac.biu.project.foobar;
+package il.ac.biu.project.foobar.adapters;
 
 import android.content.Context;
 import android.util.Log;
@@ -14,6 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
 
+import il.ac.biu.project.foobar.R;
 import il.ac.biu.project.foobar.api.friends.RejectFriendRequestAPI;
 import il.ac.biu.project.foobar.entities.UserDetails;
 

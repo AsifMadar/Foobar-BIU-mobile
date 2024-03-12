@@ -42,15 +42,7 @@ public class UsersAPI {
                 if (response.isSuccessful()) {
                     // Notify callback about success
                     UserDetailsResponse userDetailsResponse = response.body();
-                    UserDetails userDetails = UserDetails.getInstance();
-
-                    userDetails.setUsername(userDetailsResponse.getUsername());
-                    userDetails.setDisplayName(userDetailsResponse.getDisplayName());
-                    userDetails.setImg(base64ToBitmap(userDetailsResponse.getProfileImage()));
-                    userDetails.setFriends(userDetailsResponse.getFriends());
-                    userDetails.setFriendRequests(userDetailsResponse.getFriendRequests());
-
-                    callback.onSuccess(userDetails);
+                    callback.onSuccess(userDetailsResponse);
                 } else {
                     callback.onFailure("Error: " + response.code());
                 }
@@ -64,7 +56,7 @@ public class UsersAPI {
     }
 
     public interface UserDetailsResponseCallback {
-        void onSuccess(UserDetails userDetails);
+        void onSuccess(UserDetailsResponse userDetailsResponse);
         void onFailure(String errorMessage);
     }
 }

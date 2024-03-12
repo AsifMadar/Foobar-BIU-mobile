@@ -47,7 +47,6 @@ public class FeedActivityMain extends AppCompatActivity {
     private RecyclerView layout;
     private PostsListAdapter postsListAdapter;
 
-
     UserDetails userDetails = UserDetails.getInstance();
     PostsViewModel postsViewModel;
 
@@ -269,83 +268,7 @@ public class FeedActivityMain extends AppCompatActivity {
         outState.putInt("selectedItemId", navigationView.getSelectedItemId());
     }
 
-//    private void loadPostsFromJson(InputStream jsonStream) {
-//        Gson gson = new Gson();
-//        BufferedReader reader = new BufferedReader(new InputStreamReader(jsonStream));
-//        PostJsonDetails[] posts = gson.fromJson(reader, PostJsonDetails[].class);
-//        PostDetails[] parsedPosts = new PostDetails[posts.length];
-//
-//        for (int i = 0; i < posts.length; i++) {
-//            PostJsonDetails post = posts[i];
-//
-//            // Get profile picture
-//            Bitmap authorProfilePicture = null;
-//            try (@SuppressLint("DiscouragedApi") InputStream profilePictureStream = getResources()
-//                .openRawResource(getResources().getIdentifier(post.author.profileImage,
-//                "raw", getPackageName()))) {
-//                authorProfilePicture = BitmapFactory.decodeStream(profilePictureStream);
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//
-//            // Get post picture
-//            Bitmap postImage = null;
-//            if (post.images.length > 0) {
-//                try (@SuppressLint("DiscouragedApi") InputStream postPictureStream =
-//                     getResources().openRawResource(getResources().getIdentifier(post.images[0],
-//                     "raw", getPackageName()))) {
-//                    postImage = BitmapFactory.decodeStream(postPictureStream);
-//                } catch (IOException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//
-//            // Create the `PostDetails` instance
-//            PostDetails parsedPost = new PostDetails(String.valueOf(this.postCounter++), post.author.username,
-//                post.author.displayName, authorProfilePicture, post.contents, postImage,
-//                post.timestamp);
-//
-//            // Create likes list
-//            for (PostJsonDetails.UserJsonDetails user : post.likes) {
-//                parsedPost.addLike(user.username);
-//            }
-//
-//            // Get comments for the post
-//            for (PostJsonDetails.CommentJsonDetails comment : post.comments) {
-//                // Get profile picture
-//                Bitmap commentAuthorProfilePicture = null;
-//                try (@SuppressLint("DiscouragedApi") InputStream profilePictureStream =
-//                     getResources().openRawResource(getResources().getIdentifier(
-//                         comment.author.profileImage, "raw", getPackageName()))) {
-//                    commentAuthorProfilePicture = BitmapFactory.decodeStream(profilePictureStream);
-//                } catch (IOException e) {
-//                    throw new RuntimeException(e);
-//                }
-//
-//                // Create the `Comment` instance
-//                Comment parsedComment = new Comment(comment.author.displayName,
-//                    commentAuthorProfilePicture, comment.contents, comment.timestamp);
-//
-//                // Create likes list
-//                for (PostJsonDetails.UserJsonDetails user : comment.likes) {
-//                    parsedComment.addLike(user.username);
-//                }
-//
-//                // Save parsed comment
-//                parsedPost.addComment(parsedComment);
-//            }
-//
-//            // Save parsed post
-//            parsedPosts[i] = parsedPost;
-//        }
-//
-//        // Add posts to feed
-//        for (PostDetails postDetails : parsedPosts) {
-//            postManager.putPost(postDetails.getId(), postDetails);
-//        }
-//
-//        this.reloadPosts();
-//    }
+
     private void setPostsViewModel() {
         layout = findViewById(R.id.container);
 

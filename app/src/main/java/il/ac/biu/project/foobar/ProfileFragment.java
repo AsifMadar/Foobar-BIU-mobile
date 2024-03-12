@@ -11,14 +11,22 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
+import java.util.List;
 
-import il.ac.biu.project.foobar.FriendsAdapter;
-import il.ac.biu.project.foobar.R;
+import il.ac.biu.project.foobar.adapters.FriendsAdapter;
+import il.ac.biu.project.foobar.adapters.PostsListAdapter;
 import il.ac.biu.project.foobar.api.friends.SendFriendRequestAPI;
+import il.ac.biu.project.foobar.entities.AddLikePostListener;
+import il.ac.biu.project.foobar.entities.PostDetails;
+import il.ac.biu.project.foobar.entities.PostRemoveListener;
 import il.ac.biu.project.foobar.entities.UserDetails;
+import il.ac.biu.project.foobar.entities.responses.UserDetailsResponse;
 import il.ac.biu.project.foobar.viewmodels.FriendsViewModel;
+import il.ac.biu.project.foobar.viewmodels.PostsViewModel;
+import il.ac.biu.project.foobar.viewmodels.UserViewModel;
 
 public class ProfileFragment extends Fragment {
     private SendFriendRequestAPI sendFriendRequestAPI;
@@ -26,13 +34,28 @@ public class ProfileFragment extends Fragment {
     private RecyclerView friendsRecyclerView;
     private FriendsAdapter friendsAdapter;
     private FriendsViewModel friendsViewModel;
+    private UserViewModel userViewModel;
+    private PostsListAdapter postsListAdapter;
+    PostsViewModel postsViewModel;
+    private RecyclerView layout;
+
+    UserDetailsResponse profileUser = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        String userID = getArguments().getString("userID");
 
-        // Initialize RecyclerView for friends
+        setUserAndPostsViewModel(userID, view);
+
+        setFriendsAndSendFriendViewModel(view);        // Initialize RecyclerView for friends
+
+
+        return view;
+    }
+
+    private void setFriendsAndSendFriendViewModel(View view) {
         friendsRecyclerView = view.findViewById(R.id.friendsRecyclerView);
         friendsRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
@@ -66,8 +89,45 @@ public class ProfileFragment extends Fragment {
                 sendFriendRequest(jwtToken);
             }
         });
+    }
 
-        return view;
+    private void setUserAndPostsViewModel(String userID, View view) {
+        layout = view.findViewById(R.id.profilePostsRecyclerView);
+        postsViewModel = new ViewModelProvider(this).get(PostsViewModel.class);
+        postsListAdapter = new PostsListAdapter(getActivity(), getContext(), new PostRemoveListener() {
+            @Override
+            public void onDeletePost(PostDetails postDetails) {
+                postsViewModel.delete(postDetails);
+            }
+        }, new AddLikePostListener() {
+            @Override
+            public void onLikePost(PostDetails postDetails) {
+                postsViewModel.addLike(postDetails);
+            }
+        });
+        layout.setAdapter(postsListAdapter);
+        layout.setLayoutManager(new LinearLayoutManager(getContext()));
+        userViewModel =new ViewModelProvider(this).get(UserViewModel.class);
+
+        postsViewModel.get().observe(getViewLifecycleOwner(), new Observer<List<PostDetails>>() {
+            @Override
+            public void onChanged(List<PostDetails> postsList) {
+                postsListAdapter.setPosts(postsList);
+            }
+        });
+
+        userViewModel.fetchUserDetails(userID, UserDetails.getInstance().getJwt());
+        userViewModel.getUserDetailsFetchSuccess().observe(getViewLifecycleOwner(), new Observer<UserDetailsResponse>() {
+            @Override
+            public void onChanged(UserDetailsResponse userDetailsResponse) {
+                if (userDetailsResponse != null) {
+                    profileUser = userDetailsResponse;
+                } else {
+                    Toast.makeText(getContext(), "Server Error", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        postsViewModel.reloadUserPosts(userID);
     }
 
     private void sendFriendRequest(String jwtToken) {

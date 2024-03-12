@@ -20,12 +20,11 @@ import java.util.ArrayList;
 
 import androidx.lifecycle.ViewModelProvider;
 
-import java.util.LinkedList;
-
 import il.ac.biu.project.foobar.entities.AdvancedTextField;
 import il.ac.biu.project.foobar.entities.AdvancedTextField.InputCallback;
 import il.ac.biu.project.foobar.entities.AdvancedTextField.ValidationFunction;
 import il.ac.biu.project.foobar.entities.UserDetails;
+import il.ac.biu.project.foobar.utils.ImageTaker;
 import il.ac.biu.project.foobar.viewmodels.SignInViewModel;
 import il.ac.biu.project.foobar.viewmodels.SignUpViewModel;
 

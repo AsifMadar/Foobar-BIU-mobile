@@ -1,4 +1,4 @@
-package il.ac.biu.project.foobar;
+package il.ac.biu.project.foobar.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

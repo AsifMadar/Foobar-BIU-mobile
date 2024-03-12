@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
-import il.ac.biu.project.foobar.FriendRequestsAdapter;
+import il.ac.biu.project.foobar.adapters.FriendRequestsAdapter;
 import il.ac.biu.project.foobar.entities.UserDetails;
 
 public class FriendRequests extends AppCompatActivity {

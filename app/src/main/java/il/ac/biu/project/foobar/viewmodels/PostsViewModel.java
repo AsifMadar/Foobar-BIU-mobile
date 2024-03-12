@@ -52,6 +52,9 @@ public class PostsViewModel extends ViewModel {
     public void reload() {
         postsRepository.reload();
     }
+    public void reloadUserPosts(String userID) {
+        postsRepository.reloadUserPosts(userID);
+    }
 
     public void clearPostsFromDB() {
         postsRepository.clearPostsFromDB();

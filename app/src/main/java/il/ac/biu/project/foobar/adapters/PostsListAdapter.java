@@ -35,6 +35,7 @@ import il.ac.biu.project.foobar.entities.PostDetails;
 import il.ac.biu.project.foobar.entities.PostManager;
 import il.ac.biu.project.foobar.entities.PostRemoveListener;
 import il.ac.biu.project.foobar.entities.UserDetails;
+import il.ac.biu.project.foobar.viewmodels.UserViewModel;
 
 public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.PostViewHolder> {
 
@@ -55,6 +56,8 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
     private PostRemoveListener postRemoveListener;
     private AddLikePostListener addLikePostListener;
+
+
 
 
 
@@ -111,7 +114,14 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
      */
     private void postInitializer(PostDetails postDetails, View view) {
 
-
+        LinearLayout goToProfileButton = view.findViewById(R.id.go_to_profile_button);
+        goToProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // hodaya please add here the call for the fragment with postDetails.getUserName()
+                // the called string should be called userID
+            }
+        });
         // Set author name
         TextView nameView = view.findViewById(R.id.user_name);
         nameView.setText(postDetails.getAuthorDisplayName());

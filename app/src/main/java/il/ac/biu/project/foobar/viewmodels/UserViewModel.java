@@ -13,9 +13,11 @@ import il.ac.biu.project.foobar.api.users.DeleteUserAPI;
 import il.ac.biu.project.foobar.api.users.EditUserDetailsAPI;
 import il.ac.biu.project.foobar.api.users.UsersAPI;
 import il.ac.biu.project.foobar.entities.UserDetails;
+import il.ac.biu.project.foobar.entities.responses.UserDetailsResponse;
+
 
 public class UserViewModel extends ViewModel {
-    private final MutableLiveData<Boolean> userDetailsFetchSuccess = new MutableLiveData<>();
+    private final MutableLiveData<UserDetailsResponse> userDetailsFetchSuccess = new MutableLiveData<>();
 
     private final MutableLiveData<Boolean> userDetailEditSuccess = new MutableLiveData<>();
 
@@ -28,7 +30,7 @@ public class UserViewModel extends ViewModel {
     private final MutableLiveData<Boolean> userDeletionSuccess = new MutableLiveData<>();
 
 
-    public LiveData<Boolean> getUserDetailsFetchSuccess() {
+    public LiveData<UserDetailsResponse> getUserDetailsFetchSuccess() {
         return userDetailsFetchSuccess;
     }
 
@@ -46,36 +48,36 @@ public class UserViewModel extends ViewModel {
         executor.execute(() -> {
             usersAPI.getUserDetails(userId, jwtToken, new UsersAPI.UserDetailsResponseCallback() {
                 @Override
-                public void onSuccess(UserDetails userDetailsResponse) {
+                public void onSuccess(UserDetailsResponse userDetailsResponse) {
                     // Indicate success
-                    userDetailsFetchSuccess.postValue(true);
+                    userDetailsFetchSuccess.postValue(userDetailsResponse);
                 }
 
                 @Override
                 public void onFailure(String errorMessage) {
                     // Indicate failure
-                    userDetailsFetchSuccess.postValue(false);
+                    userDetailsFetchSuccess.postValue(null);
                 }
             });
         });
     }
 
-    public void deleteUser(String userId, String jwtToken) {
-        executor.execute(() -> {
-            deleteUserApi.deleteUser(userId, jwtToken, new DeleteUserAPI.UserDeleteResponseCallback() {
-
-                @Override
-                public void onSuccess() {
-                    userDeletionSuccess.postValue(true);
-                }
-
-                @Override
-                public void onFailure(String errorMessage) {
-                    userDeletionSuccess.postValue(false);
-                }
-            });
-        });
-    }
+//    public void deleteUser(String userId, String jwtToken) {
+//        executor.execute(() -> {
+//            deleteUserApi.deleteUser(userId, jwtToken, new DeleteUserAPI.UserDeleteResponseCallback() {
+//
+//                @Override
+//                public void onSuccess() {
+//                    userDeletionSuccess.postValue(true);
+//                }
+//
+//                @Override
+//                public void onFailure(String errorMessage) {
+//                    userDeletionSuccess.postValue(false);
+//                }
+//            });
+//        });
+//    }
 
     public void editUserDetails(String userId, String jwtToken, String displayName, Bitmap profilePic) {
         executor.execute(() -> {

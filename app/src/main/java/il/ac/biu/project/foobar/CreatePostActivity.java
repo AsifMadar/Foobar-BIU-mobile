@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import il.ac.biu.project.foobar.entities.PostDetails;
 import il.ac.biu.project.foobar.entities.PostManager;
 import il.ac.biu.project.foobar.entities.UserDetails;
+import il.ac.biu.project.foobar.utils.ImageTaker;
 
 /**
  * Activity class for creating and editing posts.

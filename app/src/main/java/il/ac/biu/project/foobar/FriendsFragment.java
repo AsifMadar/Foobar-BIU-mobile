@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
+import il.ac.biu.project.foobar.adapters.FriendsAdapter;
 import il.ac.biu.project.foobar.entities.UserDetails;
 import il.ac.biu.project.foobar.viewmodels.FriendsViewModel;
 

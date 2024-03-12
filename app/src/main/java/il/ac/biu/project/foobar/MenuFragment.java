@@ -21,6 +21,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import il.ac.biu.project.foobar.adapters.GridButtonAdapter;
 import il.ac.biu.project.foobar.entities.PostManager;
 import il.ac.biu.project.foobar.entities.UserDetails;
 import il.ac.biu.project.foobar.viewmodels.PostsViewModel;

@@ -49,7 +49,7 @@ public class DeleteUserAPI {
         });
     }
 
-    public interface UserDeleteResponseCallback {
+    public static interface UserDeleteResponseCallback {
         void onSuccess();
         void onFailure(String errorMessage);
     }

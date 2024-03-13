@@ -31,7 +31,7 @@
                     android:background="@drawable/rounded_shape"
                     android:padding="2dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/videos" />
+                    android:src=" " />
 
             </androidx.cardview.widget.CardView>
 
@@ -71,26 +71,6 @@
 
 
         </LinearLayout>
-        <androidx.cardview.widget.CardView
-            android:id="@+id/detailsCardView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/editProfileSettingsContainer"
-            android:layout_marginTop="10dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
-            <TextView
-                android:id="@+id/detailsText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Details"
-                android:textColor="#000000"
-                android:textSize="20sp"
-                android:layout_below="@id/editProfileSettingsContainer"
-                android:layout_marginTop="10dp"/>
-            <!-- Your content for details inside the CardView -->
-
-        </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/friendsTitle"
@@ -99,7 +79,7 @@
             android:text="Friends"
             android:textSize="20sp"
             android:textColor="#000000"
-            android:layout_below="@id/detailsCardView"
+            android:layout_below="@id/editProfileSettingsContainer"
             android:layout_marginTop="10dp"/>
 
         <androidx.recyclerview.widget.RecyclerView

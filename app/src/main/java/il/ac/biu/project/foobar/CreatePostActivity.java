@@ -11,8 +11,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
+import il.ac.biu.project.foobar.entities.PostDetails;
+import il.ac.biu.project.foobar.entities.PostManager;
+import il.ac.biu.project.foobar.entities.UserDetails;
 
 /**
  * Activity class for creating and editing posts.
@@ -21,28 +23,30 @@ import java.time.format.DateTimeFormatter;
 public class CreatePostActivity extends AppCompatActivity {
     private PostDetails postDetails;
     private Bitmap img;
-    ImageTaker imageTaker;
+    private ImageTaker imageTaker;
+    private PostManager postManager = PostManager.getInstance();
+    private String postId;
+    private boolean isEditing = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post);
-        int postId = getIntent().getIntExtra("postID", 0);
-        PostManager postManager = PostManager.getInstance();
-        postDetails = postManager.getPost(postId);
+        postId = getIntent().getStringExtra("postID");
         UserDetails user = UserDetails.getInstance();
-
-        // Determine whether editing an existing post or creating a new one
-        if (postDetails.getAuthorDisplayName() != null) {
-            // Edit existing post
-            setTemplateEditPost(postDetails);
+        if(postManager.getPost(postId) != null)  {
+            postDetails = postManager.getPost(postId);
+            isEditing = true;
+            setTemplateEditPost(postManager.getPost(postId));
         } else {
+            this.postDetails = new PostDetails(postId, user.getUsername(), user.getDisplayName(), user.getImg(), "", null, 0);
             // Create new post
             setTemplateNewPost(user);
-        }
 
-        publishPostButton(user);
-        addPhotoButton();
+        }
+            publishPostButton(user);
+            addPhotoButton();
+
     }
 
     /**
@@ -81,15 +85,12 @@ public class CreatePostActivity extends AppCompatActivity {
     private void publishPost(UserDetails user) {
         EditText postContent = findViewById(R.id.user_input_create_post);
         postDetails.setUserInput(postContent.getText().toString());
-        postDetails.setUsername(user.getUsername());
-        postDetails.setAuthorDisplayName(user.getDisplayName());
-        postDetails.setAuthorProfilePicture(user.getImg());
         postDetails.setTime(getTimestamp());
 
         if (img != null) {
             postDetails.setPicture(img);
         }
-
+        postManager.putPost(postDetails.getId(), postDetails);
         Intent returnIntent = new Intent();
         returnIntent.putExtra("modifiedPostId", postDetails.getId());
         setResult(RESULT_OK, returnIntent);
@@ -122,14 +123,15 @@ public class CreatePostActivity extends AppCompatActivity {
      */
     private void setTemplateEditPost(PostDetails postDetails) {
         ImageView profileImage = findViewById(R.id.profile_picture_create_post);
-        profileImage.setImageBitmap(postDetails.getAuthorProfilePicture());
-
+        System.out.println(postDetails.getId());
+        if (postDetails.getAuthorProfilePicture() != null) {
+            profileImage.setImageBitmap(postDetails.getAuthorProfilePicture());
+        }
         TextView nameView = findViewById(R.id.user_name_create_post);
         nameView.setText(postDetails.getAuthorDisplayName());
 
         EditText postText = findViewById(R.id.user_input_create_post);
         postText.setText(postDetails.getUserInput());
-
         if (postDetails.getPicture() != null) {
             ImageView postImage = findViewById(R.id.post_picture);
             postImage.setImageBitmap(postDetails.getPicture());

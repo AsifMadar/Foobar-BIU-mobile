@@ -1,6 +1,5 @@
-package il.ac.biu.project.foobar;
+package il.ac.biu.project.foobar.entities;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -11,7 +10,7 @@ import java.util.List;
  */
 public class PostManager {
     private static PostManager instance;
-    private HashMap<Integer, PostDetails> postMap;
+    private HashMap<String, PostDetails> postMap;
 
     /**
      * Constructs a private PostManager instance. This constructor initializes the postMap, a HashMap used to store and manage PostDetails objects.
@@ -38,8 +37,10 @@ public class PostManager {
      * @param id The unique identifier for the post.
      * @param postDetails The PostDetails object containing the post's data.
      */
-    public void putPost(int id, PostDetails postDetails) {
-        postMap.put(id, postDetails);
+    public void putPost(String id, PostDetails postDetails) {
+        if (!postMap.containsKey(id)) {
+            postMap.put(id, postDetails);
+        }
     }
 
     /**
@@ -48,7 +49,7 @@ public class PostManager {
      * @param id The unique identifier of the post to retrieve.
      * @return The PostDetails object associated with the specified id, or null if no such post exists.
      */
-    public PostDetails getPost(int id) {
+    public PostDetails getPost(String id) {
         return postMap.get(id);
     }
 
@@ -57,7 +58,7 @@ public class PostManager {
      *
      * @param id The unique identifier of the post to be removed.
      */
-    public void removePost(int id) {
+    public void removePost(String id) {
         postMap.remove(id);
     }
 
@@ -78,8 +79,12 @@ public class PostManager {
      * @param id The unique identifier of the post to check.
      * @return true if the post exists, false otherwise.
      */
-    public boolean containsPost(int id) {
+    public boolean containsPost(String id) {
         return postMap.containsKey(id);
+    }
+
+    public void removeAllPosts() {
+        postMap.clear();
     }
 
 }

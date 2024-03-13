@@ -34,18 +34,16 @@ public class GetUserPostsTask extends AsyncTask<Void, Void, Void> {
         apiService.getUserPosts(userId, userDetails.getJwt(), new GetUserPostsAPI.GetUserPostsResponseCallback() {
             @Override
             public void onSuccess(List<PostJsonDetails> postJsonDetailsList) {
-                // The rest of the method is similar to GetPostsTask
                 List<PostDetails> postDetailsList = convertToPostDetailsList(postJsonDetailsList);
-                dao.deleteAll();
-                for (PostDetails postDetails : postDetailsList) {
-                    dao.insert(postDetails);
-                }
-                postListData.postValue(dao.getPosts());
+//                dao.deleteAll();
+//                for (PostDetails postDetails : postDetailsList) {
+//                    dao.insert(postDetails);
+//                }
+                postListData.postValue(postDetailsList);
             }
 
             @Override
             public void onFailure(String errorMessage) {
-                dao.deleteAll();
             }
         });
         return null;

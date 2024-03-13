@@ -34,7 +34,6 @@ public class GetUserPostsAPI {
      * @param callback The callback to handle the response.
      */
     public void getUserPosts(String userId, String jwtToken, GetUserPostsResponseCallback callback) {
-        // Note: Assuming you handle replacing :id in the URL with the actual userId elsewhere or Retrofit handles it automatically.
         Call<List<PostJsonDetails>> call = postWebServiceAPI.getUserPosts(userId, "Bearer " + jwtToken);
 
         call.enqueue(new Callback<List<PostJsonDetails>>() {
@@ -42,7 +41,7 @@ public class GetUserPostsAPI {
             public void onResponse(@NonNull Call<List<PostJsonDetails>> call, @NonNull Response<List<PostJsonDetails>> response) {
                 new Thread(() -> {
                     if (response.isSuccessful() && response.body() != null) {
-                        callback.onSuccess(response.body());
+                         callback.onSuccess(response.body());
                     } else {
                         callback.onFailure("Error: " + response.code());
                     }

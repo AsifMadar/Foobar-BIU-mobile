@@ -57,8 +57,6 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         setUserAndPostsViewModel(userID, view);
 
-
-
         return view;
     }
 
@@ -141,7 +139,7 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
-        postsViewModel.reloadUserPosts(userID);
+         postsViewModel.reloadUserPosts(userID);
     }
 
     private void setProfileUserUI(View view) {

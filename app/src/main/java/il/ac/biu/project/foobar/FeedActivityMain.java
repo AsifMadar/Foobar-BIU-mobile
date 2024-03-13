@@ -3,6 +3,7 @@ package il.ac.biu.project.foobar;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.CursorWindow;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -26,6 +27,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 import il.ac.biu.project.foobar.adapters.PostsListAdapter;
@@ -77,9 +79,16 @@ public class FeedActivityMain extends AppCompatActivity {
         // Show the home fragment initially
         showHome();
 
-        initializeBottomNavigationView();
         // Initialize BottomNavigationView
-
+        initializeBottomNavigationView();
+        // increase the cursor window size
+        try {
+            Field field = CursorWindow.class.getDeclaredField("sCursorWindowSize");
+            field.setAccessible(true);
+            field.set(null, 100 * 1024 * 1024);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void initializeBottomNavigationView() {

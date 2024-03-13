@@ -14,6 +14,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,6 +95,7 @@ public class ProfileFragment extends Fragment {
                 // Handle adding friend action
                 // Send friend request
                 sendFriendRequest(jwtToken);
+                addFriendTextView.setText(R.string.friend_request_sent);
             }
         });
     }
@@ -148,14 +152,25 @@ public class ProfileFragment extends Fragment {
         ImageView imageView = view.findViewById(R.id.image_profile);
         imageView.setImageBitmap(images.base64ToBitmap(profileUser.getProfileImage()));
         UserDetails userDetails = UserDetails.getInstance();
+        TextView friendsText = view.findViewById(R.id.friendsTitle);
+        TextView postsText = view.findViewById(R.id.postsTitle);
+        TextView addFriend = view.findViewById(R.id.addFriend);
 
         if (profileUser.getFriends().contains(userDetails.getUsername())
                 || profileUser.getUsername().equals((userDetails.getUsername()))) {
             view.findViewById(R.id.addFriend).setVisibility(View.GONE);
+            friendsText.setVisibility(View.VISIBLE);
+            postsText.setVisibility(View.VISIBLE);
+            addFriend.setText(R.string.friend_request_sent);
+
         } else {
             view.findViewById(R.id.addFriend).setVisibility(View.VISIBLE);
-
+            friendsText.setVisibility(View.GONE);
+            postsText.setVisibility(View.GONE);
+            addFriend.setText(R.string.add_friend);
         }
+
+
     }
 
     private void sendFriendRequest(String jwtToken) {

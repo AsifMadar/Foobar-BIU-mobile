@@ -3,6 +3,7 @@ package il.ac.biu.project.foobar;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.CursorWindow;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -26,11 +27,13 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 import il.ac.biu.project.foobar.adapters.PostsListAdapter;
 import il.ac.biu.project.foobar.entities.AddLikePostListener;
 import il.ac.biu.project.foobar.entities.Comment;
+import il.ac.biu.project.foobar.entities.GoToProfileListener;
 import il.ac.biu.project.foobar.entities.PostDetails;
 import il.ac.biu.project.foobar.entities.PostJsonDetails;
 import il.ac.biu.project.foobar.entities.PostManager;
@@ -46,7 +49,6 @@ public class FeedActivityMain extends AppCompatActivity {
     // Layout to contain posts
     private RecyclerView layout;
     private PostsListAdapter postsListAdapter;
-
 
     UserDetails userDetails = UserDetails.getInstance();
     PostsViewModel postsViewModel;
@@ -77,19 +79,16 @@ public class FeedActivityMain extends AppCompatActivity {
         // Show the home fragment initially
         showHome();
 
-        initializeBottomNavigationView();
         // Initialize BottomNavigationView
-
-
-
-        // Load posts from JSON file
-//        if (postManager.getAllPosts().isEmpty()) {
-//            try (InputStream inputStream = getResources().openRawResource(R.raw.posts)) {
-//                this.loadPostsFromJson(inputStream);
-//            } catch (IOException error) {
-//
-//            }
-//        }
+        initializeBottomNavigationView();
+        // increase the cursor window size
+        try {
+            Field field = CursorWindow.class.getDeclaredField("sCursorWindowSize");
+            field.setAccessible(true);
+            field.set(null, 100 * 1024 * 1024);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void initializeBottomNavigationView() {
@@ -127,14 +126,13 @@ public class FeedActivityMain extends AppCompatActivity {
                             // Show the video fragment
                             findViewById(R.id.profile_bar).setVisibility(View.GONE);
                             findViewById(R.id.scroll).setVisibility(View.GONE);
-                            selectedFragment = new ProfileFragment();
+                            selectedFragment = new ProfileFragment(postsViewModel, UserDetails.getInstance().getUsername());
                         }else if (itemId == R.id.NotificationsId) {
                             findViewById(R.id.profile_bar).setVisibility(View.GONE);
                             findViewById(R.id.scroll).setVisibility(View.GONE);
                             selectedFragment = new NotificationFragment();
                         }
 
-                        // Replace the fragment in the frame layout with the selected fragment
 
                         if (selectedFragment != null) {
                             getSupportFragmentManager().beginTransaction()
@@ -269,83 +267,7 @@ public class FeedActivityMain extends AppCompatActivity {
         outState.putInt("selectedItemId", navigationView.getSelectedItemId());
     }
 
-//    private void loadPostsFromJson(InputStream jsonStream) {
-//        Gson gson = new Gson();
-//        BufferedReader reader = new BufferedReader(new InputStreamReader(jsonStream));
-//        PostJsonDetails[] posts = gson.fromJson(reader, PostJsonDetails[].class);
-//        PostDetails[] parsedPosts = new PostDetails[posts.length];
-//
-//        for (int i = 0; i < posts.length; i++) {
-//            PostJsonDetails post = posts[i];
-//
-//            // Get profile picture
-//            Bitmap authorProfilePicture = null;
-//            try (@SuppressLint("DiscouragedApi") InputStream profilePictureStream = getResources()
-//                .openRawResource(getResources().getIdentifier(post.author.profileImage,
-//                "raw", getPackageName()))) {
-//                authorProfilePicture = BitmapFactory.decodeStream(profilePictureStream);
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//
-//            // Get post picture
-//            Bitmap postImage = null;
-//            if (post.images.length > 0) {
-//                try (@SuppressLint("DiscouragedApi") InputStream postPictureStream =
-//                     getResources().openRawResource(getResources().getIdentifier(post.images[0],
-//                     "raw", getPackageName()))) {
-//                    postImage = BitmapFactory.decodeStream(postPictureStream);
-//                } catch (IOException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//
-//            // Create the `PostDetails` instance
-//            PostDetails parsedPost = new PostDetails(String.valueOf(this.postCounter++), post.author.username,
-//                post.author.displayName, authorProfilePicture, post.contents, postImage,
-//                post.timestamp);
-//
-//            // Create likes list
-//            for (PostJsonDetails.UserJsonDetails user : post.likes) {
-//                parsedPost.addLike(user.username);
-//            }
-//
-//            // Get comments for the post
-//            for (PostJsonDetails.CommentJsonDetails comment : post.comments) {
-//                // Get profile picture
-//                Bitmap commentAuthorProfilePicture = null;
-//                try (@SuppressLint("DiscouragedApi") InputStream profilePictureStream =
-//                     getResources().openRawResource(getResources().getIdentifier(
-//                         comment.author.profileImage, "raw", getPackageName()))) {
-//                    commentAuthorProfilePicture = BitmapFactory.decodeStream(profilePictureStream);
-//                } catch (IOException e) {
-//                    throw new RuntimeException(e);
-//                }
-//
-//                // Create the `Comment` instance
-//                Comment parsedComment = new Comment(comment.author.displayName,
-//                    commentAuthorProfilePicture, comment.contents, comment.timestamp);
-//
-//                // Create likes list
-//                for (PostJsonDetails.UserJsonDetails user : comment.likes) {
-//                    parsedComment.addLike(user.username);
-//                }
-//
-//                // Save parsed comment
-//                parsedPost.addComment(parsedComment);
-//            }
-//
-//            // Save parsed post
-//            parsedPosts[i] = parsedPost;
-//        }
-//
-//        // Add posts to feed
-//        for (PostDetails postDetails : parsedPosts) {
-//            postManager.putPost(postDetails.getId(), postDetails);
-//        }
-//
-//        this.reloadPosts();
-//    }
+
     private void setPostsViewModel() {
         layout = findViewById(R.id.container);
 
@@ -360,6 +282,19 @@ public class FeedActivityMain extends AppCompatActivity {
             @Override
             public void onLikePost(PostDetails postDetails) {
                 postsViewModel.addLike(postDetails);
+            }
+        }, new GoToProfileListener() {
+
+            @Override
+            public void goToProfile(String userID) {
+                findViewById(R.id.profile_bar).setVisibility(View.GONE);
+                findViewById(R.id.scroll).setVisibility(View.GONE);
+                Fragment selectedFragment = new ProfileFragment(postsViewModel, userID);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.framelayout, selectedFragment) // Use your actual container ID
+                        .addToBackStack(null) // Optional: Add this transaction to the back stack
+                        .commit();
+
             }
         });
         layout.setAdapter(postsListAdapter);

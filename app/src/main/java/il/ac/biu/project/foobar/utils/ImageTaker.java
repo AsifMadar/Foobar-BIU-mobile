@@ -1,4 +1,4 @@
-package il.ac.biu.project.foobar;
+package il.ac.biu.project.foobar.utils;
 
 import android.Manifest;
 import android.app.Activity;

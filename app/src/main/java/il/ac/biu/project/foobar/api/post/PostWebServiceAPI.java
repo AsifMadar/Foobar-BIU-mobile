@@ -38,4 +38,11 @@ public interface PostWebServiceAPI {
     @POST("/api/likes")
     Call<Void> addLike(@Body LikeRequest body,
                        @Header("Authorization") String jwtToken);
+
+    @GET("/api/users/{id}/posts")
+            Call<List<PostJsonDetails>> getUserPosts(@Path("id") String userId,
+                                                     @Header("Authorization") String jwtToken);
+
 }
+
+

@@ -19,13 +19,15 @@ import il.ac.biu.project.foobar.repositories.PostsTasks.AddPostTask;
 import il.ac.biu.project.foobar.repositories.PostsTasks.DeletePostTask;
 import il.ac.biu.project.foobar.repositories.PostsTasks.EditPostTask;
 import il.ac.biu.project.foobar.repositories.PostsTasks.GetPostsTask;
+import il.ac.biu.project.foobar.repositories.PostsTasks.GetUserPostsTask;
 
 public class PostsRepository {
     private PostDao dao;
     private AppDB db;
 
     private PostListData postListData;
-    private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private PostListData profilePostListData;
 
 
     public PostsRepository(Context context) {
@@ -33,6 +35,11 @@ public class PostsRepository {
                 AppDB.class, "PostsDB").build();
         dao = db.postDao();
         postListData = new PostListData();
+        profilePostListData = new PostListData();
+    }
+
+    public LiveData<List<PostDetails>> getProfilePosts() {
+        return profilePostListData;
     }
 
     class PostListData extends MutableLiveData<List<PostDetails>> {
@@ -58,6 +65,10 @@ public class PostsRepository {
 
     public void reload(){
         new GetPostsTask(postListData, dao).execute();
+    }
+
+    public void reloadUserPosts(String userID){
+        new GetUserPostsTask(userID, profilePostListData, dao).execute();
     }
 
     public void add(PostDetails postDetails){

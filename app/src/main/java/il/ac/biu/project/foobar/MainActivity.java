@@ -1,5 +1,7 @@
 package il.ac.biu.project.foobar;
 
+import static il.ac.biu.project.foobar.utils.images.base64ToBitmap;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -7,10 +9,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.util.List;
+
 import il.ac.biu.project.foobar.entities.AdvancedTextField;
+import il.ac.biu.project.foobar.entities.PostDetails;
 import il.ac.biu.project.foobar.entities.UserDetails;
+import il.ac.biu.project.foobar.entities.responses.UserDetailsResponse;
 import il.ac.biu.project.foobar.viewmodels.SignInViewModel;
 import il.ac.biu.project.foobar.viewmodels.UserViewModel;
 
@@ -51,14 +58,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        userViewModel.getUserDetailsFetchSuccess().observe(this, success -> {
-            if(success) {
-                proceedToFeed();
-            }
-            else {
-                Toast.makeText(MainActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+//        postsViewModel.get().observe(this, new Observer<List<PostDetails>>() {
+//            @Override
+//            public void onChanged(List<PostDetails> postsList) {
+//                postsListAdapter.setPosts(postsList);
+//            }
+//        });
+        userViewModel.getUserDetailsFetchSuccess().observe(this, new Observer<UserDetailsResponse>() {
+            @Override
+            public void onChanged(UserDetailsResponse userDetailsResponse) {
+                if (userDetailsResponse != null) {
+                    UserDetails user = UserDetails.getInstance();
+                    user.setUsername(userDetailsResponse.getUsername());
+                    user.setDisplayName(userDetailsResponse.getDisplayName());
+                    user.setImg(base64ToBitmap(userDetailsResponse.getProfileImage()));
+                    user.setFriends(userDetailsResponse.getFriends());
+                    user.setFriendRequests(userDetailsResponse.getFriendRequests());
+                    proceedToFeed();
+                } else {
+                    // Failure, show an error message
+                    Toast.makeText(MainActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+
         // Initialize text fields for username and password input.
         EditText usernameEditText = findViewById(R.id.usernameEditText);
         EditText passwordEditText = findViewById(R.id.passwordEditText);

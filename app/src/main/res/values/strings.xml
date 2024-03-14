@@ -40,4 +40,6 @@
     <string name="what_s_on_your_mind">What\'s on your mind?</string>
     <string name="whats_on_your_mind_hint">What\'s on your mind?</string>
     <string name="BaseUrl">http://10.0.2.2:8080/</string>
+    <string name="add_friend">Add Friend</string>
+    <string name="friend_request_sent">Friend request sent</string>
 </resources>

@@ -9,14 +9,16 @@ import java.io.ByteArrayOutputStream;
 public class images {
 
     public static Bitmap base64ToBitmap(String imgBase64) {
-            // Decode the Base64 string into a byte array
-            byte[] decodedBytes = Base64.decode(imgBase64, Base64.DEFAULT);
+        int commaIndex = imgBase64.indexOf(',');
+        String image = imgBase64.substring(commaIndex + 1);
+        // Decode the Base64 string into a byte array
+        byte[] decodedBytes = Base64.decode(image, Base64.DEFAULT);
 
-            // Convert the byte array into a Bitmap
-            Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+        // Convert the byte array into a Bitmap
+        Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
 
-            // Set the decoded bitmap as the user's profile image
-            return decodedBitmap;
+        // Set the decoded bitmap as the user's profile image
+        return decodedBitmap;
     }
 
     public static byte[] bitmapToByteArray(Bitmap bitmap) {
@@ -26,6 +28,6 @@ public class images {
     }
 
     public static String byteArrayToBase64(byte[] byteArray) {
-        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+        return "data:image/jpeg;base64," + Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 }

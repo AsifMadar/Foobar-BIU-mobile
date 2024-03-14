@@ -30,8 +30,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/rounded_shape"
                     android:padding="2dp"
-                    android:scaleType="centerCrop"
-                    android:src=" " />
+                    android:scaleType="centerCrop" />
 
             </androidx.cardview.widget.CardView>
 
@@ -68,18 +67,7 @@
                 android:textSize="16sp"
                 android:layout_marginEnd="5dp"/>
 
-            <TextView
-                android:id="@+id/settings"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Settings"
-                android:textColor="#008577"
-                android:gravity="center"
-                android:background="?android:attr/selectableItemBackground"
-                android:padding="10dp"
-                android:textSize="16sp"
-                android:layout_marginStart="5dp"/>
+
 
         </LinearLayout>
 
@@ -114,7 +102,7 @@
             android:layout_marginTop="10dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/postsRecyclerView"
+            android:id="@+id/profilePostsRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"

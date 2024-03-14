@@ -1,4 +1,4 @@
-package il.ac.biu.project.foobar;
+package il.ac.biu.project.foobar.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import il.ac.biu.project.foobar.FriendRequests;
+import il.ac.biu.project.foobar.R;
 import il.ac.biu.project.foobar.api.friends.ApproveFriendRequestAPI;
 import il.ac.biu.project.foobar.api.friends.RejectFriendRequestAPI;
 import il.ac.biu.project.foobar.entities.UserDetails;

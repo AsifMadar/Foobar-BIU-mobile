@@ -9,10 +9,14 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import il.ac.biu.project.foobar.entities.Comment;
+import il.ac.biu.project.foobar.entities.PostDetails;
+import il.ac.biu.project.foobar.entities.PostJsonDetails;
 
 public class Converters {
     private static Gson gson = new Gson();
@@ -63,5 +67,46 @@ public class Converters {
             if(someObjects == null)
                 return  null;
         return gson.toJson(someObjects);
+    }
+
+    public static List<PostDetails> convertToPostDetailsList(List<PostJsonDetails> postJsonDetails) {
+        List<PostDetails> postDetailsList = new ArrayList<>();
+        for (PostJsonDetails jsonDetails : postJsonDetails) {
+            String id = jsonDetails.id;
+            String authorDisplayName = jsonDetails.author != null ? jsonDetails.author.displayName : "";
+            String username = jsonDetails.author != null ? jsonDetails.author.username : "";
+            Bitmap authorProfilePicture = images.base64ToBitmap(jsonDetails.author.profileImage);
+            String userInput = jsonDetails.contents;
+            Bitmap picture = jsonDetails.images.length > 0 ? images.base64ToBitmap(jsonDetails.images[0]) : null;
+            long time = jsonDetails.timestamp;
+
+            PostDetails postDetails = new PostDetails(id, username, authorDisplayName, authorProfilePicture, userInput, picture, time);
+
+            // Adding likes
+            if (jsonDetails.likes != null) {
+                postDetails.setLikeList(Arrays.asList(jsonDetails.likes));
+            }
+
+            // Adding comments
+            if (jsonDetails.comments != null) {
+                for (PostJsonDetails.CommentJsonDetails commentJson : jsonDetails.comments) {
+                    Comment comment = new Comment(
+                            commentJson.author.displayName,
+                            images.base64ToBitmap(commentJson.author.profileImage),
+                            commentJson.contents,
+                            commentJson.timestamp
+                    );
+                    if (commentJson.likes != null) {
+                        for (PostJsonDetails.UserJsonDetails likeUser : commentJson.likes) {
+                            comment.addLike(likeUser.username);
+                        }
+                    }
+                    postDetails.addComment(comment);
+                }
+            }
+
+            postDetailsList.add(postDetails);
+        }
+        return postDetailsList;
     }
 }

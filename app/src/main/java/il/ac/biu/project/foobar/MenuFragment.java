@@ -34,11 +34,7 @@ import il.ac.biu.project.foobar.entities.responses.UserDetailsResponse;
 import il.ac.biu.project.foobar.viewmodels.PostsViewModel;
 import il.ac.biu.project.foobar.viewmodels.UserViewModel;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MenuFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class MenuFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
@@ -90,6 +86,28 @@ public class MenuFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_menu, container, false);
         UserDetails userDetails = UserDetails.getInstance();
+
+
+        Button editProfileButton = rootView.findViewById(R.id.editUser);
+        editProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
         Button deleteUser = rootView.findViewById(R.id.deleteUser);
         userViewModel.getUserDeleteSuccess().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override

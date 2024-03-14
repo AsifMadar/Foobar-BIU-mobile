@@ -1,5 +1,8 @@
 # Foobar-BIU-mobile
 
+## Part 3
+This is the branch for part 3 of the project. If you are looking for the branch of **part 2**, please go to the [part2](https://github.com/michaelts1/Foobar-BIU-mobile/tree/part2) or [main](https://github.com/michaelts1/Foobar-BIU-mobile/tree/main) branches (they are identical, really).
+
 ## Running the project
 
 To run the project, open it in Android Studio and click the "Run" button at the top (ctrl+f5).

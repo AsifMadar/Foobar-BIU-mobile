@@ -42,7 +42,7 @@ import il.ac.biu.project.foobar.entities.UserDetails;
 import il.ac.biu.project.foobar.repositories.PostsRepository;
 import il.ac.biu.project.foobar.viewmodels.PostsViewModel;
 
-public class FeedActivityMain extends AppCompatActivity {
+public class FeedActivityMain extends AppCompatActivity  {
     // Counter to keep track of posts
     private int postCounter = 0;
 
@@ -59,6 +59,7 @@ public class FeedActivityMain extends AppCompatActivity {
     public static final int SHARE_PAGE_REQUEST = 2;
     public static final int COMMENT_PAGE_REQUEST = 3;
     public static final int EDIT_POST_REQUEST = 4;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,11 +90,20 @@ public class FeedActivityMain extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     private void initializeBottomNavigationView() {
         BottomNavigationView navigationView = findViewById(R.id.bootomnavigationid);
         navigationView.setItemIconTintList(null);
+        // Set user profile picture
+        ImageView profileImage = findViewById(R.id.profile_image);
+
+        // Set user profile picture
+        Bitmap userProfilePicture = UserDetails.getInstance().getImg();
+        if (userProfilePicture != null) {
+            profileImage.setImageBitmap(userProfilePicture);
+        }
         // Set listener for BottomNavigationView items
         navigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -107,7 +117,7 @@ public class FeedActivityMain extends AppCompatActivity {
                             // Show the menu fragment
                             findViewById(R.id.profile_bar).setVisibility(View.GONE);
                             findViewById(R.id.scroll).setVisibility(View.GONE);
-                            selectedFragment = new MenuFragment(postsViewModel);
+                            selectedFragment = new MenuFragment(postsViewModel, profileImage);
                         } else if (itemId == R.id.myhome) {
                             // Show the home
                             Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.framelayout);
@@ -144,14 +154,7 @@ public class FeedActivityMain extends AppCompatActivity {
                     }
 
                 });
-        // Set user profile picture
-        ImageView profileImage = findViewById(R.id.profile_image);
 
-        // Set user profile picture
-        Bitmap userProfilePicture = UserDetails.getInstance().getImg();
-        if (userProfilePicture != null) {
-            profileImage.setImageBitmap(userProfilePicture);
-        }
     }
 
     // Method to show the home

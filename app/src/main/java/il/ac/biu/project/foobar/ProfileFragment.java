@@ -47,6 +47,7 @@ public class ProfileFragment extends Fragment {
 
     UserDetailsResponse profileUser = null;
     String userID;
+    int friendsNum=0;
 
     public ProfileFragment(PostsViewModel postsViewModel, String userID) {
         this.postsViewModel = postsViewModel;
@@ -180,6 +181,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onSuccess() {
                 Toast.makeText(getContext(), "Friend request sent successfully", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
@@ -194,6 +196,7 @@ public class ProfileFragment extends Fragment {
         friendsRecyclerView.setAdapter(friendsAdapter);
         TextView friendsTitle = getView().findViewById(R.id.friendsTitle);
         friendsTitle.setText("Friends (" + friends.size() + ")");
+        friendsNum= friends.size();
     }
     private void updateFriendsCount(int count) {
         TextView friendsTitle = getView().findViewById(R.id.friendsTitle);

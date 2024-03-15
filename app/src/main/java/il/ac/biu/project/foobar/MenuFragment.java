@@ -1,5 +1,6 @@
 package il.ac.biu.project.foobar;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -34,11 +35,7 @@ import il.ac.biu.project.foobar.entities.responses.UserDetailsResponse;
 import il.ac.biu.project.foobar.viewmodels.PostsViewModel;
 import il.ac.biu.project.foobar.viewmodels.UserViewModel;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MenuFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class MenuFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
@@ -61,9 +58,11 @@ public class MenuFragment extends Fragment {
     PostsViewModel postsViewModel;
     UserViewModel userViewModel;
     UserDetails userDetails = UserDetails.getInstance();
+    ImageView feedProfileImage;
 
 
-    public MenuFragment(PostsViewModel postsViewModel) {
+    public MenuFragment(PostsViewModel postsViewModel, ImageView feedProfileImage) {
+        this.feedProfileImage = feedProfileImage;
         this.postsViewModel = postsViewModel;
     }
 
@@ -90,6 +89,22 @@ public class MenuFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_menu, container, false);
         UserDetails userDetails = UserDetails.getInstance();
+
+
+        Button editProfileButton = rootView.findViewById(R.id.editUser);
+        editProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+                startActivityForResult(intent, 5);
+            }
+        });
+
+
+
+
+
+
         Button deleteUser = rootView.findViewById(R.id.deleteUser);
         userViewModel.getUserDeleteSuccess().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
@@ -179,5 +194,18 @@ public class MenuFragment extends Fragment {
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
         getActivity().finish(); // Finish the current activity (MenuFragment)
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 5) { // Check the request code
+            if (resultCode == Activity.RESULT_OK) {
+                profileImage.setImageBitmap(userDetails.getImg());
+                profileName.setText(userDetails.getDisplayName());
+
+                feedProfileImage.setImageBitmap(userDetails.getImg());
+                postsViewModel.reload();
+            }
+        }
     }
 }

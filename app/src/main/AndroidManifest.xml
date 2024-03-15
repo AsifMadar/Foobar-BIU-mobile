@@ -34,6 +34,7 @@
         <activity android:name=".FeedActivityMain" />
         <activity android:name=".CommentActivity"/>
         <activity android:name=".CreatePostActivity"/>
+        <activity android:name=".EditProfileActivity" />
         <activity android:name=".FriendRequests" />
         <activity android:name=".ShareActivity">
 

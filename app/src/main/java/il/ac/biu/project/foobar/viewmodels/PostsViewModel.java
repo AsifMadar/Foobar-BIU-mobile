@@ -7,8 +7,6 @@ import androidx.lifecycle.ViewModel;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import il.ac.biu.project.foobar.entities.PostDetails;
 import il.ac.biu.project.foobar.repositories.PostsRepository;

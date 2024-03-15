@@ -221,11 +221,11 @@ public class PostDetails {
         return commentList;
     }
     public void setLikeList(List<String> likeList) {
-        this.likeList = likeList;
+        this.likeList = new LinkedList<>(likeList);
     }
 
     public void setCommentList(List<Comment> commentList) {
-        this.commentList = commentList;
+        this.commentList = new LinkedList<>(commentList);
     }
 
 }

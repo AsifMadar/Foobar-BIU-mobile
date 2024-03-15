@@ -59,7 +59,6 @@ public class FeedActivityMain extends AppCompatActivity  {
     public static final int SHARE_PAGE_REQUEST = 2;
     public static final int COMMENT_PAGE_REQUEST = 3;
     public static final int EDIT_POST_REQUEST = 4;
-    public static final int CHANGE_PROFILE_PICTURE_OR_DISPLAY_NAME_REQUEST = 5;
 
 
     @Override
@@ -233,6 +232,7 @@ public class FeedActivityMain extends AppCompatActivity  {
             PostDetails post = PostManager.getInstance().getPost(modifiedPostId);
             postsViewModel.edit(post);
         }
+
 //        if (requestCode == COMMENT_PAGE_REQUEST) {
 //            int modifiedPostId = data.getIntExtra("commentPostId", 0);
 //            if (postManager.getPost(modifiedPostId) != null) {

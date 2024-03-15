@@ -1,5 +1,6 @@
 package il.ac.biu.project.foobar;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -93,15 +94,9 @@ public class MenuFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), EditProfileActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 5);
             }
         });
-
-
-
-
-
-
 
 
 
@@ -197,5 +192,16 @@ public class MenuFragment extends Fragment {
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
         getActivity().finish(); // Finish the current activity (MenuFragment)
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 5) { // Check the request code
+            if (resultCode == Activity.RESULT_OK) {
+                profileImage.setImageBitmap(userDetails.getImg());
+                profileName.setText(userDetails.getDisplayName());
+                postsViewModel.reload();
+            }
+        }
     }
 }

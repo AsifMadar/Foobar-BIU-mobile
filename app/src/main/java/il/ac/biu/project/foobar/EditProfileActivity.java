@@ -2,6 +2,7 @@ package il.ac.biu.project.foobar;
 
 // EditProfileActivity.java
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -100,9 +101,7 @@ public class EditProfileActivity extends AppCompatActivity {
                             userDetails.setDisplayName(newDisplayName);
                             userDetails.setImg(newProfileImage);
                             displayNameEditText.setText(userDetails.getDisplayName());
-                            postViewModel = new ViewModelProvider(EditProfileActivity.this).get(PostsViewModel.class);
-                            postViewModel.reload();
-                            setResult(CHANGE_PROFILE_PICTURE_OR_DISPLAY_NAME_REQUEST);
+                            setResult( Activity.RESULT_OK);
                             finish();
                         }
 

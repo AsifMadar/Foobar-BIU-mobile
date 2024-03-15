@@ -96,6 +96,14 @@ public class FeedActivityMain extends AppCompatActivity  {
     private void initializeBottomNavigationView() {
         BottomNavigationView navigationView = findViewById(R.id.bootomnavigationid);
         navigationView.setItemIconTintList(null);
+        // Set user profile picture
+        ImageView profileImage = findViewById(R.id.profile_image);
+
+        // Set user profile picture
+        Bitmap userProfilePicture = UserDetails.getInstance().getImg();
+        if (userProfilePicture != null) {
+            profileImage.setImageBitmap(userProfilePicture);
+        }
         // Set listener for BottomNavigationView items
         navigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -109,7 +117,7 @@ public class FeedActivityMain extends AppCompatActivity  {
                             // Show the menu fragment
                             findViewById(R.id.profile_bar).setVisibility(View.GONE);
                             findViewById(R.id.scroll).setVisibility(View.GONE);
-                            selectedFragment = new MenuFragment(postsViewModel);
+                            selectedFragment = new MenuFragment(postsViewModel, profileImage);
                         } else if (itemId == R.id.myhome) {
                             // Show the home
                             Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.framelayout);
@@ -146,14 +154,7 @@ public class FeedActivityMain extends AppCompatActivity  {
                     }
 
                 });
-        // Set user profile picture
-        ImageView profileImage = findViewById(R.id.profile_image);
 
-        // Set user profile picture
-        Bitmap userProfilePicture = UserDetails.getInstance().getImg();
-        if (userProfilePicture != null) {
-            profileImage.setImageBitmap(userProfilePicture);
-        }
     }
 
     // Method to show the home

@@ -32,6 +32,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private UserDetails userDetails;
     PostsViewModel postViewModel;
     private ImageTaker imageTaker; // Declare ImageTaker as a class variable
+    ImageView showProfilePic;
     public static final int CHANGE_PROFILE_PICTURE_OR_DISPLAY_NAME_REQUEST = 5;
 
 
@@ -47,6 +48,8 @@ public class EditProfileActivity extends AppCompatActivity {
         // Set current display name
         displayNameEditText.setText(userDetails.getDisplayName());
         newProfileImage=userDetails.getImg();
+        showProfilePic = findViewById(R.id.profile_image);
+        showProfilePic.setImageBitmap(newProfileImage);
         setProfileImage();
         setProfileDisplayname();
         setSaveButton();
@@ -68,7 +71,7 @@ public class EditProfileActivity extends AppCompatActivity {
         }, new AdvancedTextField.ValidationFunction() {
             @Override
             public boolean isValid(String input) {
-                return SignUpValidations.containsOnlyEnglishCharsAndNumbersAndSpace(input);
+                return isDisplayNameValid(input);
             }
         });
 
@@ -125,7 +128,6 @@ public class EditProfileActivity extends AppCompatActivity {
         imageTaker.onActivityResult(requestCode, resultCode, data);
 
         if (imageTaker.getImageBitmap() != null) {
-            ImageView showProfilePic = findViewById(R.id.profile_image);
             newProfileImage = imageTaker.getImageBitmap();
             showProfilePic.setImageBitmap(newProfileImage);
 

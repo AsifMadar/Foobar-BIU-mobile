@@ -7,12 +7,12 @@ import android.graphics.Bitmap;
 
 public class UpdateUserRequest {
     String displayName;
-    String profilePic;
+    String profileImage;
 
 
     public UpdateUserRequest(String displayName, Bitmap profileImage) {
         this.displayName = displayName;
         byte[] profileImageBytes = bitmapToByteArray(profileImage);
-        this.profilePic = byteArrayToBase64(profileImageBytes);
+        this.profileImage = byteArrayToBase64(profileImageBytes);
     }
 }

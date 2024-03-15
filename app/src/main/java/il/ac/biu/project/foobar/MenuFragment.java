@@ -58,9 +58,11 @@ public class MenuFragment extends Fragment {
     PostsViewModel postsViewModel;
     UserViewModel userViewModel;
     UserDetails userDetails = UserDetails.getInstance();
+    ImageView feedProfileImage;
 
 
-    public MenuFragment(PostsViewModel postsViewModel) {
+    public MenuFragment(PostsViewModel postsViewModel, ImageView feedProfileImage) {
+        this.feedProfileImage = feedProfileImage;
         this.postsViewModel = postsViewModel;
     }
 
@@ -200,6 +202,7 @@ public class MenuFragment extends Fragment {
             if (resultCode == Activity.RESULT_OK) {
                 profileImage.setImageBitmap(userDetails.getImg());
                 profileName.setText(userDetails.getDisplayName());
+                feedProfileImage.setImageBitmap(userDetails.getImg());
                 postsViewModel.reload();
             }
         }

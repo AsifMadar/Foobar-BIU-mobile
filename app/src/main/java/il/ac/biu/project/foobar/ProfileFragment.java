@@ -186,7 +186,7 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onFailure(String errorMessage) {
-                // Handle failure to send friend request
+                Toast.makeText(getContext(), "Failed to send Friend request", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -194,11 +194,7 @@ public class ProfileFragment extends Fragment {
     private void updateFriendsList(ArrayList<String> friends) {
         friendsAdapter = new FriendsAdapter(friends);
         friendsRecyclerView.setAdapter(friendsAdapter);
-        TextView friendsTitle = getView().findViewById(R.id.friendsTitle);
-        friendsTitle.setText("Friends (" + friends.size() + ")");
-        friendsNum= friends.size();
+      ;
     }
-    private void updateFriendsCount(int count) {
-        TextView friendsTitle = getView().findViewById(R.id.friendsTitle);
-    }
+
 }

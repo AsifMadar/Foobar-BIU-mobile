@@ -1,12 +1,12 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:drawable="@drawable/ic_profile_stroke"
-        android:state_checked="true"
+        android:state_checked="false"
         android:width="24dp"
         android:height="24dp" /> <!-- Specify desired width and height -->
 
-    <item android:drawable="@drawable/ic_profile_stroke"
-        android:state_checked="false"
+    <item android:drawable="@drawable/ic_profile"
+        android:state_checked="true"
         android:width="20dp"
         android:height="20dp" /> <!-- Specify desired width and height -->
 </selector>

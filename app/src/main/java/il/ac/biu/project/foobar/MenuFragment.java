@@ -202,6 +202,7 @@ public class MenuFragment extends Fragment {
             if (resultCode == Activity.RESULT_OK) {
                 profileImage.setImageBitmap(userDetails.getImg());
                 profileName.setText(userDetails.getDisplayName());
+
                 feedProfileImage.setImageBitmap(userDetails.getImg());
                 postsViewModel.reload();
             }

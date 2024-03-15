@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -53,6 +54,20 @@ public class EditProfileActivity extends AppCompatActivity {
         setProfileImage();
         setProfileDisplayname();
         setSaveButton();
+        goBack();
+
+    }
+    private void goBack(){
+        ImageButton backButton = findViewById(R.id.backButton);
+
+        // Set OnClickListener to navigate back to previous activity or fragment
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Finish the current activity
+                finish();
+            }
+        });
     }
     private void setProfileImage() {
         imageTaker = new ImageTaker(EditProfileActivity.this);

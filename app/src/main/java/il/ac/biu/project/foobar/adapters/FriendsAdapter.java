@@ -75,17 +75,10 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         dialog.show();
 
         // Get references to menu options
-        TextView watchProfileText = view.findViewById(R.id.watchProfileText);
         TextView removeFriendText = view.findViewById(R.id.removeFriendText);
 
         // Set click listeners for menu options
-        watchProfileText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Handle watch profile action
-                // For example: open profile activity
-            }
-        });
+
 
         removeFriendText.setOnClickListener(new View.OnClickListener() {
             @Override

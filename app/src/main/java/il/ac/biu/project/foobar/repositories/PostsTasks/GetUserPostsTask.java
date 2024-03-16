@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import androidx.lifecycle.MutableLiveData;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 import il.ac.biu.project.foobar.api.post.GetUserPostsAPI; // Assuming you have a similar GetUserPostsAPI
 import il.ac.biu.project.foobar.entities.Comment;
@@ -40,7 +41,7 @@ public class GetUserPostsTask extends AsyncTask<Void, Void, Void> {
 //                    dao.insert(postDetails);
 //                }
                 postListData.postValue(postDetailsList);
-            }
+                }
 
             @Override
             public void onFailure(String errorMessage) {

@@ -80,7 +80,7 @@ public class FriendsFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_FRIEND_REQUESTS && resultCode == Activity.RESULT_OK) {
+        if (requestCode == REQUEST_CODE_FRIEND_REQUESTS ) {
             if (data != null && data.hasExtra("updatedFriendsList")) {
                 ArrayList<String> updatedFriendsList = data.getStringArrayListExtra("updatedFriendsList");
                 if (updatedFriendsList != null) {

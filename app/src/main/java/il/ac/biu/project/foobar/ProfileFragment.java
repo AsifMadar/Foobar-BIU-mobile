@@ -103,7 +103,7 @@ public class ProfileFragment extends Fragment {
 
     private void setUserAndPostsViewModel(String userID, View view) {
         layout = view.findViewById(R.id.profilePostsRecyclerView);
-        postsViewModel = new ViewModelProvider(this).get(PostsViewModel.class);
+        //  postsViewModel = new ViewModelProvider(this).get(PostsViewModel.class);
         postsListAdapter = new PostsListAdapter(getActivity(), getContext(), new PostRemoveListener() {
             @Override
             public void onDeletePost(PostDetails postDetails) {

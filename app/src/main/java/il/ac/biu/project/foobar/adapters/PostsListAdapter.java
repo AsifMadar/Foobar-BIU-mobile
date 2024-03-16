@@ -161,6 +161,9 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
         if(!postDetails.getUsername().equals(userDetails.getUsername())) {
             postOptionsButton.setVisibility(View.INVISIBLE);
+        } else {
+            postOptionsButton.setVisibility(View.VISIBLE);
+
         }
 
         // Initialize likes count

@@ -1,6 +1,10 @@
 package il.ac.biu.project.foobar.repositories.PostsTasks;
 
+import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
+import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 
@@ -20,12 +24,14 @@ public class AddPostTask extends AsyncTask<PostDetails, Void, PostDetails> {
     private UserDetails userDetails = UserDetails.getInstance();
 
     private PostDetails postDetails;
+    private Context context;
 
 
-    public AddPostTask(MutableLiveData<List<PostDetails>> postListData, PostDao dao, PostDetails postDetails) {
+    public AddPostTask(MutableLiveData<List<PostDetails>> postListData, PostDao dao, PostDetails postDetails, Context context) {
         this.postListData = postListData;
         this.dao = dao;
         this.postDetails = postDetails;
+        this.context = context;
     }
 
     @Override
@@ -39,11 +45,20 @@ public class AddPostTask extends AsyncTask<PostDetails, Void, PostDetails> {
 
                     @Override
                     public void onFailure(String errorMessage) {
-
+                        String message = "Cannot publish post as it contained a blacklisted link";
+                        Handler handler = new Handler(Looper.getMainLooper());
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 });
         return null;
     }
+
+
 
     @Override
     protected void onPostExecute(PostDetails post) {

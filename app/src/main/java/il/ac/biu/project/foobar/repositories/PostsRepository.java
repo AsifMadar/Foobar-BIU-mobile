@@ -28,6 +28,7 @@ public class PostsRepository {
     private PostListData postListData;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private PostListData profilePostListData;
+    private Context context;
 
 
     public PostsRepository(Context context) {
@@ -36,6 +37,7 @@ public class PostsRepository {
         dao = db.postDao();
         postListData = new PostListData();
         profilePostListData = new PostListData();
+        this.context = context;
     }
 
     public LiveData<List<PostDetails>> getProfilePosts() {
@@ -72,7 +74,7 @@ public class PostsRepository {
     }
 
     public void add(PostDetails postDetails){
-        new AddPostTask(postListData, dao, postDetails).execute();
+        new AddPostTask(postListData, dao, postDetails, context).execute();
     }
 
     public void deletePost(PostDetails postDetails){
@@ -80,7 +82,7 @@ public class PostsRepository {
     }
 
     public void editPost(PostDetails postDetails){
-        new EditPostTask(postListData, dao, postDetails).execute();
+        new EditPostTask(postListData, dao, postDetails, context).execute();
     }
     public PostDetails getPostFromData(String id){
         return dao.get(id);

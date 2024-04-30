@@ -1,7 +1,7 @@
 # Foobar-BIU-mobile
 
-## Part 3
-This is the branch for part 3 of the project. If you are looking for the branch of **part 2**, please go to the [part2](https://github.com/michaelts1/Foobar-BIU-mobile/tree/part2) or [main](https://github.com/michaelts1/Foobar-BIU-mobile/tree/main) branches (they are identical, really).
+## Part 4
+This is the branch for part 4 of the project.
 
 ## Running the project
 

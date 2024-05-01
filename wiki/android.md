@@ -1,7 +1,8 @@
 Foobar android application wiki
 Note: All the actions performed using the server occurs on another thread so it will not ruin the user experience.
 
-First of all, when you open the application the login page will apear
+First of all, when you open the application the login page will appear
+
 ![](./images/android/1.png)
 
 Because we don't got an account we'll create a new one pressing Sign Up Page button

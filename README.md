@@ -26,6 +26,7 @@ In the menu, which you can open by clicking the vertical ellipsis on the bottom-
 ### Notes
 1. This code assumes your server is hosted at `10.0.2.2:8080`. If your server is hosted on a different url, edit `BaseUrl` in `app/src/main/res/values/strings.xml` accordingly.
 2. The creation time of a post is displayed according to your local timezone. If you see an incorrect timestamp, make sure your phone/emulator is set to UTC+3 (or to UTC+2 if you run this project before DST).
+3. If you upload many large pictures, the app might become very slow and eventually crash. If you experience weird behavior from the app, delete the database *on the backend server* (this will also delete your account), and restart the app.
 
 ## Workflow
 At the start of the project, we sat down and planned the application structure, splitted the work between the three of us (Asif and Hodaya, and Michael) and created a sprint with the appropriate tasks on Jira. Afterwords we started working on the project, starting with the web application, and later moving on to the android application.

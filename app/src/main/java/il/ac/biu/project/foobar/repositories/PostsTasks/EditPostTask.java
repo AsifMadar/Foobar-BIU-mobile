@@ -43,7 +43,7 @@ public class EditPostTask extends AsyncTask<PostDetails, Void, PostDetails> {
 
             @Override
             public void onFailure(String errorMessage) {
-                String message = "Cannot publish post as it contained a blacklisted link";
+                String message = "Cannot edit post as it contained a blacklisted link";
                 Handler handler = new Handler(Looper.getMainLooper());
                 handler.post(new Runnable() {
                     @Override

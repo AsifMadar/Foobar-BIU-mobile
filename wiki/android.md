@@ -1,12 +1,11 @@
 # Android Application Overview
 
-## Running the Android application
-The Android application depends on backend server for basic functionality. So to run the android application, we first follow the instructions for [running the backend server](./server.md). Afterwards, we open this project in Android Studio, and after the initial setup, click the green "Play" button at the top.
+## Running the Android Application
+The Android application depends on backend server for basic functionality. So to run the android application, we first follow the instructions for [running the backend server](./backend.md). Afterwards, we open this project in Android Studio, and after the initial setup, click the green "Play" button at the top.
 
 **Note:** If you upload many large pictures, the app might become very slow and eventually crash. If you experience weird behavior from the app, delete the database *on the backend server* (this will also delete your account), and restart the app.
 
-## Accessing and using the Android application
-```
+## Accessing and Using the Android Application
 First, let's click the green "Play" button at the top.
 
 ![](./images/android/0running.png)
@@ -165,9 +164,8 @@ Deleting the user will take us to the sign-in page. Let's log back into Shasiel 
 We can see that all the posts of Might Shasiel have been deleted as well.
 
 ![](./images/android/ShasielPrimeFeedAgain.png)
-```
 
-Finnally, let's take another look at the menu:
+Finally, let's take another look at the menu:
 
 ![](<./images/android/logout button.png>)
 

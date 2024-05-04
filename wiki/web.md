@@ -1,9 +1,9 @@
 # Web Application Overview
 
-## Running the web application
-The web application is actually directly integrated into the backend server. So to run the web application, we simply follow the instructions for [running the backend server](./server.md), then access the server's port from the browser. By default, the backend server is hosted on port 8080, which means to access the web application we will go to `localhost:8080`.
+## Running the Web Application
+The web application is actually directly integrated into the backend server. So to run the web application, we simply follow the instructions for [running the backend server](./backend.md), then access the server's port from the browser. By default, the backend server is hosted on port 8080, which means to access the web application we will go to `localhost:8080`.
 
-## Accessing and using the web application
+## Accessing and Using the Web Application
 
 When first opening the app, we are greeted with the login screen.
 

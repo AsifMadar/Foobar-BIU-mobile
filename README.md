@@ -1,12 +1,12 @@
 # Foobar-BIU-mobile
 
-## Wiki
-This readme file covers the technical aspects of the project. For extensive documentation of all features, including screenshots, refer to [the wiki](https://github.com/michaelts1/Foobar-BIU-mobile/wiki).
-
-## Part 4
+# IMPORTANT: Part 4
 This is the branch for **part 4** of the project.
 * The code for **part 3** can be found on the branch [part3](https://github.com/michaelts1/Foobar-BIU-mobile/tree/part3).
 * The code for **part 2** can be found on the branch [part2](https://github.com/michaelts1/Foobar-BIU-mobile/tree/part2).
+
+## Wiki
+This readme file covers the technical aspects of the project. For extensive documentation of all features, including screenshots, refer to [the wiki](https://github.com/michaelts1/Foobar-BIU-mobile/wiki).
 
 ## Links to all repositories
 * https://github.com/AsifMadar/Foobar-BIU - The repository for the bloom filter

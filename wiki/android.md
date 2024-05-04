@@ -6,6 +6,7 @@ The Android application depends on backend server for basic functionality. So to
 **Note:** If you upload many large pictures, the app might become very slow and eventually crash. If you experience weird behavior from the app, delete the database *on the backend server* (this will also delete your account), and restart the app.
 
 ## Accessing and using the Android application
+```
 First, let's click the green "Play" button at the top.
 
 ![](./images/android/0running.png)
@@ -166,24 +167,18 @@ We can see that all the posts of Might Shasiel have been deleted as well.
 ![](./images/android/ShasielPrimeFeedAgain.png)
 ```
 
-```
-![](./images/android/DB.png)
-
-
-
-Server Logs:
-
-![](./images/android/serverlog1.png)
-
-![](./images/android/serverlog2.png)
-
-![](./images/android/serverlog3.png)
-
-BloomFilter:
-
-![](./images/android/image-1.png)
-
-There's no much to show here.
-
+Finnally, let's take another look at the menu:
 
 ![](<./images/android/logout button.png>)
+
+We still haven't tried dark mode, so let's give it a try and see how the different screens adapt.
+
+![](<./images/android/logout button.png>)
+
+![](./images/android/dark3.png)
+
+![](./images/android/dark1.png)
+
+![](./images/android/dark2.png)
+
+That's all there is to know about the Android application!

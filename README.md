@@ -1,9 +1,21 @@
 # Foobar-BIU-mobile
 
-## Part 4
-This is the branch for part 4 of the project.
+# IMPORTANT: Part 4
+This is the branch for **part 4** of the project.
+* The code for **part 3** can be found on the branch [part3](https://github.com/michaelts1/Foobar-BIU-mobile/tree/part3).
+* The code for **part 2** can be found on the branch [part2](https://github.com/michaelts1/Foobar-BIU-mobile/tree/part2).
 
-## Running the project
+## Wiki
+This readme file covers the technical aspects of the project. For extensive documentation of all features, including screenshots, refer to [the wiki](https://github.com/michaelts1/Foobar-BIU-mobile/wiki).
+
+## Links to all repositories
+* https://github.com/AsifMadar/Foobar-BIU - The repository for the bloom filter
+* https://github.com/michaelts1/Foobar-BIU-backend - The repository for the Social App backend server
+* https://github.com/michaelts1/Foobar-BIU-mobile - The repository for the Social App Android application
+* https://github.com/michaelts1/Foobar-BIU-web - The repository for the Social App web application
+
+## Running this project
+This project is dependent on the backend server, so before running this project, you will need to set up and run [Foobar-BIU-backend](https://github.com/michaelts1/Foobar-BIU-backend).
 
 To run the project, open it in Android Studio and click the "Run" button at the top (ctrl+f5).
 

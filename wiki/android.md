@@ -1,7 +1,7 @@
 # Android Application Overview
 
 ## Running the Android Application
-The Android application depends on backend server for basic functionality. So to run the android application, we first follow the instructions for [running the backend server](./backend.md). Afterwards, we open this project in Android Studio, and after the initial setup, click the green "Play" button at the top.
+The Android application depends on backend server for basic functionality. So to run the android application, we first follow the instructions for [running the backend server](./backend.md). Afterwards, we open this repository in Android Studio, and after the initial setup, click the green "Play" button at the top.
 
 **Note:** If you upload many large pictures, the app might become very slow and eventually crash. If you experience weird behavior from the app, delete the database *on the backend server* (this will also delete your account), and restart the app.
 

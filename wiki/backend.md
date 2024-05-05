@@ -22,7 +22,7 @@ The backend server is using MongoDB to store data and offer a persistent experie
 The backend server utilizes an ENV file to store global variables such as the database URL or the secret used to sign user credentials. ENV files are only supported starting with Node.js 20.6.0. Aditionally, the backend server utilizes [import attributes](https://nodejs.org/api/esm.html#import-attributes) to seed the empty database with some initial sample data. Import attributes are only supported starting with Node.js 20.10.0. To summarize, you will need Node.js 20.10.0 (released on 22/11/2023) or higher to run this project, unless you are willing to manually adjust the code (which shouldn't be hard; simply drop the initial seeding of data, and manually set the environment variables instead of using the ENV files).
 
 To set up the NodeJS environment, we will follow these steps:
-1. Make sure your Node.js installation is at least version 20.10.0. Otherwise, loading environment variables from `.env.local` won't work, meaning you will have to set these variables from your terminal, **and** you will have to remove line 10 (`initializeDB()`) from `src/app.js`, meaning you will start with an empty database.
+1. Make sure your Node.js installation is at least version 20.10.0. Otherwise, loading environment variables from `.env.local` won't work, meaning you will have to set these variables from your terminal, **and** you will have to remove lines 5 and 10 from `src/app.js`, meaning you will start with an empty database.
 2. In the repository root folder, copy `config/.env` into a file named `config/.env.local`. This file will contain the environment variables required to run the backend server.
 3. If you want, change the variables in `.env.local`.
 	* *You probably want to change at least `JWT_KEY` to something random.*
@@ -35,3 +35,16 @@ To set up the NodeJS environment, we will follow these steps:
 Finally, all that is left to do is to run the server using `npm start`.
 
 ## Accessing and Using the Web Application
+Once the server is running, requests can be made using regular HTTP requests. The server uses REST API, and the API is implemented as defined in the project instructions.
+
+While running, the server logs information about requests being made. For example, this are some of the logs on the backend server after constructing the wiki page for the Android app:
+
+![](images/backend-js/serverlog1.png)
+
+![](images/backend-js/serverlog2.png)
+
+![](images/backend-js/serverlog3.png)
+
+And this is what the database looks like from MongoDB Compass:
+
+![](images/backend-js/DB.png)
